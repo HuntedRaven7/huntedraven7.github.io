@@ -457,6 +457,38 @@
         .s-bar { height: 3px; background: var(--line); border-radius: 2px; margin-top: 0.45rem; overflow: hidden; }
         .s-bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--purple), var(--teal)); border-radius: 2px; }
 
+        .terminal-motd {
+            font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 0.82rem;
+            color: var(--fg);
+            padding: 0.7rem 1rem;
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            backdrop-filter: blur(2px);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+            max-width: 100%;
+        }
+        .terminal-motd .prompt {
+            color: var(--teal);
+            font-weight: 600;
+        }
+        .terminal-motd .motd-text {
+            color: var(--fg);
+            opacity: 0.9;
+        }
+        .terminal-motd .cursor {
+            color: var(--fg);
+            animation: blink 1s steps(2, start) infinite;
+        }
+        @keyframes blink {
+            to { visibility: hidden; }
+        }
+
         footer {
             border-top: 1px solid var(--line);
             padding-top: 1.75rem;
@@ -512,6 +544,11 @@
                     A Dev building her way through one container at a time —
                     Podman &gt; Docker, sane design and ofc something that just works.
                 </p>
+                <div class="terminal-motd" id="terminal-motd">
+                    <span class="prompt">robin@obsidianos:~$</span>
+                    <span class="motd-text" id="motd-text">loading...</span>
+                    <span class="cursor">█</span>
+                </div>
             </div>
             <div class="featured" style="grid-template-columns: 1fr;">
                 <div class="body" style="padding: 2rem 2.1rem 2.3rem;">
@@ -693,6 +730,48 @@
         updateTime();
         setInterval(updateTime, 1000);
         updateCoffee();
+
+        async function loadMotd() {
+            const el = document.getElementById('motd-text');
+            if (!el) return;
+            const quotes = [
+                'The best way to predict the future is to invent it. — Alan Kay',
+                'Any sufficiently advanced technology is indistinguishable from magic. — Arthur C. Clarke',
+                'Talk is cheap. Show me the code. — Linus Torvalds',
+                'Software is like sex: it\'s better when it\'s free. — Linus Torvalds',
+                'Unix is user-friendly. It\'s just very selective about who its friends are. — Unknown',
+                'There is no place like 127.0.0.1',
+                'I have not failed. I\'ve just found 10,000 ways that won\'t work. — Thomas Edison',
+                'First, solve the problem. Then, write the code. — John Johnson',
+                'Experience is the name everyone gives to their mistakes. — Oscar Wilde',
+                'In theory, there is no difference between theory and practice. But, in practice, there is. — Jan L. A. van de Snepscheut',
+                'A computer once beat me at chess, but it was no match for me at kick boxing. — Emo Philips',
+                'The most disastrous thing that you can ever learn is your first programming language. — Alan Kay',
+                'Simplicity is the soul of efficiency. — Austin Freeman',
+                'Code is like humor. When you have to explain it, it\'s bad. — Cory House',
+                'Clean code always looks like it was written by someone who cares. — Robert C. Martin',
+                'Any fool can write code that a computer can understand. Good programmers write code that humans can understand. — Martin Fowler',
+                'The best error message is the one that never shows up. — Thomas Fuchs',
+                'Knowledge is power. — Francis Bacon',
+                'Stay hungry, stay foolish. — Steve Jobs',
+                'The only way to do great work is to love what you do. — Steve Jobs'
+            ];
+            const pick = () => quotes[Math.floor(Math.random() * quotes.length)];
+            try {
+                const res = await fetch('https://api.quotable.io/random?tags=technology,software&minLength=30&maxLength=120');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data?.content && data?.author) {
+                        el.textContent = data.content + ' — ' + data.author;
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.warn('Motd fetch failed, using fallback');
+            }
+            el.textContent = pick();
+        }
+        loadMotd();
     </script>
 
     <script>
