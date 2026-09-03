@@ -29,9 +29,17 @@
             line-height: 1.6;
         }
 
-        body::before {
+        .aurora {
+            position: relative;
+            min-height: 100vh;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .aurora::before {
             content: '';
-            position: fixed;
+            position: absolute;
             inset: -20%;
             z-index: -1;
             background: linear-gradient(120deg,
@@ -47,7 +55,7 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            body::before { animation: none; }
+            .aurora::before { animation: none; }
         }
 
         .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
@@ -72,7 +80,19 @@
 
         section { margin-bottom: 4rem; }
 
-        .hero { padding: 2rem 0 1rem; }
+        .aurora .wrap {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 1rem 0 4rem;
+        }
 
         .eyebrow {
             font-size: 0.75rem;
@@ -273,26 +293,31 @@
     </style>
 </head>
 <body>
+    <div class="aurora">
+        <div class="wrap">
+            <header>
+                <div class="brand">robin</div>
+                <nav>
+                    <a href="#about">about</a>
+                    <a href="#projects">projects</a>
+                    <a href="#terminal">terminal</a>
+                    <a href="#contact">contact</a>
+                </nav>
+            </header>
+
+            <section class="hero" id="about">
+                <div class="eyebrow">Hey, I'm</div>
+                <h1>Robin — I build things,<br>mostly <span class="accent">software</span>.</h1>
+                <p>
+                    Developer interested in clean, thoughtful work — tools, code,
+                    and the ideas behind them. Currently tinkering and shipping
+                    whatever sounds interesting.
+                </p>
+            </section>
+        </div>
+    </div>
+
     <div class="wrap">
-        <header>
-            <div class="brand">robin</div>
-            <nav>
-                <a href="#about">about</a>
-                <a href="#projects">projects</a>
-                <a href="#contact">contact</a>
-            </nav>
-        </header>
-
-        <section class="hero" id="about">
-            <div class="eyebrow">Hey, I'm</div>
-            <h1>Robin — I build things,<br>mostly <span class="accent">software</span>.</h1>
-            <p>
-                Developer interested in clean, thoughtful work — tools, code,
-                and the ideas behind them. Currently tinkering and shipping
-                whatever sounds interesting.
-            </p>
-        </section>
-
         <section id="projects">
             <h2><span class="num">01.</span> Work &amp; projects</h2>
             <div class="jobs">
