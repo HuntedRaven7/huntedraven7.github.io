@@ -35,9 +35,10 @@
             position: absolute;
             inset: 0;
             background: linear-gradient(to bottom,
-                rgba(11, 13, 26, 0.55) 0%,
-                rgba(11, 13, 26, 0.25) 30%,
-                transparent 60%);
+                rgba(11, 13, 26, 0.65) 0%,
+                rgba(11, 13, 26, 0.45) 28%,
+                rgba(11, 13, 26, 0.12) 55%,
+                transparent 75%);
         }
 
         .bg-overlay {
@@ -86,11 +87,13 @@
 
         .hero {
             display: grid;
-            grid-template-columns: 1.1fr 1fr;
+            grid-template-columns: 1fr 1.05fr;
             gap: 3rem;
             align-items: center;
-            padding: 2rem 0 5rem;
+            min-height: calc(100vh - 120px);
+            padding: 2rem 0 4rem;
         }
+        .hero .featured { min-width: 0; }
 
         .eyebrow {
             font-size: 0.78rem;
@@ -99,6 +102,7 @@
             letter-spacing: 0.18em;
             color: var(--teal);
             margin-bottom: 1.1rem;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
         }
 
         h1 {
@@ -107,6 +111,7 @@
             letter-spacing: -0.03em;
             line-height: 1.05;
             margin-bottom: 1.25rem;
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.25);
         }
         h1 .grad {
             background: linear-gradient(120deg, var(--sunset), var(--sunset-deep));
@@ -117,9 +122,10 @@
 
         .hero p {
             max-width: 40ch;
-            color: var(--muted);
+            color: #d0d1ea;
             font-size: 1.05rem;
             margin-bottom: 2rem;
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
         }
 
         .img-fade {
@@ -140,14 +146,6 @@
                 linear-gradient(to top, var(--bg) 0%, transparent 40%),
                 linear-gradient(to bottom, var(--bg) 0%, transparent 18%);
             pointer-events: none;
-        }
-
-        .hero-img {
-            width: 100%;
-            aspect-ratio: 4 / 5;
-            border-radius: 20px;
-            object-fit: cover;
-            display: block;
         }
 
         section { margin-bottom: 5rem; }
@@ -286,7 +284,7 @@
         footer a:hover { color: var(--fg); }
 
         @media (max-width: 760px) {
-            .hero { grid-template-columns: 1fr; }
+            .hero { grid-template-columns: 1fr; min-height: auto; }
             .featured { grid-template-columns: 1fr; }
             .featured img { aspect-ratio: 16 / 9; }
         }
@@ -314,8 +312,27 @@
                     code, thoughtful design, and work that feels good to make.
                 </p>
             </div>
-            <div class="img-fade">
-                <img class="hero-img" src="https://picsum.photos/seed/robin/700/875" alt="Robin">
+            <div class="featured" style="grid-template-columns: 1fr;">
+                <div class="body" style="padding: 2rem 2.1rem 2.3rem;">
+                    <span class="tag">Discord presence</span>
+                    <div class="discord-line" style="margin-top:0.5rem;">
+                        <div class="thumb">
+                            <div class="d-avatar">
+                                <img id="presence-avatar" alt="">
+                                <span class="d-dot offline" id="presence-dot"></span>
+                            </div>
+                            <div class="d-info">
+                                <span class="d-name" id="presence-name">connecting…</span>
+                                <span class="d-status" id="presence-status">connecting…</span>
+                            </div>
+                            <span class="d-tag">discord</span>
+                        </div>
+                    </div>
+                    <div class="d-divider"></div>
+                    <div class="d-custom" id="presence-custom" hidden></div>
+                    <div id="presence-spotify"></div>
+                    <div class="d-activities" id="presence-activities" style="margin-top:0.25rem;"></div>
+                </div>
             </div>
         </section>
 
@@ -369,28 +386,7 @@
 
         <section id="contact">
             <h2><span class="num">03.</span> Contact</h2>
-            <div class="featured" style="grid-template-columns: 1fr;">
-                <div class="body" style="padding: 2rem 2.2rem 2.4rem;">
-                    <span class="tag">Discord presence</span>
-                    <div class="discord-line" style="margin-top:0.25rem;">
-                        <div class="thumb">
-                            <div class="d-avatar">
-                                <img id="presence-avatar" alt="">
-                                <span class="d-dot offline" id="presence-dot"></span>
-                            </div>
-                            <div class="d-info">
-                                <span class="d-name" id="presence-name">connecting…</span>
-                                <span class="d-status" id="presence-status">connecting…</span>
-                            </div>
-                            <span class="d-tag">discord</span>
-                        </div>
-                    </div>
-                    <div class="d-divider"></div>
-                    <div class="d-custom" id="presence-custom" hidden></div>
-                    <div id="presence-spotify"></div>
-                    <div class="d-activities" id="presence-activities" style="margin-top:0.25rem;"></div>
-                </div>
-            </div>
+            <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;">github →</a>
         </section>
 
         <footer>
