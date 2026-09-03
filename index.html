@@ -29,6 +29,27 @@
             line-height: 1.6;
         }
 
+        body::before {
+            content: '';
+            position: fixed;
+            inset: -20%;
+            z-index: -1;
+            background: linear-gradient(120deg,
+                #2b1b4e, #14143c 25%, #1e2340 50%, #401b3a 75%, #2b1b4e);
+            background-size: 200% 200%;
+            animation: aurora 24s ease-in-out infinite alternate;
+        }
+
+        @keyframes aurora {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            body::before { animation: none; }
+        }
+
         .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
 
         header {
@@ -122,10 +143,11 @@
         }
 
         .card {
-            background: var(--panel);
+            background: rgba(20, 20, 26, 0.6);
             border: 1px solid var(--line);
             border-radius: 10px;
             padding: 1rem 1.1rem;
+            backdrop-filter: blur(6px);
         }
         .card .k { font-size: 0.78rem; color: var(--faint); text-transform: uppercase; letter-spacing: 0.08em; }
         .card .v { margin-top: 0.35rem; font-size: 0.95rem; color: var(--fg); }
@@ -144,11 +166,12 @@
         .links .dot-arrow { color: var(--accent); }
 
         .panel {
-            background: var(--panel);
+            background: rgba(20, 20, 26, 0.6);
             border: 1px solid var(--line);
             border-radius: 12px;
             overflow: hidden;
             margin-top: 0.5rem;
+            backdrop-filter: blur(6px);
         }
         .panel-head {
             display: flex;
