@@ -271,6 +271,215 @@
 
         @keyframes blink { 50% { opacity: 0; } }
 
+        .discord-card {
+            width: min(620px, calc(100% - 3rem));
+            margin: 0 auto 4rem;
+            background: var(--inactive-bg);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fade-in 0.6s 0.85s ease forwards;
+        }
+
+        .discord-head {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .discord-head .term-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .absence-avatar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem 1.3rem;
+        }
+
+        .absence-avatar img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--line);
+        }
+
+        .absence-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .absence-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .presence-name {
+            font-weight: 600;
+            color: var(--fg);
+        }
+
+        .presence-tag {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--builtin);
+            background: rgba(180, 212, 207, 0.1);
+            border: 1px solid var(--line);
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+        }
+
+        .status-line {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--comment);
+            flex-shrink: 0;
+        }
+
+        .status-dot.online { background: #7fa563; }
+        .status-dot.idle { background: #f3be7c; }
+        .status-dot.dnd { background: #d8647e; }
+        .status-dot.offline { background: var(--comment); }
+
+        .presence-custom {
+            color: var(--fg);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .presence-custom img { width: 18px; height: 18px; border-radius: 4px; }
+
+        .spotify {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--line);
+            color: var(--fg);
+            text-decoration: none;
+            margin-top: 0.25rem;
+        }
+
+        .spotify-art {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .spotify-meta { flex: 1; min-width: 0; }
+        .spotify-title {
+            font-weight: 600;
+            font-size: 0.92rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .spotify-sub {
+            color: var(--muted);
+            font-size: 0.82rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .spotify-bar {
+            height: 4px;
+            background: var(--line);
+            border-radius: 2px;
+            margin-top: 0.4rem;
+            overflow: hidden;
+        }
+        .spotify-bar span {
+            display: block;
+            height: 100%;
+            background: var(--func);
+            border-radius: 2px;
+        }
+        .spotify-times {
+            display: flex;
+            justify-content: space-between;
+            color: var(--comment);
+            font-size: 0.72rem;
+            margin-top: 0.2rem;
+        }
+
+        .activities {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--line);
+            margin-top: 0.75rem;
+        }
+
+        .activity {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .activity img {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: var(--line);
+        }
+
+        .activity-meta { flex: 1; min-width: 0; }
+        .activity-label {
+            font-size: 0.7rem;
+            color: var(--comment);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .activity-name { font-weight: 600; font-size: 0.9rem; color: var(--fg); }
+        .activity-detail {
+            color: var(--muted);
+            font-size: 0.82rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .activity-time { color: var(--comment); font-size: 0.75rem; }
+
+        .presence-offline-msg {
+            color: var(--comment);
+            font-size: 0.9rem;
+            padding: 0.5rem 0.2rem;
+        }
+
         footer {
             text-align: center;
             color: var(--comment);
@@ -316,6 +525,39 @@
                 <span class="term-title">robin@github ~</span>
             </div>
             <div class="term-body" id="term-body"></div>
+        </section>
+
+        <section class="discord-card" id="discord-card">
+            <div class="discord-head">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="term-title">discord presence</span>
+            </div>
+            <div class="presence-card" id="discord-presence">
+                <div class="absence-avatar">
+                    <img id="presence-avatar" class="presence-avatar" alt="" />
+                    <div class="absence-body">
+                        <div class="absence-top">
+                            <span class="presence-name" id="presence-name"
+                                >connecting…</span
+                            >
+                            <span class="presence-tag">discord</span>
+                        </div>
+                        <div class="status-line">
+                            <span class="status-dot offline" id="presence-dot"></span>
+                            <span id="presence-status">connecting…</span>
+                        </div>
+                        <div class="presence-custom" id="presence-custom" hidden></div>
+                        <div
+                            class="presence-spotify-wrap"
+                            id="presence-spotify"
+                            hidden
+                        ></div>
+                        <div class="activities" id="presence-activities"></div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <footer>&copy; Robin &middot; theme inspired by <span style="color:var(--builtin)">vague.nvim</span></footer>
@@ -462,6 +704,183 @@
                 requestAnimationFrame(frame);
             }
             frame();
+        })();
+    </script>
+
+    <script>
+        (function () {
+            const DISCORD_ID = "523906270801952789";
+            const el = {
+                avatar: document.getElementById('presence-avatar'),
+                dot: document.getElementById('presence-dot'),
+                name: document.getElementById('presence-name'),
+                status: document.getElementById('presence-status'),
+                custom: document.getElementById('presence-custom'),
+                spotify: document.getElementById('presence-spotify'),
+                activities: document.getElementById('presence-activities'),
+            };
+
+            const STATUS_LABELS = {
+                online: 'online',
+                idle: 'idle',
+                dnd: 'do not disturb',
+                offline: 'offline',
+            };
+            const ACTIVITY_VERBS = {
+                0: 'playing',
+                1: 'streaming',
+                2: 'listening to',
+                3: 'watching',
+                5: 'competing in',
+            };
+
+            const esc = (s) =>
+                String(s ?? '').replace(/[&<>"']/g, (c) =>
+                    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+            function fmtDuration(ms) {
+                const s = Math.max(0, Math.floor(ms / 1000));
+                const h = Math.floor(s / 3600);
+                const m = Math.floor((s % 3600) / 60);
+                const sec = s % 60;
+                const ss = String(sec).padStart(2, '0');
+                return h > 0 ? `${h}:${String(m).padStart(2, '0')}:${ss}` : `${m}:${ss}`;
+            }
+
+            function avatarUrl(user) {
+                if (user.avatar) {
+                    const ext = user.avatar.startsWith('a_') ? 'gif' : 'png';
+                    return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=128`;
+                }
+                const idx = Number((BigInt(user.id) >> 22n) % 6n);
+                return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
+            }
+
+            function activityImage(appId, key) {
+                if (!key || !appId) return null;
+                if (key.startsWith('mp:external/'))
+                    return `https://media.discordapp.net/external/${key.slice(12)}`;
+                return `https://cdn.discordapp.com/app-assets/${appId}/${key}.png`;
+            }
+
+            function emojiHtml(emoji) {
+                if (!emoji) return '';
+                if (!emoji.id)
+                    return `<span class="presence-custom">${esc(emoji.name)}</span>`;
+                return `<img src="https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? 'gif' : 'png'}?size=32" alt="">`;
+            }
+
+            function renderPresence(data) {
+                const user = data.discord_user;
+                const status =
+                    data.discord_status in STATUS_LABELS ? data.discord_status : 'offline';
+                el.avatar.src = avatarUrl(user);
+                el.dot.className = `status-dot ${status}`;
+                el.name.textContent =
+                    user.display_name || user.global_name || user.username;
+                el.status.textContent = STATUS_LABELS[status];
+
+                const custom = (data.activities || []).find((a) => a.type === 4);
+                if (custom && (custom.state || custom.emoji)) {
+                    el.custom.hidden = false;
+                    el.custom.innerHTML = `${emojiHtml(custom.emoji)}<span>${esc(custom.state)}</span>`;
+                } else {
+                    el.custom.hidden = true;
+                    el.custom.innerHTML = '';
+                }
+
+                if (data.listening_to_spotify && data.spotify) {
+                    const sp = data.spotify;
+                    const start = sp.timestamps?.start;
+                    const end = sp.timestamps?.end;
+                    el.spotify.hidden = false;
+                    el.spotify.innerHTML = `
+                        <a class="spotify" href="https://open.spotify.com/track/${sp.track_id}" target="_blank" rel="noopener">
+                            <img class="spotify-art" src="${esc(sp.album_art_url)}" alt="">
+                            <div class="spotify-meta">
+                                <div class="spotify-title">${esc(sp.song)}</div>
+                                <div class="spotify-sub">${esc((sp.artist || '').split('; ').join(', '))}</div>
+                                ${start && end
+                                    ? `<div class="spotify-bar"><span data-start="${start}" data-end="${end}"></span></div>
+                                       <div class="spotify-times">
+                                         <span data-start="${start}">0:00</span>
+                                         <span>${fmtDuration(end - start)}</span>
+                                       </div>`
+                                    : ''}
+                            </div>
+                        </a>`;
+                } else {
+                    el.spotify.hidden = true;
+                    el.spotify.innerHTML = '';
+                }
+
+                const acts = (data.activities || []).filter(
+                    (a) => a.type !== 4 && !(data.listening_to_spotify && a.name === 'Spotify')
+                );
+                el.activities.innerHTML = acts
+                    .map((a) => {
+                        const img = activityImage(a.application_id, a.assets?.large_image);
+                        const details = [a.details, a.state].filter(Boolean);
+                        const start = a.timestamps?.start;
+                        const verb = ACTIVITY_VERBS[a.type] ?? 'doing';
+                        return `
+                            <div class="activity">
+                                ${img ? `<img src="${esc(img)}" alt="">` : ''}
+                                <div class="activity-meta">
+                                    <div class="activity-label">${verb}</div>
+                                    <div class="activity-name">${esc(a.name)}</div>
+                                    ${details.map((d) => `<div class="activity-detail">${esc(d)}</div>`).join('')}
+                                    ${start ? `<div class="activity-time" data-start="${start}">0:00 elapsed</div>` : ''}
+                                </div>
+                            </div>`;
+                    })
+                    .join('');
+
+                if (!acts.length && !data.listening_to_spotify && data.discord_status !== 'offline') {
+                    el.activities.innerHTML =
+                        '<div class="presence-offline-msg">nothing going on right now</div>';
+                }
+            }
+
+            setInterval(() => {
+                const now = Date.now();
+                el.spotify.querySelectorAll('[data-start]').forEach((node) => {
+                    const start = Number(node.dataset.start);
+                    if (!start) return;
+                    if (node.dataset.end) {
+                        const end = Number(node.dataset.end);
+                        node.style.width = `${Math.min(100, ((now - start) / (end - start)) * 100)}%`;
+                    } else {
+                        node.textContent = fmtDuration(now - start);
+                    }
+                });
+                el.activities.querySelectorAll('[data-start]').forEach((node) => {
+                    node.textContent = `${fmtDuration(now - Number(node.dataset.start))} elapsed`;
+                });
+            }, 1000);
+
+            let heartbeat;
+            function connectLanyard() {
+                const ws = new WebSocket('wss://api.lanyard.rest/socket');
+                ws.onmessage = (event) => {
+                    const msg = JSON.parse(event.data);
+                    if (msg.op === 1) {
+                        clearInterval(heartbeat);
+                        heartbeat = setInterval(
+                            () => ws.send(JSON.stringify({ op: 3 })),
+                            msg.d.heartbeat_interval
+                        );
+                        ws.send(JSON.stringify({ op: 2, d: { subscribe_to_id: DISCORD_ID } }));
+                    } else if (msg.op === 0 && (msg.t === 'INIT_STATE' || msg.t === 'PRESENCE_UPDATE')) {
+                        renderPresence(msg.d);
+                    }
+                };
+                ws.onclose = () => {
+                    clearInterval(heartbeat);
+                    setTimeout(connectLanyard, 5000);
+                };
+            }
+            connectLanyard();
         })();
     </script>
 </body>
