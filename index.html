@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Robin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #0b0d1a;
@@ -21,19 +24,26 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .bg {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            background-image: url('https://w.wallhaven.cc/full/og/wallhaven-ogl9y7.png');
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                Roboto, 'Helvetica Neue', sans-serif;
+            background-color: var(--bg);
+            background-image: url('https://w.wallhaven.cc/full/e7/wallhaven-e7r13w.jpg');
             background-size: cover;
-            background-position: center top;
+            background-position: center 15%;
+            background-attachment: fixed;
+            color: var(--fg);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
         }
 
-        .bg::before {
+        body::before {
             content: '';
-            position: absolute;
+            position: fixed;
             inset: 0;
+            z-index: 0;
+            pointer-events: none;
             background: linear-gradient(to bottom,
                 rgba(11, 13, 26, 0.65) 0%,
                 rgba(11, 13, 26, 0.45) 28%,
@@ -44,22 +54,13 @@
         .bg-overlay {
             position: fixed;
             inset: 0;
-            z-index: -1;
+            z-index: 1;
             background: var(--bg);
             opacity: 0;
+            pointer-events: none;
         }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-                Roboto, 'Helvetica Neue', sans-serif;
-            background: var(--bg);
-            color: var(--fg);
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            line-height: 1.6;
-        }
-
-        .wrap { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+        .wrap { position: relative; z-index: 2; max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
 
         header {
             display: flex;
@@ -96,13 +97,55 @@
         .hero .featured { min-width: 0; }
 
         .eyebrow {
-            font-size: 0.78rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo,
+                Consolas, monospace;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
             color: var(--teal);
-            margin-bottom: 1.1rem;
+            margin-bottom: 1rem;
             text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .eyebrow-avatar {
+            position: relative;
+            display: inline-block;
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            overflow: hidden;
+            flex: none;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+            cursor: pointer;
+        }
+        .eyebrow-avatar img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .eyebrow-flag {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            background: linear-gradient(
+                to bottom,
+                #5bcffb 0%, #5bcffb 20%,
+                #f5abb9 20%, #f5abb9 40%,
+                #ffffff 40%, #ffffff 60%,
+                #f5abb9 60%, #f5abb9 80%,
+                #5bcffb 80%, #5bcffb 100%
+            );
+        }
+        .eyebrow-avatar:hover .eyebrow-flag {
+            opacity: 1;
         }
 
         h1 {
@@ -122,10 +165,15 @@
 
         .hero p {
             max-width: 40ch;
-            color: #d0d1ea;
+            color: #eceefb;
             font-size: 1.05rem;
             margin-bottom: 2rem;
-            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
+            padding: 0.75rem 1.1rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(2px);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         }
 
         .img-fade {
@@ -291,7 +339,6 @@
     </style>
 </head>
 <body>
-    <div class="bg"></div>
     <div class="bg-overlay" id="bg-overlay"></div>
     <div class="wrap">
         <header>
@@ -305,7 +352,13 @@
 
         <section class="hero">
             <div>
-                <div class="eyebrow">Hey, I'm Robin</div>
+                <div class="eyebrow">
+                    <span class="eyebrow-avatar">
+                        <img src="asset/9cf52a9416c047f4ed5d6da288e6c8e4.jpg" alt="Robin">
+                        <span class="eyebrow-flag"></span>
+                    </span>
+                    <span>Hey, I'm Robin</span>
+                </div>
                 <h1>The world of <span class="grad">software</span>, through my eyes.</h1>
                 <p>
                     Developer building things with a cinematic touch — clean
