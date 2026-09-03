@@ -6,18 +6,47 @@
     <title>Robin</title>
     <style>
         :root {
-            --bg: #141415;
-            --panel: #1a1a1f;
-            --line: #26262c;
-            --fg: #c9c9ce;
-            --muted: #8b8b93;
-            --faint: #5d5d66;
-            --accent: #d8a08e;
-            --accent-soft: rgba(216, 160, 142, 0.12);
-            --blue: #8fb3c9;
+            --bg: #0b0d1a;
+            --bg-soft: #12152a;
+            --panel: #171a33;
+            --line: #262c4d;
+            --fg: #e9e9f2;
+            --muted: #9b9dc2;
+            --faint: #63668f;
+            --purple: #7c5cff;
+            --teal: #4fd8c7;
+            --sunset: #ffb86b;
+            --sunset-deep: #ff6b8b;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        .bg {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background-image: url('https://w.wallhaven.cc/full/og/wallhaven-ogl9y7.png');
+            background-size: cover;
+            background-position: center top;
+        }
+
+        .bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom,
+                rgba(11, 13, 26, 0.55) 0%,
+                rgba(11, 13, 26, 0.25) 30%,
+                transparent 60%);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: var(--bg);
+            opacity: 0;
+        }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
@@ -29,268 +58,225 @@
             line-height: 1.6;
         }
 
-        .aurora {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: clip;
-        }
-
-        .aurora::before {
-            content: '';
-            position: absolute;
-            inset: -20%;
-            z-index: -1;
-            background: linear-gradient(120deg,
-                #2b1b4e, #14143c 25%, #1e2340 50%, #401b3a 75%, #2b1b4e);
-            background-size: 200% 200%;
-            animation: aurora 24s ease-in-out infinite alternate;
-        }
-
-        .aurora::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 40vh;
-            z-index: -1;
-            background: linear-gradient(to bottom, transparent, var(--bg));
-            pointer-events: none;
-        }
-
-        @keyframes aurora {
-            0%   { background-position: 0% 50%; }
-            50%  { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .aurora::before { animation: none; }
-        }
-
-        .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
 
         header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem 0 3rem;
+            padding-bottom: 3rem;
         }
-
-        .brand { font-weight: 600; letter-spacing: -0.01em; font-size: 1rem; }
-
-        nav { display: flex; gap: 1.5rem; }
+        .brand {
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: -0.01em;
+            background: linear-gradient(120deg, var(--purple), var(--teal));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        nav { display: flex; gap: 1.75rem; }
         nav a {
-            color: var(--muted);
+            color: #d4d5ee;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             transition: color 0.15s;
         }
-        nav a:hover { color: var(--fg); }
-
-        section { margin-bottom: 4rem; }
-
-        .aurora .wrap {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
+        nav a:hover { color: #ffffff; }
 
         .hero {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 1rem 0 4rem;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            padding: 2rem 0 5rem;
         }
 
         .eyebrow {
-            font-size: 0.75rem;
+            font-size: 0.78rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.14em;
-            color: var(--faint);
-            margin-bottom: 1rem;
+            letter-spacing: 0.18em;
+            color: var(--teal);
+            margin-bottom: 1.1rem;
         }
 
         h1 {
-            font-size: clamp(2.2rem, 8vw, 3.5rem);
-            font-weight: 600;
+            font-size: clamp(2.4rem, 6vw, 3.6rem);
+            font-weight: 700;
             letter-spacing: -0.03em;
-            line-height: 1.1;
+            line-height: 1.05;
             margin-bottom: 1.25rem;
-            color: #ececf1;
         }
-        h1 .accent { color: var(--accent); }
+        h1 .grad {
+            background: linear-gradient(120deg, var(--sunset), var(--sunset-deep));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
         .hero p {
-            max-width: 46ch;
+            max-width: 40ch;
             color: var(--muted);
             font-size: 1.05rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
-        .mono {
-            font-family: 'SF Mono', ui-monospace, 'Fira Code', Menlo, Consolas,
-                monospace;
-            font-size: 0.85rem;
+        .img-fade {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+            background: var(--bg);
         }
 
-        .jobs { margin-bottom: 2rem; }
-        .job {
-            display: flex;
-            gap: 1rem;
-            padding: 0.85rem 0;
-            border-top: 1px solid var(--line);
-            color: var(--muted);
-            font-size: 0.95rem;
+        .img-fade::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(120% 60% at 50% 110%, var(--bg) 0%, transparent 55%),
+                linear-gradient(to top, var(--bg) 0%, transparent 40%),
+                linear-gradient(to bottom, var(--bg) 0%, transparent 18%);
+            pointer-events: none;
         }
-        .job:last-child { border-bottom: 1px solid var(--line); }
-        .job .when {
-            flex-shrink: 0;
-            width: 9rem;
-            color: var(--faint);
-            font-size: 0.85rem;
-            padding-top: 0.15rem;
-        }
-        .job .role { color: var(--fg); font-weight: 500; }
-        .job .desc { color: var(--muted); }
 
-        .light-columns { margin-top: 1.5rem; }
+        .hero-img {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            border-radius: 20px;
+            object-fit: cover;
+            display: block;
+        }
+
+        section { margin-bottom: 5rem; }
 
         h2 {
-            font-size: 1rem;
+            font-size: 1.6rem;
             font-weight: 600;
-            letter-spacing: -0.01em;
-            color: #ececf1;
-            margin: 2.5rem 0 1rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
         }
-        h2 .num { color: var(--faint); margin-right: 0.6rem; font-family: ui-monospace, monospace; }
+        h2 .num { color: var(--faint); margin-right: 0.5rem; font-family: ui-monospace, monospace; }
 
-        .grid {
+        .featured {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 0.75rem;
-        }
-
-        .card {
-            background: rgba(20, 20, 26, 0.6);
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            padding: 1rem 1.1rem;
-            backdrop-filter: blur(6px);
-        }
-        .card .k { font-size: 0.78rem; color: var(--faint); text-transform: uppercase; letter-spacing: 0.08em; }
-        .card .v { margin-top: 0.35rem; font-size: 0.95rem; color: var(--fg); }
-
-        .links a {
-            display: inline-flex;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
             align-items: center;
-            gap: 0.5rem;
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            margin-right: 1.5rem;
-            transition: color 0.15s;
-        }
-        .links a:hover { color: var(--fg); }
-        .links .dot-arrow { color: var(--accent); }
-
-        .panel {
-            background: rgba(20, 20, 26, 0.6);
+            background: var(--panel);
             border: 1px solid var(--line);
-            border-radius: 12px;
+            border-radius: 20px;
             overflow: hidden;
-            margin-top: 0.5rem;
-            backdrop-filter: blur(6px);
         }
-        .panel-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.75rem;
-            padding: 0.8rem 1.1rem;
-            border-bottom: 1px solid var(--line);
-            color: var(--faint);
-            font-size: 0.8rem;
-            font-family: ui-monospace, monospace;
+        .featured .img-fade {
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
         }
-        .panel-head .traffic {
-            display: flex;
-            gap: 0.4rem;
+        .featured .f-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            aspect-ratio: 1 / 1;
+            display: block;
         }
-        .panel-head .traffic i { width: 9px; height: 9px; border-radius: 50%; display: block; }
-        .panel-head .traffic i:nth-child(1) { background: #4a4a52; }
-        .panel-head .traffic i:nth-child(2) { background: #4a4a52; }
-        .panel-head .traffic i:nth-child(3) { background: #4a4a52; }
-
-        .term-body {
-            font-family: 'SF Mono', ui-monospace, 'Fira Code', Menlo, Consolas,
-                monospace;
-            font-size: 0.85rem;
-            line-height: 1.75;
-            padding: 1.1rem 1.2rem;
-            min-height: 60px;
-            white-space: pre-wrap;
-        }
-        .term-body .prompt { color: var(--blue); }
-        .term-body .cmd { color: var(--accent); }
-        .term-body .reply { color: var(--muted); }
-        .term-body .reply.ok { color: var(--fg); }
-        .cursor {
+        .featured .body { padding: 2rem 2.2rem; }
+        .featured .tag {
             display: inline-block;
-            width: 7px;
-            height: 1em;
-            background: var(--accent);
-            vertical-align: text-bottom;
-            animation: blink 1s steps(1) infinite;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--sunset);
+            margin-bottom: 0.9rem;
         }
-        @keyframes blink { 50% { opacity: 0; } }
+        .featured h3 { font-size: 1.4rem; margin-bottom: 0.6rem; }
+        .featured p { color: var(--muted); font-size: 0.98rem; }
 
-        .discord { padding: 1.25rem; }
-        .d-top { display: flex; align-items: center; gap: 0.9rem; }
-        .d-avatar { position: relative; width: 52px; height: 52px; flex-shrink: 0; }
-        .d-avatar img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; background: var(--line); display: block; }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+        }
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .card:hover { transform: translateY(-4px); border-color: var(--purple); }
+        .card .img-fade { border: none; border-bottom: 1px solid var(--line); border-radius: 0; box-shadow: none; }
+        .card .c-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+        .card .body { padding: 1.1rem 1.2rem; }
+        .card .tag { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--teal); }
+        .card h3 { font-size: 1.05rem; margin: 0.35rem 0 0.25rem; }
+        .card p { color: var(--muted); font-size: 0.88rem; }
+
+        .discord-line { display: flex; align-items: center; gap: 1rem; }
+        .discord-line .thumb { display: flex; align-items: center; gap: 0.9rem; width: 100%; }
+
+        .d-avatar { position: relative; flex-shrink: 0; }
+        .d-avatar img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; background: var(--line); display: block; }
         .d-dot {
             position: absolute;
-            bottom: 1px; right: 1px;
-            width: 13px; height: 13px;
+            bottom: 0; right: 0;
+            width: 14px; height: 14px;
             border-radius: 50%;
             border: 3px solid var(--panel);
             background: var(--faint);
         }
-        .d-dot.online { background: #6fa568; }
-        .d-dot.idle { background: #d9b26b; }
-        .d-dot.dnd { background: #c76d7b; }
-        .d-info { min-width: 0; }
-        .d-name { font-weight: 600; color: #ececf1; font-size: 0.98rem; }
-        .d-status { color: var(--muted); font-size: 0.88rem; }
-        .d-custom { margin-top: 0.9rem; color: var(--fg); font-size: 0.9rem; display: flex; align-items: center; gap: 0.4rem; }
-        .d-custom img { width: 18px; height: 18px; border-radius: 4px; }
+        .d-dot.online { background: #5bd6a8; }
+        .d-dot.idle { background: #e8c46a; }
+        .d-dot.dnd { background: #e06c8a; }
+        .d-dot.offline { background: var(--faint); }
 
-        .d-activities { margin-top: 1rem; border-top: 1px solid var(--line); padding-top: 0.9rem; display: flex; flex-direction: column; gap: 0.7rem; }
+        .d-info { min-width: 0; display: flex; flex-direction: column; }
+        .d-name { font-weight: 600; color: #f2f2fb; }
+        .d-status { color: var(--muted); font-size: 0.88rem; }
+
+        .d-tag {
+            margin-left: auto;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--purple);
+            background: rgba(124, 92, 255, 0.14);
+            border: 1px solid rgba(124, 92, 255, 0.3);
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            flex-shrink: 0;
+        }
+
+        .d-divider { border-top: 1px solid var(--line); margin: 1rem 0; }
+
+        .d-custom { color: var(--fg); font-size: 0.95rem; display: flex; align-items: center; gap: 0.45rem; }
+        .d-custom img { width: 18px; height: 18px; border-radius: 4px; }
         .d-note { color: var(--faint); font-size: 0.88rem; }
 
-        .activity { display: flex; align-items: center; gap: 0.8rem; }
-        .activity img { width: 40px; height: 40px; border-radius: 7px; object-fit: cover; background: var(--line); flex-shrink: 0; }
-        .activity .a-label { font-size: 0.7rem; color: var(--faint); text-transform: uppercase; letter-spacing: 0.04em; }
-        .activity .a-name { font-size: 0.92rem; font-weight: 500; color: var(--fg); }
+        .d-activities { display: flex; flex-direction: column; gap: 0.85rem; }
+        .activity { display: flex; align-items: center; gap: 0.85rem; }
+        .activity img { width: 42px; height: 42px; border-radius: 8px; object-fit: cover; background: var(--line); flex-shrink: 0; }
+        .activity .a-label { font-size: 0.68rem; color: var(--faint); text-transform: uppercase; letter-spacing: 0.06em; }
+        .activity .a-name { font-size: 0.93rem; font-weight: 500; color: var(--fg); }
         .activity .a-detail { font-size: 0.82rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .activity .a-time { font-size: 0.75rem; color: var(--faint); }
 
-        .spotify { margin-top: 0.9rem; border-top: 1px solid var(--line); padding-top: 0.9rem; display: flex; gap: 0.8rem; align-items: center; color: var(--fg); text-decoration: none; }
-        .spotify img { width: 42px; height: 42px; border-radius: 6px; object-fit: cover; background: var(--line); flex-shrink: 0; }
-        .spotify .s-title { font-weight: 500; font-size: 0.9rem; }
+        .spotify { margin-top: 1rem; border-top: 1px solid var(--line); padding-top: 1rem; display: flex; gap: 0.85rem; align-items: center; color: var(--fg); text-decoration: none; }
+        .spotify img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; background: var(--line); flex-shrink: 0; }
+        .spotify .s-title { font-weight: 500; font-size: 0.92rem; }
         .spotify .s-sub { color: var(--muted); font-size: 0.82rem; }
-        .s-bar { height: 3px; background: var(--line); border-radius: 2px; margin-top: 0.4rem; overflow: hidden; }
-        .s-bar span { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+        .s-bar { height: 3px; background: var(--line); border-radius: 2px; margin-top: 0.45rem; overflow: hidden; }
+        .s-bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--purple), var(--teal)); border-radius: 2px; }
 
         footer {
             border-top: 1px solid var(--line);
-            padding-top: 1.5rem;
+            padding-top: 1.75rem;
             color: var(--faint);
-            font-size: 0.85rem;
+            font-size: 0.87rem;
             display: flex;
             justify-content: space-between;
             gap: 1rem;
@@ -299,169 +285,132 @@
         footer a { color: var(--muted); text-decoration: none; }
         footer a:hover { color: var(--fg); }
 
-        @media (max-width: 560px) {
-            .job { flex-direction: column; gap: 0.25rem; }
+        @media (max-width: 760px) {
+            .hero { grid-template-columns: 1fr; }
+            .featured { grid-template-columns: 1fr; }
+            .featured img { aspect-ratio: 16 / 9; }
         }
     </style>
 </head>
 <body>
-    <div class="aurora">
-        <div class="wrap">
-            <header>
-                <div class="brand">robin</div>
-                <nav>
-                    <a href="#about">about</a>
-                    <a href="#projects">projects</a>
-                    <a href="#terminal">terminal</a>
-                    <a href="#contact">contact</a>
-                </nav>
-            </header>
-
-            <section class="hero" id="about">
-                <div class="eyebrow">Hey, I'm</div>
-                <h1>Robin — I build things,<br>mostly <span class="accent">software</span>.</h1>
-                <p>
-                    Developer interested in clean, thoughtful work — tools, code,
-                    and the ideas behind them. Currently tinkering and shipping
-                    whatever sounds interesting.
-                </p>
-            </section>
-        </div>
-    </div>
-
+    <div class="bg"></div>
+    <div class="bg-overlay" id="bg-overlay"></div>
     <div class="wrap">
-        <section id="projects">
-            <h2><span class="num">01.</span> Work &amp; projects</h2>
-            <div class="jobs">
-                <div class="job">
-                    <span class="when">today</span>
-                    <div>
-                        <div class="role">Independent developer</div>
-                        <div class="desc">Building, tinkering, learning — follow for whatever's next.</div>
-                    </div>
-                </div>
-                <div class="job">
-                    <span class="when">interests</span>
-                    <div>
-                        <div class="role">Neovim, tools, open source</div>
-                        <div class="desc">A fan of the vague.nvim colorscheme (this site is themed after it).</div>
-                    </div>
-                </div>
-            </div>
+        <header>
+            <div class="brand">robin</div>
+            <nav>
+                <a href="#featured">work</a>
+                <a href="#projects">projects</a>
+                <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener">github</a>
+            </nav>
+        </header>
 
-            <div class="grid">
-                <div class="card"><div class="k">Currently</div><div class="v">Learning &amp; building</div></div>
-                <div class="card"><div class="k">Tools</div><div class="v">Neovim · Git · Web</div></div>
-                <div class="card"><div class="k">Status</div><div class="v">Open to ideas</div></div>
+        <section class="hero">
+            <div>
+                <div class="eyebrow">Hey, I'm Robin</div>
+                <h1>The world of <span class="grad">software</span>, through my eyes.</h1>
+                <p>
+                    Developer building things with a cinematic touch — clean
+                    code, thoughtful design, and work that feels good to make.
+                </p>
+            </div>
+            <div class="img-fade">
+                <img class="hero-img" src="https://picsum.photos/seed/robin/700/875" alt="Robin">
             </div>
         </section>
 
-        <section id="terminal">
-            <h2><span class="num">02.</span> Terminal</h2>
-            <div class="panel">
-                <div class="panel-head">
-                    <span>robin@github</span>
-                    <span class="traffic"><i></i><i></i><i></i></span>
+        <section id="featured">
+            <h2><span class="num">01.</span> Featured</h2>
+            <div class="featured">
+                <div class="img-fade">
+                    <img class="f-img" src="https://picsum.photos/seed/featured/700/700" alt="Featured project">
                 </div>
-                <div class="term-body" id="term-body"></div>
+                <div class="body">
+                    <span class="tag">Featured work</span>
+                    <h3>Project name</h3>
+                    <p>
+                        Swap this image and text for your own project. This is a
+                        featured highlight slot — describe your best work here and
+                        link it out.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2><span class="num">02.</span> Projects</h2>
+            <div class="cards">
+                <div class="card">
+                    <div class="img-fade"><img class="c-img" src="https://picsum.photos/seed/proj1/600/340" alt="Project 1"></div>
+                    <div class="body">
+                        <span class="tag">Tool</span>
+                        <h3>Project one</h3>
+                        <p>Short description of what it does and why it's neat.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="img-fade"><img class="c-img" src="https://picsum.photos/seed/proj2/600/340" alt="Project 2"></div>
+                    <div class="body">
+                        <span class="tag">App</span>
+                        <h3>Project two</h3>
+                        <p>Short description of what it does and why it's neat.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="img-fade"><img class="c-img" src="https://picsum.photos/seed/proj3/600/340" alt="Project 3"></div>
+                    <div class="body">
+                        <span class="tag">Experiment</span>
+                        <h3>Project three</h3>
+                        <p>Short description of what it does and why it's neat.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section id="contact">
             <h2><span class="num">03.</span> Contact</h2>
-            <div class="panel">
-                <div class="panel-head">
-                    <span>discord presence</span>
-                    <span class="traffic"><i></i><i></i><i></i></span>
-                </div>
-                <div class="discord">
-                    <div class="d-top">
-                        <div class="d-avatar">
-                            <img id="presence-avatar" alt="">
-                            <span class="d-dot offline" id="presence-dot"></span>
-                        </div>
-                        <div class="d-info">
-                            <div class="d-name" id="presence-name">connecting…</div>
-                            <div class="d-status" id="presence-status">connecting…</div>
+            <div class="featured" style="grid-template-columns: 1fr;">
+                <div class="body" style="padding: 2rem 2.2rem 2.4rem;">
+                    <span class="tag">Discord presence</span>
+                    <div class="discord-line" style="margin-top:0.25rem;">
+                        <div class="thumb">
+                            <div class="d-avatar">
+                                <img id="presence-avatar" alt="">
+                                <span class="d-dot offline" id="presence-dot"></span>
+                            </div>
+                            <div class="d-info">
+                                <span class="d-name" id="presence-name">connecting…</span>
+                                <span class="d-status" id="presence-status">connecting…</span>
+                            </div>
+                            <span class="d-tag">discord</span>
                         </div>
                     </div>
+                    <div class="d-divider"></div>
                     <div class="d-custom" id="presence-custom" hidden></div>
                     <div id="presence-spotify"></div>
-                    <div class="d-activities" id="presence-activities"></div>
+                    <div class="d-activities" id="presence-activities" style="margin-top:0.25rem;"></div>
                 </div>
-            </div>
-
-            <div class="links" style="margin-top:1.5rem;">
-                <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener">GitHub <span class="dot-arrow">→</span></a>
             </div>
         </section>
 
         <footer>
             <span>&copy; <span id="year"></span> Robin</span>
-            <span>themed after vague.nvim</span>
+            <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener">github / HuntedRaven7</a>
         </footer>
     </div>
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        const termBody = document.getElementById('term-body');
-        const prompt = '<span class="prompt">robin@github:~/</span>$';
-
-        const script = [
-            ['cmd', 'whoami'],
-            ['ok', '    robin'],
-            ['cmd', 'about'],
-            ['txt', '    developer · builder · tinkerer'],
-            ['txt', '    loves clean software and good tools'],
-            ['cmd', 'tools --list'],
-            ['txt', '    neovim  git  typescript  python'],
-            ['cmd', 'contact'],
-            ['ok', '    find me on GitHub: /HuntedRaven7'],
-            ['cmd', 'exit'],
-            ['ok', '    see you around.'],
-        ];
-
-        let cursor;
-        const typeLine = (text) => new Promise((resolve) => {
-            cursor = document.createElement('span');
-            cursor.className = 'cursor';
-            const p = document.createElement('span');
-            p.innerHTML = prompt + ' ';
-            termBody.appendChild(p);
-            const s = document.createElement('span');
-            s.className = 'cmd';
-            termBody.appendChild(s);
-            termBody.appendChild(cursor);
-            let i = 0;
-            const tick = () => {
-                if (i < text.length) {
-                    s.textContent += text[i++];
-                    setTimeout(tick, 28 + Math.random() * 35);
-                } else { cursor.remove(); resolve(); }
-            };
-            tick();
-        });
-
-        const outLine = (text, cls) => {
-            cursor && cursor.remove();
-            const d = document.createElement('div');
-            d.className = 'reply ' + cls;
-            d.textContent = text;
-            termBody.appendChild(d);
-        };
-
-        const run = async () => {
-            await sleep(400);
-            for (const [type, text] of script) {
-                if (type === 'cmd') await typeLine(text);
-                else outLine(text, type);
-                termBody.scrollTop = termBody.scrollHeight;
-                await sleep(220);
-            }
-        };
-        function sleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
-        run();
+        const overlay = document.getElementById('bg-overlay');
+        function onScroll() {
+            const max = window.innerHeight;
+            const y = window.scrollY;
+            const t = Math.min(1, Math.max(0, y / max));
+            overlay.style.opacity = t.toFixed(3);
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
     </script>
 
     <script>
@@ -487,7 +436,12 @@
             const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
                 ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
-            function fb(n, d, s = 2) { const x = Math.max(0, Math.floor(n)); const h = Math.floor(x / 3600); const m = Math.floor((x % 3600) / 60); const sec = x % 60; const p = v => String(v).padStart(s, '0'); return h > 0 ? `${h}:${p(m)}:${p(sec)}` : `${m}:${p(sec)}`; }
+            function fmt(n) {
+                const x = Math.max(0, Math.floor(n));
+                const h = Math.floor(x / 3600), m = Math.floor((x % 3600) / 60), s = x % 60;
+                const p = v => String(v).padStart(2, '0');
+                return h > 0 ? `${h}:${p(m)}:${p(s)}` : `${m}:${p(s)}`;
+            }
             function avatarUrl(u) {
                 if (u.avatar) return `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.${u.avatar.startsWith('a_') ? 'gif' : 'png'}?size=128`;
                 return `https://cdn.discordapp.com/embed/avatars/${Number((BigInt(u.id) >> 22n) % 6n)}.png`;
@@ -556,7 +510,7 @@
                 document.querySelectorAll('[data-s]').forEach(n => {
                     const s = Number(n.dataset.s), e = Number(n.dataset.e);
                     if (e) n.style.width = Math.min(100, ((now - s) / (e - s)) * 100) + '%';
-                    else n.textContent = fb(now - s, 0, 2) + ' elapsed';
+                    else n.textContent = fmt(now - s) + ' elapsed';
                 });
             }, 1000);
 
