@@ -5,82 +5,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HuntedRaven7</title>
     <style>
+        :root {
+            --bg: #141415;
+            --inactive-bg: #1c1c24;
+            --line: #252530;
+            --fg: #cdcdcd;
+            --muted: #878787;
+            --comment: #606079;
+            --builtin: #b4d4cf;
+            --func: #c48282;
+            --string: #e8b589;
+            --accent: #c48282;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0d1117;
-            color: #c9d1d9;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                'Helvetica Neue', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
         }
 
-        .container {
-            text-align: center;
-            max-width: 600px;
-            padding: 2rem;
-        }
-
-        .avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #58a6ff, #bc8cff);
-            margin: 0 auto 1.5rem;
+        nav {
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 2.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .brand {
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            font-size: 1.05rem;
+        }
+
+        .brand span { color: var(--func); }
+
+        nav a.link {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        nav a.link:hover { color: var(--fg); border-color: var(--func); }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            font-size: 3rem;
-            color: #0d1117;
-            font-weight: 700;
+            text-align: center;
+            padding: 0 2rem 6rem;
         }
 
         h1 {
-            font-size: 2rem;
-            color: #f0f6fc;
-            margin-bottom: 0.5rem;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            color: var(--fg);
         }
 
-        .tagline {
+        h1 .accent { color: var(--func); font-style: normal; }
+
+        p.tagline {
+            max-width: 460px;
+            color: var(--muted);
             font-size: 1.1rem;
-            color: #8b949e;
-            margin-bottom: 2rem;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
         }
 
-        .links {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        p.tagline .str { color: var(--string); }
+        p.tagline .bui { color: var(--builtin); }
+        p.tagline .num { color: var(--number, #e0a363); }
 
-        .links a {
-            display: inline-block;
-            padding: 0.6rem 1.4rem;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            color: #58a6ff;
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.6rem;
+            background: var(--func);
+            color: var(--bg);
+            border-radius: 999px;
             text-decoration: none;
             font-size: 0.95rem;
-            transition: border-color 0.2s, background 0.2s;
+            font-weight: 500;
+            transition: opacity 0.2s, transform 0.2s;
         }
 
-        .links a:hover {
-            border-color: #58a6ff;
-            background: rgba(88, 166, 255, 0.1);
+        .cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+        .cta .arrow { transition: transform 0.2s; }
+        .cta:hover .arrow { transform: translateX(3px); }
+
+        footer {
+            text-align: center;
+            color: var(--comment);
+            font-size: 0.85rem;
+            padding: 1.5rem;
+            border-top: 1px solid var(--line);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="avatar">HR</div>
-        <h1>HuntedRaven7</h1>
-        <p class="tagline">Developer &bull; Builder &bull; Tinkerer</p>
-        <div class="links">
-            <a href="https://github.com/HuntedRaven7">GitHub</a>
-        </div>
+    <nav>
+        <div class="brand">huntedraven<span>7</span></div>
+        <a class="link" href="https://github.com/HuntedRaven7">GitHub</a>
+    </nav>
+
+    <div class="content">
+        <h1>Building things<br>that <span class="accent">matter</span>.</h1>
+        <p class="tagline">
+            Hi, I'm HuntedRaven7 — a developer and builder focused on clean,
+            thoughtful software <span class="str">"and the ideas behind it"</span>.
+        </p>
+        <a class="cta" href="https://github.com/HuntedRaven7">
+            See my work
+            <span class="arrow">&#8594;</span>
+        </a>
     </div>
+
+    <footer>&copy; HuntedRaven7</footer>
 </body>
 </html>
