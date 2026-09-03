@@ -388,6 +388,11 @@
             transition: transform 0.2s, border-color 0.2s;
         }
         .card:hover { transform: translateY(-4px); border-color: var(--purple); }
+        .card-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
         .card .img-fade { border: none; border-bottom: 1px solid var(--line); border-radius: 0; box-shadow: none; }
         .card .c-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
         .card .body { padding: 1.1rem 1.2rem; }
@@ -553,6 +558,7 @@
         <section id="projects">
             <h2><span class="num">03.</span> Projects</h2>
             <div class="cards">
+                <a href="https://github.com/projectbluefin/bluefin-lts" target="_blank" rel="noopener" class="card-link">
                 <div class="card">
                     <div class="img-fade"><img class="c-img" src="asset/07-bluefin-day.png" alt="Project Bluefin LTS"></div>
                     <div class="body">
@@ -561,14 +567,17 @@
                         <p>Robin is a maintainer for the best LTS out there, also has cute dinos.</p>
                     </div>
                 </div>
+                </a>
+                <a href="https://github.com/HuntedRaven7/blueprint" target="_blank" rel="noopener" class="card-link">
                 <div class="card">
-                    <div class="img-fade"><img class="c-img" src="https://picsum.photos/seed/proj1/600/340" alt="Project 1"></div>
+                    <div class="img-fade"><img class="c-img" src="https://picsum.photos/seed/blueprint/600/340" alt="Blueprint"></div>
                     <div class="body">
                         <span class="tag">Tool</span>
-                        <h3>Project one</h3>
-                        <p>Short description of what it does and why it's neat.</p>
+                        <h3>Blueprint</h3>
+                        <p>Custom Ublue-OS style bootc images based on anything.</p>
                     </div>
                 </div>
+                </a>
                 <div class="card">
                     <div class="img-fade"><img class="c-img" src="https://picsum.photos/seed/proj2/600/340" alt="Project 2"></div>
                     <div class="body">
