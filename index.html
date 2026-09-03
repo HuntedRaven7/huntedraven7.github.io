@@ -465,6 +465,37 @@
         footer a { color: var(--muted); text-decoration: none; }
         footer a:hover { color: var(--fg); }
 
+        .nyan-cat {
+            position: fixed;
+            bottom: 24px;
+            left: 0;
+            z-index: 9999;
+            pointer-events: none;
+            animation: nyan-run 6s linear infinite;
+            display: flex;
+            align-items: flex-end;
+        }
+        .nyan-trail {
+            width: 140px;
+            height: 24px;
+            background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, transparent);
+            border-radius: 50%;
+            filter: blur(4px);
+            opacity: 0.85;
+            margin-right: -8px;
+            margin-bottom: 6px;
+        }
+        .nyan-img {
+            width: 60px;
+            height: auto;
+            display: block;
+            image-rendering: pixelated;
+        }
+        @keyframes nyan-run {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(calc(100vw + 100%)); }
+        }
+
         @media (max-width: 760px) {
             .hero { grid-template-columns: 1fr; min-height: auto; }
             .featured { grid-template-columns: 1fr; }
@@ -589,6 +620,11 @@
             <span>&copy; <span id="year"></span> Robin</span>
             <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener">github / HuntedRaven7</a>
         </footer>
+
+        <div class="nyan-cat" aria-hidden="true">
+            <span class="nyan-trail"></span>
+            <img src="https://media.giphy.com/media/njYrp176qXsQ0/giphy.gif" alt="Nyan Cat" class="nyan-img">
+        </div>
     </div>
 
     <script>
