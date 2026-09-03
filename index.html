@@ -246,6 +246,66 @@
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 1.25rem;
         }
+        .gh-activity {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+        .gh-panel {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+        .gh-panel h3 {
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+        .pr-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .pr-loading {
+            color: var(--faint);
+            font-size: 0.88rem;
+            font-style: italic;
+        }
+        .pr-item {
+            padding: 0.85rem;
+            background: var(--bg-soft);
+            border-radius: 10px;
+            border: 1px solid var(--line);
+        }
+        .pr-item a {
+            color: var(--fg);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.92rem;
+            display: block;
+            margin-bottom: 0.3rem;
+            line-height: 1.35;
+        }
+        .pr-item a:hover {
+            color: var(--teal);
+        }
+        .pr-meta {
+            font-size: 0.78rem;
+            color: var(--faint);
+        }
+        .contrib-wrapper img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            filter: hue-rotate(-120deg) saturate(1.6) brightness(0.9);
+        }
         .card {
             background: var(--panel);
             border: 1px solid var(--line);
@@ -335,6 +395,7 @@
             .hero { grid-template-columns: 1fr; min-height: auto; }
             .featured { grid-template-columns: 1fr; }
             .featured img { aspect-ratio: 16 / 9; }
+            .gh-activity { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -345,6 +406,7 @@
             <div class="brand">robin</div>
             <nav>
                 <a href="#featured">work</a>
+                <a href="#github-activity">activity</a>
                 <a href="#projects">projects</a>
                 <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener">github</a>
             </nav>
@@ -389,26 +451,35 @@
             </div>
         </section>
 
-        <section id="featured">
-            <h2><span class="num">01.</span> Featured</h2>
-            <div class="featured">
-                <div class="img-fade">
-                    <img class="f-img" src="asset/07-bluefin-day.png" alt="Project Bluefin LTS">
+        <section id="github-activity">
+            <h2><span class="num">02.</span> GitHub Activity</h2>
+            <div class="gh-activity">
+                <div class="gh-panel">
+                    <h3>Latest Pull Requests</h3>
+                    <ul class="pr-list" id="pr-list">
+                        <li class="pr-loading">Loading PRs...</li>
+                    </ul>
                 </div>
-                <div class="body">
-                    <span class="tag">Featured work</span>
-                    <h3>Project Bluefin LTS</h3>
-                    <p>
-                        Robin is a maintainer for the best LTS out there, also
-                        has cute dinos.
-                    </p>
+                <div class="gh-panel">
+                    <h3>Contribution Graph</h3>
+                    <div class="contrib-wrapper">
+                        <img id="contrib-graph" src="asset/contrib-graph.svg" alt="Contribution Graph" onerror="this.parentElement.innerHTML='<div class=\\'contrib-loading\\'>Run the SNK workflow to generate the graph</div>'">
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="projects">
-            <h2><span class="num">02.</span> Projects</h2>
+            <h2><span class="num">03.</span> Projects</h2>
             <div class="cards">
+                <div class="card">
+                    <div class="img-fade"><img class="c-img" src="asset/07-bluefin-day.png" alt="Project Bluefin LTS"></div>
+                    <div class="body">
+                        <span class="tag">OS</span>
+                        <h3>Project Bluefin LTS</h3>
+                        <p>Robin is a maintainer for the best LTS out there, also has cute dinos.</p>
+                    </div>
+                </div>
                 <div class="card">
                     <div class="img-fade"><img class="c-img" src="https://picsum.photos/seed/proj1/600/340" alt="Project 1"></div>
                     <div class="body">
@@ -425,19 +496,11 @@
                         <p>Short description of what it does and why it's neat.</p>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="img-fade"><img class="c-img" src="https://picsum.photos/seed/proj3/600/340" alt="Project 3"></div>
-                    <div class="body">
-                        <span class="tag">Experiment</span>
-                        <h3>Project three</h3>
-                        <p>Short description of what it does and why it's neat.</p>
-                    </div>
-                </div>
             </div>
         </section>
 
         <section id="contact">
-            <h2><span class="num">03.</span> Contact</h2>
+            <h2><span class="num">04.</span> Contact</h2>
             <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;">github →</a>
         </section>
 
@@ -446,6 +509,53 @@
             <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener">github / HuntedRaven7</a>
         </footer>
     </div>
+
+    <script>
+        const CORS_PROXIES = [
+            'https://api.allorigins.win/raw?url=',
+            'https://corsproxy.io/?',
+            'https://corsproxy.org/?'
+        ];
+        async function proxyFetch(url) {
+            const direct = await fetch(url);
+            if (direct.ok) return direct;
+            for (const proxy of CORS_PROXIES) {
+                try {
+                    const proxied = await fetch(proxy + encodeURIComponent(url), { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+                    if (proxied.ok) return proxied;
+                } catch (e) {
+                    continue;
+                }
+            }
+            return direct;
+        }
+
+        async function loadPRs() {
+            const prList = document.getElementById('pr-list');
+            try {
+                const res = await proxyFetch('https://api.github.com/search/issues?q=is:pr+author:HuntedRaven7&sort=updated&per_page=2&type=pr');
+                if (!res.ok) throw new Error('PR fetch failed');
+                const prs = await res.json();
+                if (prs.items && prs.items.length) {
+                    prList.innerHTML = prs.items.map(pr => {
+                        const repo = pr.repository_url.split('/').pop();
+                        const state = pr.state === 'open' ? 'Open' : 'Closed';
+                        const date = new Date(pr.updated_at).toLocaleDateString();
+                        return `<li class="pr-item">
+                            <a href="${pr.html_url}" target="_blank" rel="noopener">${pr.title}</a>
+                            <div class="pr-meta">${repo} · ${state} · ${date}</div>
+                        </li>`;
+                    }).join('');
+                } else {
+                    prList.innerHTML = '<li class="pr-loading">No PRs found</li>';
+                }
+            } catch (e) {
+                prList.innerHTML = '<li class="pr-loading">Error loading PRs</li>';
+            }
+        }
+
+        loadPRs();
+    </script>
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
