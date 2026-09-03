@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HuntedRaven7</title>
+    <title>Robin</title>
     <style>
         :root {
             --bg: #141415;
@@ -45,6 +45,15 @@
                 radial-gradient(500px 350px at 10% 110%, rgba(110, 148, 178, 0.08), transparent 60%);
             pointer-events: none;
             z-index: 0;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .wrap { position: relative; z-index: 1; }
@@ -277,9 +286,10 @@
     </style>
 </head>
 <body>
+    <canvas id="bg-canvas"></canvas>
     <div class="wrap">
         <nav>
-            <div class="brand"><span class="logo">7</span> huntedraven</div>
+            <div class="brand"><span class="logo">R</span> robin</div>
             <a class="link" href="https://github.com/HuntedRaven7">GitHub</a>
         </nav>
 
@@ -287,7 +297,7 @@
             <div class="monogram">HR</div>
             <h1>Building things<br>that <span class="accent">matter</span>.</h1>
             <p class="tagline">
-                Hi, I'm HuntedRaven7 — a developer and builder focused on clean,
+                Hi, I'm Robin — a developer and builder focused on clean,
                 thoughtful software <span class="str">"and the ideas behind it"</span>.
             </p>
             <div class="cta-row">
@@ -303,27 +313,27 @@
                 <span class="dot red"></span>
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
-                <span class="term-title">huntedraven7@github ~</span>
+                <span class="term-title">robin@github ~</span>
             </div>
             <div class="term-body" id="term-body"></div>
         </section>
 
-        <footer>&copy; HuntedRaven7 &middot; theme inspired by <span style="color:var(--builtin)">vague.nvim</span></footer>
+        <footer>&copy; Robin &middot; theme inspired by <span style="color:var(--builtin)">vague.nvim</span></footer>
     </div>
 
     <script>
         const termBody = document.getElementById('term-body');
-        const prompt = '<span style="color:var(--builtin)">huntedraven7@github</span>:<span style="color:var(--keyword)">~</span>$';
+        const prompt = '<span style="color:var(--builtin)">robin@github</span>:<span style="color:var(--keyword)">~</span>$';
 
         const script = [
             ['cmd', 'whoami'],
-            ['ok', 'HuntedRaven7'],
+            ['ok', 'robin'],
             ['cmd', 'cat about.txt'],
             ['txt', '  A developer & builder focused on clean, thoughtful software.'],
             ['txt', '  Passions: code, design, tinkering, and good ideas.'],
             ['ok', '  open for interesting projects and collaborations.'],
             ['cmd', 'pwd'],
-            ['ok', '/home/huntedraven7'],
+            ['ok', '/home/robin'],
             ['cmd', 'cat stack.txt'],
             ['txt', '  favorite tools:  neovim · git · typescript · python'],
             ['cmd', 'exit'],
@@ -377,6 +387,82 @@
         function sleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
 
         run();
+    </script>
+
+    <script>
+        (function () {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            let w, h, dpr;
+            const gap = 26;
+            const baseRadius = 1.1;
+            const baseColor = { r: 96, g: 96, b: 121 };
+            const litColor = { r: 196, g: 130, b: 130 };
+            const mouse = { x: -9999, y: -9999 };
+            let lit = 0;
+
+            function resize() {
+                dpr = window.devicePixelRatio || 1;
+                w = canvas.clientWidth || window.innerWidth;
+                h = canvas.clientHeight || window.innerHeight;
+                canvas.width = w * dpr;
+                canvas.height = h * dpr;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+
+            document.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+                lit = 1;
+            });
+            document.addEventListener('mouseleave', () => {
+                mouse.x = -9999;
+                mouse.y = -9999;
+            });
+            document.addEventListener('click', () => { lit = 1; });
+
+            const reduceMotion = window.matchMedia(
+                '(prefers-reduced-motion: reduce)').matches;
+
+            let time = 0;
+            function frame() {
+                ctx.clearRect(0, 0, w, h);
+                const radius = 160;
+                const t = (time += reduceMotion ? 0 : 1) * 8;
+                const drift = (t / 100) % gap;
+
+                for (let x = gap / 2; x < w; x += gap) {
+                    for (let baseY = gap / 2; baseY < h + gap; baseY += gap) {
+                        let y = baseY - drift;
+                        if (y < -gap / 2) y += h + gap;
+
+                        const dx = x - mouse.x;
+                        const dy = y - mouse.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        const near = Math.max(0, 1 - dist / radius);
+
+                        const tw = 0.5 + 0.5 * Math.sin((x + y - t) / 40);
+                        const brightness = 0.25 + 0.3 * tw + near * 0.55 * lit;
+
+                        const r = Math.round(baseColor.r + (litColor.r - baseColor.r) * near * lit);
+                        const g = Math.round(baseColor.g + (litColor.g - baseColor.g) * near * lit);
+                        const b = Math.round(baseColor.b + (litColor.b - baseColor.b) * near * lit);
+
+                        ctx.beginPath();
+                        ctx.arc(x, y, baseRadius * (1 + near * 0.6), 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + brightness + ')';
+                        ctx.fill();
+                    }
+                }
+
+                lit = Math.max(0, lit - 0.02);
+                requestAnimationFrame(frame);
+            }
+            frame();
+        })();
     </script>
 </body>
 </html>
