@@ -32,7 +32,6 @@
         .aurora {
             position: relative;
             min-height: 100vh;
-            height: 100vh;
             display: flex;
             flex-direction: column;
         }
@@ -46,6 +45,18 @@
                 #2b1b4e, #14143c 25%, #1e2340 50%, #401b3a 75%, #2b1b4e);
             background-size: 200% 200%;
             animation: aurora 24s ease-in-out infinite alternate;
+        }
+
+        .aurora::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 40vh;
+            z-index: -1;
+            background: linear-gradient(to bottom, transparent, var(--bg));
+            pointer-events: none;
         }
 
         @keyframes aurora {
@@ -81,9 +92,9 @@
         section { margin-bottom: 4rem; }
 
         .aurora .wrap {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            height: 100%;
         }
 
         .hero {
