@@ -7,19 +7,14 @@
     <style>
         :root {
             --bg: #141415;
-            --inactive-bg: #1c1c24;
-            --line: #252530;
-            --fg: #cdcdcd;
-            --muted: #878787;
-            --comment: #606079;
-            --builtin: #b4d4cf;
-            --func: #c48282;
-            --string: #e8b589;
-            --number: #e0a363;
-            --property: #c3c3d5;
-            --constant: #aeaed1;
-            --keyword: #6e94b2;
-            --type: #9bb4bc;
+            --panel: #1a1a1f;
+            --line: #26262c;
+            --fg: #c9c9ce;
+            --muted: #8b8b93;
+            --faint: #5d5d66;
+            --accent: #d8a08e;
+            --accent-soft: rgba(216, 160, 142, 0.12);
+            --blue: #8fb3c9;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -30,681 +25,383 @@
             background: var(--bg);
             color: var(--fg);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(600px 400px at 80% -10%, rgba(196, 130, 130, 0.08), transparent 60%),
-                radial-gradient(500px 350px at 10% 110%, rgba(110, 148, 178, 0.08), transparent 60%);
-            pointer-events: none;
-            z-index: 0;
-        }
+        .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
 
-        #bg-canvas {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .wrap { position: relative; z-index: 1; }
-
-        nav {
+        header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1.4rem 2.5rem;
-            border-bottom: 1px solid var(--line);
-            backdrop-filter: blur(6px);
+            padding: 1rem 0 3rem;
         }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            font-size: 1.05rem;
-            color: var(--fg);
-        }
+        .brand { font-weight: 600; letter-spacing: -0.01em; font-size: 1rem; }
 
-        .brand .logo {
-            width: 26px;
-            height: 26px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, var(--func), var(--number));
-            display: grid;
-            place-items: center;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--bg);
-        }
-
-        nav a.link {
+        nav { display: flex; gap: 1.5rem; }
+        nav a {
             color: var(--muted);
             text-decoration: none;
             font-size: 0.9rem;
-            padding: 0.45rem 1.1rem;
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            transition: color 0.2s, border-color 0.2s, transform 0.2s;
+            transition: color 0.15s;
         }
+        nav a:hover { color: var(--fg); }
 
-        nav a.link:hover {
-            color: var(--fg);
-            border-color: var(--func);
-            transform: translateY(-1px);
-        }
+        section { margin-bottom: 4rem; }
 
-        .content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 0 2rem 6rem;
-        }
+        .hero { padding: 2rem 0 1rem; }
 
-        .content > * { opacity: 0; transform: translateY(14px); }
-        .content > *:nth-child(1) { animation: fade-in 0.6s 0.1s ease forwards; }
-        .content > *:nth-child(2) { animation: fade-in 0.6s 0.25s ease forwards; }
-        .content > *:nth-child(3) { animation: fade-in 0.6s 0.4s ease forwards; }
-        .content > *:nth-child(4) { animation: fade-in 0.6s 0.55s ease forwards; }
-
-        @keyframes fade-in {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .monogram {
-            width: 84px;
-            height: 84px;
-            border-radius: 22px;
-            background: linear-gradient(135deg, var(--func), var(--number));
-            display: grid;
-            place-items: center;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--bg);
-            margin-bottom: 1.8rem;
-            box-shadow: 0 8px 30px rgba(196, 130, 130, 0.25);
+        .eyebrow {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--faint);
+            margin-bottom: 1rem;
         }
 
         h1 {
-            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            font-size: clamp(2.2rem, 8vw, 3.5rem);
             font-weight: 600;
             letter-spacing: -0.03em;
-            line-height: 1.05;
-            margin-bottom: 1.5rem;
-            color: var(--fg);
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+            color: #ececf1;
         }
+        h1 .accent { color: var(--accent); }
 
-        h1 .accent {
-            background: linear-gradient(120deg, var(--func), var(--number));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        p.tagline {
-            max-width: 480px;
+        .hero p {
+            max-width: 46ch;
             color: var(--muted);
-            font-size: 1.1rem;
-            line-height: 1.65;
-            margin-bottom: 2.75rem;
+            font-size: 1.05rem;
+            margin-bottom: 2.5rem;
         }
 
-        p.tagline .str { color: var(--string); }
-        p.tagline .bui { color: var(--builtin); }
-        p.tagline .num { color: var(--number); }
-        p.tagline .kwd { color: var(--keyword); }
+        .mono {
+            font-family: 'SF Mono', ui-monospace, 'Fira Code', Menlo, Consolas,
+                monospace;
+            font-size: 0.85rem;
+        }
 
-        .cta-row {
+        .jobs { margin-bottom: 2rem; }
+        .job {
             display: flex;
-            gap: 0.9rem;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
+            gap: 1rem;
+            padding: 0.85rem 0;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+        .job:last-child { border-bottom: 1px solid var(--line); }
+        .job .when {
+            flex-shrink: 0;
+            width: 9rem;
+            color: var(--faint);
+            font-size: 0.85rem;
+            padding-top: 0.15rem;
+        }
+        .job .role { color: var(--fg); font-weight: 500; }
+        .job .desc { color: var(--muted); }
+
+        .light-columns { margin-top: 1.5rem; }
+
+        h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #ececf1;
+            margin: 2.5rem 0 1rem;
+        }
+        h2 .num { color: var(--faint); margin-right: 0.6rem; font-family: ui-monospace, monospace; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
         }
 
-        .cta {
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1rem 1.1rem;
+        }
+        .card .k { font-size: 0.78rem; color: var(--faint); text-transform: uppercase; letter-spacing: 0.08em; }
+        .card .v { margin-top: 0.35rem; font-size: 0.95rem; color: var(--fg); }
+
+        .links a {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.75rem 1.7rem;
-            background: var(--func);
-            color: var(--bg);
-            border-radius: 999px;
+            color: var(--muted);
             text-decoration: none;
             font-size: 0.95rem;
-            font-weight: 500;
-            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 16px rgba(196, 130, 130, 0.25);
+            margin-right: 1.5rem;
+            transition: color 0.15s;
         }
+        .links a:hover { color: var(--fg); }
+        .links .dot-arrow { color: var(--accent); }
 
-        .cta:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(196, 130, 130, 0.35);
-        }
-
-        .cta .arrow { transition: transform 0.2s; }
-        .cta:hover .arrow { transform: translateX(3px); }
-
-        .cta.ghost {
-            background: transparent;
-            color: var(--fg);
+        .panel {
+            background: var(--panel);
             border: 1px solid var(--line);
-            box-shadow: none;
-        }
-
-        .cta.ghost:hover { border-color: var(--keyword); color: var(--builtin); }
-
-        .terminal {
-            width: min(620px, calc(100% - 3rem));
-            margin: 0 auto 4rem;
-            background: var(--inactive-bg);
-            border: 1px solid var(--line);
-            border-radius: 16px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-            opacity: 0;
-            transform: translateY(14px);
-            animation: fade-in 0.6s 0.7s ease forwards;
+            margin-top: 0.5rem;
         }
-
-        .term-head {
+        .panel-head {
             display: flex;
             align-items: center;
-            gap: 0.45rem;
-            padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.02);
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 0.8rem 1.1rem;
             border-bottom: 1px solid var(--line);
-        }
-
-        .dot { width: 11px; height: 11px; border-radius: 50%; }
-        .dot.red { background: #d8647e; }
-        .dot.yellow { background: #f3be7c; }
-        .dot.green { background: #7fa563; }
-
-        .term-title {
-            margin-left: 0.5rem;
-            color: var(--comment);
+            color: var(--faint);
             font-size: 0.8rem;
+            font-family: ui-monospace, monospace;
         }
+        .panel-head .traffic {
+            display: flex;
+            gap: 0.4rem;
+        }
+        .panel-head .traffic i { width: 9px; height: 9px; border-radius: 50%; display: block; }
+        .panel-head .traffic i:nth-child(1) { background: #4a4a52; }
+        .panel-head .traffic i:nth-child(2) { background: #4a4a52; }
+        .panel-head .traffic i:nth-child(3) { background: #4a4a52; }
 
         .term-body {
             font-family: 'SF Mono', ui-monospace, 'Fira Code', Menlo, Consolas,
                 monospace;
-            font-size: 0.9rem;
-            line-height: 1.7;
-            padding: 1.25rem 1.3rem;
+            font-size: 0.85rem;
+            line-height: 1.75;
+            padding: 1.1rem 1.2rem;
             min-height: 60px;
-            color: var(--fg);
             white-space: pre-wrap;
         }
-
-        .term-body .prompt { color: var(--builtin); }
-        .term-body .cmd { color: var(--string); }
+        .term-body .prompt { color: var(--blue); }
+        .term-body .cmd { color: var(--accent); }
         .term-body .reply { color: var(--muted); }
-        .term-body .reply.ok { color: var(--builtin); }
-        .term-body .reply a { color: var(--keyword); text-decoration: none; }
-        .term-body .reply a:hover { color: var(--builtin); text-decoration: underline; }
-
+        .term-body .reply.ok { color: var(--fg); }
         .cursor {
             display: inline-block;
-            width: 8px;
-            height: 1.1em;
-            background: var(--func);
+            width: 7px;
+            height: 1em;
+            background: var(--accent);
             vertical-align: text-bottom;
             animation: blink 1s steps(1) infinite;
         }
-
         @keyframes blink { 50% { opacity: 0; } }
 
-        .discord-card {
-            width: min(620px, calc(100% - 3rem));
-            margin: 0 auto 4rem;
-            background: var(--inactive-bg);
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-            opacity: 0;
-            transform: translateY(14px);
-            animation: fade-in 0.6s 0.85s ease forwards;
-        }
-
-        .discord-head {
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-            padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-bottom: 1px solid var(--line);
-        }
-
-        .discord-head .term-title {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .absence-avatar {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.25rem 1.3rem;
-        }
-
-        .absence-avatar img {
-            width: 56px;
-            height: 56px;
+        .discord { padding: 1.25rem; }
+        .d-top { display: flex; align-items: center; gap: 0.9rem; }
+        .d-avatar { position: relative; width: 52px; height: 52px; flex-shrink: 0; }
+        .d-avatar img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; background: var(--line); display: block; }
+        .d-dot {
+            position: absolute;
+            bottom: 1px; right: 1px;
+            width: 13px; height: 13px;
             border-radius: 50%;
-            object-fit: cover;
-            background: var(--line);
+            border: 3px solid var(--panel);
+            background: var(--faint);
         }
+        .d-dot.online { background: #6fa568; }
+        .d-dot.idle { background: #d9b26b; }
+        .d-dot.dnd { background: #c76d7b; }
+        .d-info { min-width: 0; }
+        .d-name { font-weight: 600; color: #ececf1; font-size: 0.98rem; }
+        .d-status { color: var(--muted); font-size: 0.88rem; }
+        .d-custom { margin-top: 0.9rem; color: var(--fg); font-size: 0.9rem; display: flex; align-items: center; gap: 0.4rem; }
+        .d-custom img { width: 18px; height: 18px; border-radius: 4px; }
 
-        .absence-body {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            width: 100%;
-        }
+        .d-activities { margin-top: 1rem; border-top: 1px solid var(--line); padding-top: 0.9rem; display: flex; flex-direction: column; gap: 0.7rem; }
+        .d-note { color: var(--faint); font-size: 0.88rem; }
 
-        .absence-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
+        .activity { display: flex; align-items: center; gap: 0.8rem; }
+        .activity img { width: 40px; height: 40px; border-radius: 7px; object-fit: cover; background: var(--line); flex-shrink: 0; }
+        .activity .a-label { font-size: 0.7rem; color: var(--faint); text-transform: uppercase; letter-spacing: 0.04em; }
+        .activity .a-name { font-size: 0.92rem; font-weight: 500; color: var(--fg); }
+        .activity .a-detail { font-size: 0.82rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .activity .a-time { font-size: 0.75rem; color: var(--faint); }
 
-        .presence-name {
-            font-weight: 600;
-            color: var(--fg);
-        }
-
-        .presence-tag {
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--builtin);
-            background: rgba(180, 212, 207, 0.1);
-            border: 1px solid var(--line);
-            padding: 0.15rem 0.5rem;
-            border-radius: 999px;
-        }
-
-        .status-line {
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-
-        .status-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: var(--comment);
-            flex-shrink: 0;
-        }
-
-        .status-dot.online { background: #7fa563; }
-        .status-dot.idle { background: #f3be7c; }
-        .status-dot.dnd { background: #d8647e; }
-        .status-dot.offline { background: var(--comment); }
-
-        .presence-custom {
-            color: var(--fg);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .presence-custom img { width: 18px; height: 18px; border-radius: 4px; }
-
-        .spotify {
-            display: flex;
-            gap: 0.8rem;
-            align-items: center;
-            padding-top: 0.75rem;
-            border-top: 1px solid var(--line);
-            color: var(--fg);
-            text-decoration: none;
-            margin-top: 0.25rem;
-        }
-
-        .spotify-art {
-            width: 44px;
-            height: 44px;
-            border-radius: 8px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        .spotify-meta { flex: 1; min-width: 0; }
-        .spotify-title {
-            font-weight: 600;
-            font-size: 0.92rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .spotify-sub {
-            color: var(--muted);
-            font-size: 0.82rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .spotify-bar {
-            height: 4px;
-            background: var(--line);
-            border-radius: 2px;
-            margin-top: 0.4rem;
-            overflow: hidden;
-        }
-        .spotify-bar span {
-            display: block;
-            height: 100%;
-            background: var(--func);
-            border-radius: 2px;
-        }
-        .spotify-times {
-            display: flex;
-            justify-content: space-between;
-            color: var(--comment);
-            font-size: 0.72rem;
-            margin-top: 0.2rem;
-        }
-
-        .activities {
-            display: flex;
-            flex-direction: column;
-            gap: 0.7rem;
-            padding-top: 0.75rem;
-            border-top: 1px solid var(--line);
-            margin-top: 0.75rem;
-        }
-
-        .activity {
-            display: flex;
-            gap: 0.8rem;
-            align-items: center;
-        }
-
-        .activity img {
-            width: 44px;
-            height: 44px;
-            border-radius: 8px;
-            object-fit: cover;
-            flex-shrink: 0;
-            background: var(--line);
-        }
-
-        .activity-meta { flex: 1; min-width: 0; }
-        .activity-label {
-            font-size: 0.7rem;
-            color: var(--comment);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        .activity-name { font-weight: 600; font-size: 0.9rem; color: var(--fg); }
-        .activity-detail {
-            color: var(--muted);
-            font-size: 0.82rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .activity-time { color: var(--comment); font-size: 0.75rem; }
-
-        .presence-offline-msg {
-            color: var(--comment);
-            font-size: 0.9rem;
-            padding: 0.5rem 0.2rem;
-        }
+        .spotify { margin-top: 0.9rem; border-top: 1px solid var(--line); padding-top: 0.9rem; display: flex; gap: 0.8rem; align-items: center; color: var(--fg); text-decoration: none; }
+        .spotify img { width: 42px; height: 42px; border-radius: 6px; object-fit: cover; background: var(--line); flex-shrink: 0; }
+        .spotify .s-title { font-weight: 500; font-size: 0.9rem; }
+        .spotify .s-sub { color: var(--muted); font-size: 0.82rem; }
+        .s-bar { height: 3px; background: var(--line); border-radius: 2px; margin-top: 0.4rem; overflow: hidden; }
+        .s-bar span { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
 
         footer {
-            text-align: center;
-            color: var(--comment);
-            font-size: 0.85rem;
-            padding: 1.5rem;
             border-top: 1px solid var(--line);
+            padding-top: 1.5rem;
+            color: var(--faint);
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
+        footer a { color: var(--muted); text-decoration: none; }
+        footer a:hover { color: var(--fg); }
 
         @media (max-width: 560px) {
-            nav { padding: 1rem 1.25rem; }
-            .content { padding: 0 1.5rem 4rem; }
+            .job { flex-direction: column; gap: 0.25rem; }
         }
     </style>
 </head>
 <body>
-    <canvas id="bg-canvas"></canvas>
     <div class="wrap">
-        <nav>
-            <div class="brand"><span class="logo">R</span> robin</div>
-            <a class="link" href="https://github.com/HuntedRaven7">GitHub</a>
-        </nav>
+        <header>
+            <div class="brand">robin</div>
+            <nav>
+                <a href="#about">about</a>
+                <a href="#projects">projects</a>
+                <a href="#contact">contact</a>
+            </nav>
+        </header>
 
-        <div class="content">
-            <div class="monogram">HR</div>
-            <h1>Building things<br>that <span class="accent">matter</span>.</h1>
-            <p class="tagline">
-                Hi, I'm Robin — a developer and builder focused on clean,
-                thoughtful software <span class="str">"and the ideas behind it"</span>.
+        <section class="hero" id="about">
+            <div class="eyebrow">Hey, I'm</div>
+            <h1>Robin — I build things,<br>mostly <span class="accent">software</span>.</h1>
+            <p>
+                Developer interested in clean, thoughtful work — tools, code,
+                and the ideas behind them. Currently tinkering and shipping
+                whatever sounds interesting.
             </p>
-            <div class="cta-row">
-                <a class="cta" href="https://github.com/HuntedRaven7">
-                    See my work <span class="arrow">&#8594;</span>
-                </a>
-                <a class="cta ghost" href="https://github.com/HuntedRaven7">Projects</a>
-            </div>
-        </div>
-
-        <section class="terminal">
-            <div class="term-head">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-                <span class="term-title">robin@github ~</span>
-            </div>
-            <div class="term-body" id="term-body"></div>
         </section>
 
-        <section class="discord-card" id="discord-card">
-            <div class="discord-head">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-                <span class="term-title">discord presence</span>
-            </div>
-            <div class="presence-card" id="discord-presence">
-                <div class="absence-avatar">
-                    <img id="presence-avatar" class="presence-avatar" alt="" />
-                    <div class="absence-body">
-                        <div class="absence-top">
-                            <span class="presence-name" id="presence-name"
-                                >connecting…</span
-                            >
-                            <span class="presence-tag">discord</span>
-                        </div>
-                        <div class="status-line">
-                            <span class="status-dot offline" id="presence-dot"></span>
-                            <span id="presence-status">connecting…</span>
-                        </div>
-                        <div class="presence-custom" id="presence-custom" hidden></div>
-                        <div
-                            class="presence-spotify-wrap"
-                            id="presence-spotify"
-                            hidden
-                        ></div>
-                        <div class="activities" id="presence-activities"></div>
+        <section id="projects">
+            <h2><span class="num">01.</span> Work &amp; projects</h2>
+            <div class="jobs">
+                <div class="job">
+                    <span class="when">today</span>
+                    <div>
+                        <div class="role">Independent developer</div>
+                        <div class="desc">Building, tinkering, learning — follow for whatever's next.</div>
+                    </div>
+                </div>
+                <div class="job">
+                    <span class="when">interests</span>
+                    <div>
+                        <div class="role">Neovim, tools, open source</div>
+                        <div class="desc">A fan of the vague.nvim colorscheme (this site is themed after it).</div>
                     </div>
                 </div>
             </div>
+
+            <div class="grid">
+                <div class="card"><div class="k">Currently</div><div class="v">Learning &amp; building</div></div>
+                <div class="card"><div class="k">Tools</div><div class="v">Neovim · Git · Web</div></div>
+                <div class="card"><div class="k">Status</div><div class="v">Open to ideas</div></div>
+            </div>
         </section>
 
-        <footer>&copy; Robin &middot; theme inspired by <span style="color:var(--builtin)">vague.nvim</span></footer>
+        <section id="terminal">
+            <h2><span class="num">02.</span> Terminal</h2>
+            <div class="panel">
+                <div class="panel-head">
+                    <span>robin@github</span>
+                    <span class="traffic"><i></i><i></i><i></i></span>
+                </div>
+                <div class="term-body" id="term-body"></div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2><span class="num">03.</span> Contact</h2>
+            <div class="panel">
+                <div class="panel-head">
+                    <span>discord presence</span>
+                    <span class="traffic"><i></i><i></i><i></i></span>
+                </div>
+                <div class="discord">
+                    <div class="d-top">
+                        <div class="d-avatar">
+                            <img id="presence-avatar" alt="">
+                            <span class="d-dot offline" id="presence-dot"></span>
+                        </div>
+                        <div class="d-info">
+                            <div class="d-name" id="presence-name">connecting…</div>
+                            <div class="d-status" id="presence-status">connecting…</div>
+                        </div>
+                    </div>
+                    <div class="d-custom" id="presence-custom" hidden></div>
+                    <div id="presence-spotify"></div>
+                    <div class="d-activities" id="presence-activities"></div>
+                </div>
+            </div>
+
+            <div class="links" style="margin-top:1.5rem;">
+                <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener">GitHub <span class="dot-arrow">→</span></a>
+            </div>
+        </section>
+
+        <footer>
+            <span>&copy; <span id="year"></span> Robin</span>
+            <span>themed after vague.nvim</span>
+        </footer>
     </div>
 
     <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
         const termBody = document.getElementById('term-body');
-        const prompt = '<span style="color:var(--builtin)">robin@github</span>:<span style="color:var(--keyword)">~</span>$';
+        const prompt = '<span class="prompt">robin@github:~/</span>$';
 
         const script = [
             ['cmd', 'whoami'],
-            ['ok', 'robin'],
-            ['cmd', 'cat about.txt'],
-            ['txt', '  A developer & builder focused on clean, thoughtful software.'],
-            ['txt', '  Passions: code, design, tinkering, and good ideas.'],
-            ['ok', '  open for interesting projects and collaborations.'],
-            ['cmd', 'pwd'],
-            ['ok', '/home/robin'],
-            ['cmd', 'cat stack.txt'],
-            ['txt', '  favorite tools:  neovim · git · typescript · python'],
+            ['ok', '    robin'],
+            ['cmd', 'about'],
+            ['txt', '    developer · builder · tinkerer'],
+            ['txt', '    loves clean software and good tools'],
+            ['cmd', 'tools --list'],
+            ['txt', '    neovim  git  typescript  python'],
+            ['cmd', 'contact'],
+            ['ok', '    find me on GitHub: /HuntedRaven7'],
             ['cmd', 'exit'],
-            ['ok', 'See you around.'],
+            ['ok', '    see you around.'],
         ];
 
         let cursor;
-        const typeLine = (text) => {
-            return new Promise((resolve) => {
-                cursor = document.createElement('span');
-                cursor.className = 'cursor';
-                const promptEl = document.createElement('span');
-                promptEl.innerHTML = prompt + ' ';
-                termBody.appendChild(promptEl);
-                const span = document.createElement('span');
-                span.className = 'cmd';
-                termBody.appendChild(span);
-                termBody.appendChild(cursor);
-                let i = 0;
-                const tick = () => {
-                    if (i < text.length) {
-                        span.textContent += text[i++];
-                        setTimeout(tick, 35 + Math.random() * 40);
-                    } else {
-                        cursor.remove();
-                        resolve();
-                    }
-                };
-                tick();
-            });
-        };
+        const typeLine = (text) => new Promise((resolve) => {
+            cursor = document.createElement('span');
+            cursor.className = 'cursor';
+            const p = document.createElement('span');
+            p.innerHTML = prompt + ' ';
+            termBody.appendChild(p);
+            const s = document.createElement('span');
+            s.className = 'cmd';
+            termBody.appendChild(s);
+            termBody.appendChild(cursor);
+            let i = 0;
+            const tick = () => {
+                if (i < text.length) {
+                    s.textContent += text[i++];
+                    setTimeout(tick, 28 + Math.random() * 35);
+                } else { cursor.remove(); resolve(); }
+            };
+            tick();
+        });
 
         const outLine = (text, cls) => {
             cursor && cursor.remove();
-            const div = document.createElement('div');
-            div.className = 'reply ' + cls;
-            div.textContent = text;
-            termBody.appendChild(div);
+            const d = document.createElement('div');
+            d.className = 'reply ' + cls;
+            d.textContent = text;
+            termBody.appendChild(d);
         };
 
         const run = async () => {
-            await sleep(500);
+            await sleep(400);
             for (const [type, text] of script) {
                 if (type === 'cmd') await typeLine(text);
                 else outLine(text, type);
                 termBody.scrollTop = termBody.scrollHeight;
-                await sleep(250);
+                await sleep(220);
             }
         };
-
         function sleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
-
         run();
-    </script>
-
-    <script>
-        (function () {
-            const canvas = document.getElementById('bg-canvas');
-            const ctx = canvas.getContext('2d');
-            let w, h, dpr;
-            const gap = 26;
-            const baseRadius = 1.1;
-            const baseColor = { r: 96, g: 96, b: 121 };
-            const litColor = { r: 196, g: 130, b: 130 };
-            const mouse = { x: -9999, y: -9999 };
-            let lit = 0;
-
-            function resize() {
-                dpr = window.devicePixelRatio || 1;
-                w = canvas.clientWidth || window.innerWidth;
-                h = canvas.clientHeight || window.innerHeight;
-                canvas.width = w * dpr;
-                canvas.height = h * dpr;
-                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            }
-
-            window.addEventListener('resize', resize);
-            resize();
-
-            document.addEventListener('mousemove', (e) => {
-                mouse.x = e.clientX;
-                mouse.y = e.clientY;
-                lit = 1;
-            });
-            document.addEventListener('mouseleave', () => {
-                mouse.x = -9999;
-                mouse.y = -9999;
-            });
-            document.addEventListener('click', () => { lit = 1; });
-
-            const reduceMotion = window.matchMedia(
-                '(prefers-reduced-motion: reduce)').matches;
-
-            let time = 0;
-            function frame() {
-                ctx.clearRect(0, 0, w, h);
-                const radius = 160;
-                const t = (time += reduceMotion ? 0 : 1) * 8;
-                const drift = (t / 100) % gap;
-
-                for (let x = gap / 2; x < w; x += gap) {
-                    for (let baseY = gap / 2; baseY < h + gap; baseY += gap) {
-                        let y = baseY - drift;
-                        if (y < -gap / 2) y += h + gap;
-
-                        const dx = x - mouse.x;
-                        const dy = y - mouse.y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        const near = Math.max(0, 1 - dist / radius);
-
-                        const tw = 0.5 + 0.5 * Math.sin((x + y - t) / 40);
-                        const brightness = 0.25 + 0.3 * tw + near * 0.55 * lit;
-
-                        const r = Math.round(baseColor.r + (litColor.r - baseColor.r) * near * lit);
-                        const g = Math.round(baseColor.g + (litColor.g - baseColor.g) * near * lit);
-                        const b = Math.round(baseColor.b + (litColor.b - baseColor.b) * near * lit);
-
-                        ctx.beginPath();
-                        ctx.arc(x, y, baseRadius * (1 + near * 0.6), 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + brightness + ')';
-                        ctx.fill();
-                    }
-                }
-
-                lit = Math.max(0, lit - 0.02);
-                requestAnimationFrame(frame);
-            }
-            frame();
-        })();
     </script>
 
     <script>
@@ -719,168 +416,114 @@
                 spotify: document.getElementById('presence-spotify'),
                 activities: document.getElementById('presence-activities'),
             };
-
             const STATUS_LABELS = {
-                online: 'online',
-                idle: 'idle',
-                dnd: 'do not disturb',
-                offline: 'offline',
+                online: 'online', idle: 'idle',
+                dnd: 'do not disturb', offline: 'offline',
             };
             const ACTIVITY_VERBS = {
-                0: 'playing',
-                1: 'streaming',
-                2: 'listening to',
-                3: 'watching',
-                5: 'competing in',
+                0: 'playing', 1: 'streaming', 2: 'listening to',
+                3: 'watching', 5: 'competing in',
             };
+            const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
+                ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
-            const esc = (s) =>
-                String(s ?? '').replace(/[&<>"']/g, (c) =>
-                    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-
-            function fmtDuration(ms) {
-                const s = Math.max(0, Math.floor(ms / 1000));
-                const h = Math.floor(s / 3600);
-                const m = Math.floor((s % 3600) / 60);
-                const sec = s % 60;
-                const ss = String(sec).padStart(2, '0');
-                return h > 0 ? `${h}:${String(m).padStart(2, '0')}:${ss}` : `${m}:${ss}`;
+            function fb(n, d, s = 2) { const x = Math.max(0, Math.floor(n)); const h = Math.floor(x / 3600); const m = Math.floor((x % 3600) / 60); const sec = x % 60; const p = v => String(v).padStart(s, '0'); return h > 0 ? `${h}:${p(m)}:${p(sec)}` : `${m}:${p(sec)}`; }
+            function avatarUrl(u) {
+                if (u.avatar) return `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.${u.avatar.startsWith('a_') ? 'gif' : 'png'}?size=128`;
+                return `https://cdn.discordapp.com/embed/avatars/${Number((BigInt(u.id) >> 22n) % 6n)}.png`;
             }
-
-            function avatarUrl(user) {
-                if (user.avatar) {
-                    const ext = user.avatar.startsWith('a_') ? 'gif' : 'png';
-                    return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=128`;
-                }
-                const idx = Number((BigInt(user.id) >> 22n) % 6n);
-                return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
-            }
-
-            function activityImage(appId, key) {
+            function actImg(appId, key) {
                 if (!key || !appId) return null;
-                if (key.startsWith('mp:external/'))
-                    return `https://media.discordapp.net/external/${key.slice(12)}`;
-                return `https://cdn.discordapp.com/app-assets/${appId}/${key}.png`;
+                return key.startsWith('mp:external/') ? `https://media.discordapp.net/external/${key.slice(12)}` : `https://cdn.discordapp.com/app-assets/${appId}/${key}.png`;
+            }
+            function emo(e) {
+                if (!e) return '';
+                if (!e.id) return `<span>${esc(e.name)}</span>`;
+                return `<img src="https://cdn.discordapp.com/emojis/${e.id}.${e.animated ? 'gif' : 'png'}?size=32" alt="">`;
             }
 
-            function emojiHtml(emoji) {
-                if (!emoji) return '';
-                if (!emoji.id)
-                    return `<span class="presence-custom">${esc(emoji.name)}</span>`;
-                return `<img src="https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? 'gif' : 'png'}?size=32" alt="">`;
-            }
-
-            function renderPresence(data) {
+            function render(data) {
                 const user = data.discord_user;
-                const status =
-                    data.discord_status in STATUS_LABELS ? data.discord_status : 'offline';
+                const status = data.discord_status in STATUS_LABELS ? data.discord_status : 'offline';
                 el.avatar.src = avatarUrl(user);
-                el.dot.className = `status-dot ${status}`;
-                el.name.textContent =
-                    user.display_name || user.global_name || user.username;
+                el.dot.className = 'd-dot ' + status;
+                el.name.textContent = user.display_name || user.global_name || user.username;
                 el.status.textContent = STATUS_LABELS[status];
 
-                const custom = (data.activities || []).find((a) => a.type === 4);
-                if (custom && (custom.state || custom.emoji)) {
+                const cust = (data.activities || []).find(a => a.type === 4);
+                if (cust && (cust.state || cust.emoji)) {
                     el.custom.hidden = false;
-                    el.custom.innerHTML = `${emojiHtml(custom.emoji)}<span>${esc(custom.state)}</span>`;
-                } else {
-                    el.custom.hidden = true;
-                    el.custom.innerHTML = '';
-                }
+                    el.custom.innerHTML = emo(cust.emoji) + '<span>' + esc(cust.state) + '</span>';
+                } else { el.custom.hidden = true; el.custom.innerHTML = ''; }
 
                 if (data.listening_to_spotify && data.spotify) {
                     const sp = data.spotify;
-                    const start = sp.timestamps?.start;
-                    const end = sp.timestamps?.end;
-                    el.spotify.hidden = false;
+                    const start = sp.timestamps?.start, end = sp.timestamps?.end;
                     el.spotify.innerHTML = `
                         <a class="spotify" href="https://open.spotify.com/track/${sp.track_id}" target="_blank" rel="noopener">
-                            <img class="spotify-art" src="${esc(sp.album_art_url)}" alt="">
-                            <div class="spotify-meta">
-                                <div class="spotify-title">${esc(sp.song)}</div>
-                                <div class="spotify-sub">${esc((sp.artist || '').split('; ').join(', '))}</div>
-                                ${start && end
-                                    ? `<div class="spotify-bar"><span data-start="${start}" data-end="${end}"></span></div>
-                                       <div class="spotify-times">
-                                         <span data-start="${start}">0:00</span>
-                                         <span>${fmtDuration(end - start)}</span>
-                                       </div>`
-                                    : ''}
+                            <img src="${esc(sp.album_art_url)}" alt="">
+                            <div style="flex:1;min-width:0">
+                                <div class="s-title">${esc(sp.song)}</div>
+                                <div class="s-sub">${esc((sp.artist || '').split('; ').join(', '))}</div>
+                                ${start && end ? `<div class="s-bar"><span data-s="${start}" data-e="${end}"></span></div>` : ''}
                             </div>
                         </a>`;
-                } else {
-                    el.spotify.hidden = true;
-                    el.spotify.innerHTML = '';
-                }
+                } else { el.spotify.innerHTML = ''; }
 
-                const acts = (data.activities || []).filter(
-                    (a) => a.type !== 4 && !(data.listening_to_spotify && a.name === 'Spotify')
-                );
-                el.activities.innerHTML = acts
-                    .map((a) => {
-                        const img = activityImage(a.application_id, a.assets?.large_image);
-                        const details = [a.details, a.state].filter(Boolean);
-                        const start = a.timestamps?.start;
-                        const verb = ACTIVITY_VERBS[a.type] ?? 'doing';
-                        return `
-                            <div class="activity">
-                                ${img ? `<img src="${esc(img)}" alt="">` : ''}
-                                <div class="activity-meta">
-                                    <div class="activity-label">${verb}</div>
-                                    <div class="activity-name">${esc(a.name)}</div>
-                                    ${details.map((d) => `<div class="activity-detail">${esc(d)}</div>`).join('')}
-                                    ${start ? `<div class="activity-time" data-start="${start}">0:00 elapsed</div>` : ''}
-                                </div>
-                            </div>`;
-                    })
-                    .join('');
+                const acts = (data.activities || []).filter(a => a.type !== 4 && !(data.listening_to_spotify && a.name === 'Spotify'));
+                el.activities.innerHTML = acts.map(a => {
+                    const img = actImg(a.application_id, a.assets?.large_image);
+                    const det = [a.details, a.state].filter(Boolean);
+                    const start = a.timestamps?.start;
+                    return `<div class="activity">
+                        ${img ? `<img src="${esc(img)}" alt="">` : ''}
+                        <div style="flex:1;min-width:0">
+                            <div class="a-label">${ACTIVITY_VERBS[a.type] ?? 'doing'}</div>
+                            <div class="a-name">${esc(a.name)}</div>
+                            ${det.map(d => `<div class="a-detail">${esc(d)}</div>`).join('')}
+                            ${start ? `<div class="a-time" data-s="${start}">0:00 elapsed</div>` : ''}
+                        </div>
+                    </div>`;
+                }).join('');
 
                 if (!acts.length && !data.listening_to_spotify && data.discord_status !== 'offline') {
-                    el.activities.innerHTML =
-                        '<div class="presence-offline-msg">nothing going on right now</div>';
+                    el.activities.innerHTML = '<div class="d-note">nothing going on right now</div>';
                 }
             }
 
             setInterval(() => {
                 const now = Date.now();
-                el.spotify.querySelectorAll('[data-start]').forEach((node) => {
-                    const start = Number(node.dataset.start);
-                    if (!start) return;
-                    if (node.dataset.end) {
-                        const end = Number(node.dataset.end);
-                        node.style.width = `${Math.min(100, ((now - start) / (end - start)) * 100)}%`;
-                    } else {
-                        node.textContent = fmtDuration(now - start);
-                    }
-                });
-                el.activities.querySelectorAll('[data-start]').forEach((node) => {
-                    node.textContent = `${fmtDuration(now - Number(node.dataset.start))} elapsed`;
+                document.querySelectorAll('[data-s]').forEach(n => {
+                    const s = Number(n.dataset.s), e = Number(n.dataset.e);
+                    if (e) n.style.width = Math.min(100, ((now - s) / (e - s)) * 100) + '%';
+                    else n.textContent = fb(now - s, 0, 2) + ' elapsed';
                 });
             }, 1000);
 
-            let heartbeat;
-            function connectLanyard() {
+            let hb;
+            function connect() {
                 const ws = new WebSocket('wss://api.lanyard.rest/socket');
-                ws.onmessage = (event) => {
-                    const msg = JSON.parse(event.data);
-                    if (msg.op === 1) {
-                        clearInterval(heartbeat);
-                        heartbeat = setInterval(
-                            () => ws.send(JSON.stringify({ op: 3 })),
-                            msg.d.heartbeat_interval
-                        );
+                ws.onmessage = ev => {
+                    const m = JSON.parse(ev.data);
+                    if (m.op === 1) {
+                        clearInterval(hb);
+                        hb = setInterval(() => ws.send(JSON.stringify({ op: 3 })), m.d.heartbeat_interval);
                         ws.send(JSON.stringify({ op: 2, d: { subscribe_to_id: DISCORD_ID } }));
-                    } else if (msg.op === 0 && (msg.t === 'INIT_STATE' || msg.t === 'PRESENCE_UPDATE')) {
-                        renderPresence(msg.d);
-                    }
+                    } else if (m.op === 0 && (m.t === 'INIT_STATE' || m.t === 'PRESENCE_UPDATE')) render(m.d);
                 };
-                ws.onclose = () => {
-                    clearInterval(heartbeat);
-                    setTimeout(connectLanyard, 5000);
-                };
+                ws.onclose = () => { clearInterval(hb); setTimeout(connect, 5000); };
             }
-            connectLanyard();
+            fetch('https://api.lanyard.rest/v1/users/' + DISCORD_ID)
+                .then(r => r.json())
+                .then(d => {
+                    if (!d.success) {
+                        el.name.textContent = 'discord (unmonitored)';
+                        el.activities.innerHTML = '<div class="d-note">Join the Lanyard Presence Discord server to enable this card.</div>';
+                        return;
+                    }
+                    connect();
+                })
+                .catch(() => connect());
         })();
     </script>
 </body>
