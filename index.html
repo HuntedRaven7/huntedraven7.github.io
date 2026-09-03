@@ -68,6 +68,11 @@
             justify-content: space-between;
             padding-bottom: 3rem;
         }
+        .header-center {
+            display: flex;
+            align-items: center;
+            gap: 1.75rem;
+        }
         .brand {
             font-weight: 700;
             font-size: 1.1rem;
@@ -78,6 +83,41 @@
             color: transparent;
         }
         nav { display: flex; gap: 1.75rem; }
+        .local-time {
+            font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 0.78rem;
+            color: var(--fg);
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            padding: 0.5rem 0.85rem;
+            border-radius: 0;
+            background: transparent;
+            position: relative;
+            display: inline-block;
+            line-height: 1.2;
+            z-index: 0;
+        }
+        .local-time::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(90deg, var(--purple), var(--teal), var(--sunset), var(--purple));
+            background-size: 300% 100%;
+            animation: border-shift 4s linear infinite;
+        }
+        .local-time::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: var(--panel);
+            z-index: -1;
+            border-radius: 0;
+        }
+        @keyframes border-shift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
         nav a {
             color: #d4d5ee;
             text-decoration: none;
@@ -404,12 +444,15 @@
     <div class="wrap">
         <header>
             <div class="brand">robin</div>
-            <nav>
-                <a href="#featured">work</a>
-                <a href="#github-activity">activity</a>
-                <a href="#projects">projects</a>
-                <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener">github</a>
-            </nav>
+            <div class="header-center">
+                <nav>
+                    <a href="#featured">work</a>
+                    <a href="#github-activity">activity</a>
+                    <a href="#projects">projects</a>
+                    <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener">github</a>
+                </nav>
+                <span class="local-time" id="local-time"></span>
+            </div>
         </header>
 
         <section class="hero">
@@ -569,6 +612,30 @@
         }
         window.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
+
+        function updateTime() {
+            const el = document.getElementById('local-time');
+            if (!el) return;
+            try {
+                const now = new Date();
+                const options = { timeZone: 'America/Toronto', hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
+                const time = now.toLocaleString('en-US', options);
+                let tz = 'ET';
+                try {
+                    const tzStr = now.toLocaleString('en-US', { timeZone: 'America/Toronto', timeZoneName: 'short' });
+                    const parts = tzStr.split(' ');
+                    tz = parts[parts.length - 1] || 'ET';
+                } catch (e) {
+                    console.warn('timezone lookup failed', e);
+                }
+                el.textContent = time + ' ' + tz;
+            } catch (e) {
+                console.error('updateTime error:', e);
+                el.textContent = '--:-- ET';
+            }
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
     </script>
 
     <script>
