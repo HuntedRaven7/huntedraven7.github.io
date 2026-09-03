@@ -15,48 +15,86 @@
             --builtin: #b4d4cf;
             --func: #c48282;
             --string: #e8b589;
-            --accent: #c48282;
+            --number: #e0a363;
+            --property: #c3c3d5;
+            --constant: #aeaed1;
+            --keyword: #6e94b2;
+            --type: #9bb4bc;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-                'Helvetica Neue', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                Roboto, 'Helvetica Neue', sans-serif;
             background: var(--bg);
             color: var(--fg);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(600px 400px at 80% -10%, rgba(196, 130, 130, 0.08), transparent 60%),
+                radial-gradient(500px 350px at 10% 110%, rgba(110, 148, 178, 0.08), transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .wrap { position: relative; z-index: 1; }
 
         nav {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1.2rem 2.5rem;
+            padding: 1.4rem 2.5rem;
             border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(6px);
         }
 
         .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
             font-weight: 600;
             letter-spacing: -0.01em;
             font-size: 1.05rem;
+            color: var(--fg);
         }
 
-        .brand span { color: var(--func); }
+        .brand .logo {
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--func), var(--number));
+            display: grid;
+            place-items: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--bg);
+        }
 
         nav a.link {
             color: var(--muted);
             text-decoration: none;
             font-size: 0.9rem;
-            padding: 0.4rem 1rem;
+            padding: 0.45rem 1.1rem;
             border: 1px solid var(--line);
             border-radius: 999px;
-            transition: color 0.2s, border-color 0.2s;
+            transition: color 0.2s, border-color 0.2s, transform 0.2s;
         }
 
-        nav a.link:hover { color: var(--fg); border-color: var(--func); }
+        nav a.link:hover {
+            color: var(--fg);
+            border-color: var(--func);
+            transform: translateY(-1px);
+        }
 
         .content {
             flex: 1;
@@ -68,8 +106,32 @@
             padding: 0 2rem 6rem;
         }
 
+        .content > * { opacity: 0; transform: translateY(14px); }
+        .content > *:nth-child(1) { animation: fade-in 0.6s 0.1s ease forwards; }
+        .content > *:nth-child(2) { animation: fade-in 0.6s 0.25s ease forwards; }
+        .content > *:nth-child(3) { animation: fade-in 0.6s 0.4s ease forwards; }
+        .content > *:nth-child(4) { animation: fade-in 0.6s 0.55s ease forwards; }
+
+        @keyframes fade-in {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .monogram {
+            width: 84px;
+            height: 84px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, var(--func), var(--number));
+            display: grid;
+            place-items: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--bg);
+            margin-bottom: 1.8rem;
+            box-shadow: 0 8px 30px rgba(196, 130, 130, 0.25);
+        }
+
         h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
             font-weight: 600;
             letter-spacing: -0.03em;
             line-height: 1.05;
@@ -77,38 +139,128 @@
             color: var(--fg);
         }
 
-        h1 .accent { color: var(--func); font-style: normal; }
+        h1 .accent {
+            background: linear-gradient(120deg, var(--func), var(--number));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
         p.tagline {
-            max-width: 460px;
+            max-width: 480px;
             color: var(--muted);
             font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 2.5rem;
+            line-height: 1.65;
+            margin-bottom: 2.75rem;
         }
 
         p.tagline .str { color: var(--string); }
         p.tagline .bui { color: var(--builtin); }
-        p.tagline .num { color: var(--number, #e0a363); }
+        p.tagline .num { color: var(--number); }
+        p.tagline .kwd { color: var(--keyword); }
+
+        .cta-row {
+            display: flex;
+            gap: 0.9rem;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
         .cta {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.7rem 1.6rem;
+            padding: 0.75rem 1.7rem;
             background: var(--func);
             color: var(--bg);
             border-radius: 999px;
             text-decoration: none;
             font-size: 0.95rem;
             font-weight: 500;
-            transition: opacity 0.2s, transform 0.2s;
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(196, 130, 130, 0.25);
         }
 
-        .cta:hover { opacity: 0.85; transform: translateY(-1px); }
+        .cta:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(196, 130, 130, 0.35);
+        }
 
         .cta .arrow { transition: transform 0.2s; }
         .cta:hover .arrow { transform: translateX(3px); }
+
+        .cta.ghost {
+            background: transparent;
+            color: var(--fg);
+            border: 1px solid var(--line);
+            box-shadow: none;
+        }
+
+        .cta.ghost:hover { border-color: var(--keyword); color: var(--builtin); }
+
+        .terminal {
+            width: min(620px, calc(100% - 3rem));
+            margin: 0 auto 4rem;
+            background: var(--inactive-bg);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fade-in 0.6s 0.7s ease forwards;
+        }
+
+        .term-head {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .dot { width: 11px; height: 11px; border-radius: 50%; }
+        .dot.red { background: #d8647e; }
+        .dot.yellow { background: #f3be7c; }
+        .dot.green { background: #7fa563; }
+
+        .term-title {
+            margin-left: 0.5rem;
+            color: var(--comment);
+            font-size: 0.8rem;
+        }
+
+        .term-body {
+            font-family: 'SF Mono', ui-monospace, 'Fira Code', Menlo, Consolas,
+                monospace;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            padding: 1.25rem 1.3rem;
+            min-height: 60px;
+            color: var(--fg);
+            white-space: pre-wrap;
+        }
+
+        .term-body .prompt { color: var(--builtin); }
+        .term-body .cmd { color: var(--string); }
+        .term-body .reply { color: var(--muted); }
+        .term-body .reply.ok { color: var(--builtin); }
+        .term-body .reply a { color: var(--keyword); text-decoration: none; }
+        .term-body .reply a:hover { color: var(--builtin); text-decoration: underline; }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.1em;
+            background: var(--func);
+            vertical-align: text-bottom;
+            animation: blink 1s steps(1) infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
 
         footer {
             text-align: center;
@@ -117,26 +269,114 @@
             padding: 1.5rem;
             border-top: 1px solid var(--line);
         }
+
+        @media (max-width: 560px) {
+            nav { padding: 1rem 1.25rem; }
+            .content { padding: 0 1.5rem 4rem; }
+        }
     </style>
 </head>
 <body>
-    <nav>
-        <div class="brand">huntedraven<span>7</span></div>
-        <a class="link" href="https://github.com/HuntedRaven7">GitHub</a>
-    </nav>
+    <div class="wrap">
+        <nav>
+            <div class="brand"><span class="logo">7</span> huntedraven</div>
+            <a class="link" href="https://github.com/HuntedRaven7">GitHub</a>
+        </nav>
 
-    <div class="content">
-        <h1>Building things<br>that <span class="accent">matter</span>.</h1>
-        <p class="tagline">
-            Hi, I'm HuntedRaven7 — a developer and builder focused on clean,
-            thoughtful software <span class="str">"and the ideas behind it"</span>.
-        </p>
-        <a class="cta" href="https://github.com/HuntedRaven7">
-            See my work
-            <span class="arrow">&#8594;</span>
-        </a>
+        <div class="content">
+            <div class="monogram">HR</div>
+            <h1>Building things<br>that <span class="accent">matter</span>.</h1>
+            <p class="tagline">
+                Hi, I'm HuntedRaven7 — a developer and builder focused on clean,
+                thoughtful software <span class="str">"and the ideas behind it"</span>.
+            </p>
+            <div class="cta-row">
+                <a class="cta" href="https://github.com/HuntedRaven7">
+                    See my work <span class="arrow">&#8594;</span>
+                </a>
+                <a class="cta ghost" href="https://github.com/HuntedRaven7">Projects</a>
+            </div>
+        </div>
+
+        <section class="terminal">
+            <div class="term-head">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="term-title">huntedraven7@github ~</span>
+            </div>
+            <div class="term-body" id="term-body"></div>
+        </section>
+
+        <footer>&copy; HuntedRaven7 &middot; theme inspired by <span style="color:var(--builtin)">vague.nvim</span></footer>
     </div>
 
-    <footer>&copy; HuntedRaven7</footer>
+    <script>
+        const termBody = document.getElementById('term-body');
+        const prompt = '<span style="color:var(--builtin)">huntedraven7@github</span>:<span style="color:var(--keyword)">~</span>$';
+
+        const script = [
+            ['cmd', 'whoami'],
+            ['ok', 'HuntedRaven7'],
+            ['cmd', 'cat about.txt'],
+            ['txt', '  A developer & builder focused on clean, thoughtful software.'],
+            ['txt', '  Passions: code, design, tinkering, and good ideas.'],
+            ['ok', '  open for interesting projects and collaborations.'],
+            ['cmd', 'pwd'],
+            ['ok', '/home/huntedraven7'],
+            ['cmd', 'cat stack.txt'],
+            ['txt', '  favorite tools:  neovim · git · typescript · python'],
+            ['cmd', 'exit'],
+            ['ok', 'See you around.'],
+        ];
+
+        let cursor;
+        const typeLine = (text) => {
+            return new Promise((resolve) => {
+                cursor = document.createElement('span');
+                cursor.className = 'cursor';
+                const promptEl = document.createElement('span');
+                promptEl.innerHTML = prompt + ' ';
+                termBody.appendChild(promptEl);
+                const span = document.createElement('span');
+                span.className = 'cmd';
+                termBody.appendChild(span);
+                termBody.appendChild(cursor);
+                let i = 0;
+                const tick = () => {
+                    if (i < text.length) {
+                        span.textContent += text[i++];
+                        setTimeout(tick, 35 + Math.random() * 40);
+                    } else {
+                        cursor.remove();
+                        resolve();
+                    }
+                };
+                tick();
+            });
+        };
+
+        const outLine = (text, cls) => {
+            cursor && cursor.remove();
+            const div = document.createElement('div');
+            div.className = 'reply ' + cls;
+            div.textContent = text;
+            termBody.appendChild(div);
+        };
+
+        const run = async () => {
+            await sleep(500);
+            for (const [type, text] of script) {
+                if (type === 'cmd') await typeLine(text);
+                else outLine(text, type);
+                termBody.scrollTop = termBody.scrollHeight;
+                await sleep(250);
+            }
+        };
+
+        function sleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
+
+        run();
+    </script>
 </body>
 </html>
