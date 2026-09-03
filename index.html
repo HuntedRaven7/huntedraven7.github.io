@@ -81,7 +81,27 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 1.25rem;
         }
+        .blog-link {
+            font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.15s;
+            padding: 0.3rem 0.55rem;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(2px);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+        .blog-link:hover { color: var(--fg); }
         nav { display: flex; gap: 1.75rem; }
         .local-time {
             font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
@@ -113,6 +133,20 @@
             background: var(--panel);
             z-index: -1;
             border-radius: 0;
+        }
+        .coffee-counter {
+            font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 0.78rem;
+            color: var(--muted);
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            line-height: 1.2;
+            padding: 0.35rem 0.7rem;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(2px);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         }
         @keyframes border-shift {
             0% { background-position: 0% 50%; }
@@ -443,7 +477,10 @@
     <div class="bg-overlay" id="bg-overlay"></div>
     <div class="wrap">
         <header>
-            <div class="brand">robin</div>
+            <div class="brand">
+                robin
+                <a href="https://files.obsidianos.xyz/~robin" target="_blank" rel="noopener" class="blog-link">blog →</a>
+            </div>
             <div class="header-center">
                 <nav>
                     <a href="#featured">work</a>
@@ -452,6 +489,7 @@
                     <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener">github</a>
                 </nav>
                 <span class="local-time" id="local-time"></span>
+                <span class="coffee-counter" id="coffee-counter"></span>
             </div>
         </header>
 
@@ -634,8 +672,16 @@
                 el.textContent = '--:-- ET';
             }
         }
+
+        function updateCoffee() {
+            const el = document.getElementById('coffee-counter');
+            if (!el) return;
+            const cups = Math.floor(Math.random() * 13) + 1;
+            el.textContent = '☕ ' + cups;
+        }
         updateTime();
         setInterval(updateTime, 1000);
+        updateCoffee();
     </script>
 
     <script>
