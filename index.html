@@ -873,7 +873,7 @@
             }
             for (const proxy of CORS_PROXIES) {
                 try {
-                    const proxied = await fetch(proxy + encodeURIComponent(url), { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+                    const proxied = await fetch(proxy + encodeURIComponent(url), { headers: { 'X-Requested-With': 'XMLHttpRequest', 'x-no-cache': 'true' } });
                     if (proxied.ok) return proxied;
                 } catch (e) {
                     continue;
