@@ -438,6 +438,96 @@
             overflow: hidden;
             transition: transform 0.2s, border-color 0.2s;
         }
+        .comments-panel {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+        .comments-panel h3 {
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+        .comment-form input,
+        .comment-form textarea {
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--fg);
+            background: var(--bg-soft);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 0.65rem 0.85rem;
+            width: 100%;
+        }
+        .comment-form textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+        .comment-form input:focus,
+        .comment-form textarea:focus {
+            outline: none;
+            border-color: var(--teal);
+        }
+        .comment-form button {
+            align-self: flex-end;
+            font-family: inherit;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--bg);
+            background: var(--teal);
+            border: none;
+            border-radius: 10px;
+            padding: 0.6rem 1.25rem;
+            transition: opacity 0.2s;
+        }
+        .comment-form button:hover {
+            opacity: 0.85;
+        }
+        .comment-form button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .comment-msg {
+            font-size: 0.85rem;
+            color: var(--faint);
+        }
+        .comment-msg.error {
+            color: var(--sunset-deep);
+        }
+        .comment-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .comment-item {
+            padding: 0.85rem;
+            background: var(--bg-soft);
+            border-radius: 10px;
+            border: 1px solid var(--line);
+        }
+        .comment-meta {
+            font-size: 0.78rem;
+            color: var(--faint);
+            margin-bottom: 0.3rem;
+        }
+        .comment-body {
+            font-size: 0.9rem;
+            line-height: 1.45;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
         .card:hover { transform: translateY(-4px); border-color: var(--purple); }
         .card-link {
             display: block;
@@ -695,6 +785,22 @@
             <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;">github →</a>
         </section>
 
+        <section id="comments">
+            <h2><span class="num">06.</span> Leave a Comment</h2>
+            <div class="comments-panel">
+                <h3>Comments</h3>
+                <ul class="comment-list" id="comment-list">
+                    <li class="pr-loading">Loading comments...</li>
+                </ul>
+                <form class="comment-form" id="comment-form">
+                    <input type="text" id="comment-name" placeholder="Your name (optional)" maxlength="60">
+                    <textarea id="comment-text" placeholder="Leave your thoughts..." required></textarea>
+                    <button type="submit">Post comment</button>
+                </form>
+                <div class="comment-msg" id="comment-msg"></div>
+            </div>
+        </section>
+
         <footer>
             <span>&copy; <span id="year"></span> Robin</span>
             <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener">github / HuntedRaven7</a>
@@ -774,6 +880,53 @@
         }
 
         loadBlog();
+
+        const COMMENTS_REPO = 'HuntedRaven7/huntedraven7.github.io';
+        const COMMENT_PREFIX = 'Site comment: ';
+
+        function esc(s) {
+            return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
+        async function loadComments() {
+            const list = document.getElementById('comment-list');
+            try {
+                const res = await proxyFetch(`https://api.github.com/repos/${COMMENTS_REPO}/issues?state=all&per_page=50&sort=created&direction=desc`);
+                if (!res.ok) throw new Error('comments fetch failed');
+                const issues = await res.json();
+                const comments = (issues || []).filter(i => !i.pull_request && i.title.startsWith(COMMENT_PREFIX));
+                if (comments.length) {
+                    list.innerHTML = comments.map(issue => {
+                        const name = (issue.title.slice(COMMENT_PREFIX.length) || 'Anonymous').trim();
+                        const date = new Date(issue.created_at).toLocaleDateString();
+                        const body = esc(issue.body || '');
+                        return `<li class="comment-item">
+                            <div class="comment-meta">${esc(name)} · ${date}</div>
+                            <div class="comment-body">${body}</div>
+                        </li>`;
+                    }).join('');
+                } else {
+                    list.innerHTML = '<li class="pr-loading">No comments yet — be the first!</li>';
+                }
+            } catch (e) {
+                list.innerHTML = '<li class="pr-loading">Error loading comments</li>';
+            }
+        }
+
+        const commentForm = document.getElementById('comment-form');
+        commentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = (document.getElementById('comment-name').value.trim() || 'Anonymous').slice(0, 60);
+            const text = document.getElementById('comment-text').value.trim();
+            if (!text) return;
+            const title = encodeURIComponent(COMMENT_PREFIX + name);
+            const body = encodeURIComponent(`Comment from ${name} on the website:\n\n${text}`);
+            window.open(`https://github.com/${COMMENTS_REPO}/issues/new?title=${title}&body=${body}`, '_blank', 'noopener');
+            document.getElementById('comment-msg').textContent = 'GitHub opened to post your comment — submit it there and it will show up here!';
+            commentForm.reset();
+        });
+
+        loadComments();
     </script>
 
     <script>
