@@ -528,6 +528,56 @@
             white-space: pre-wrap;
             word-break: break-word;
         }
+        .danger-button {
+            font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            text-transform: none;
+            cursor: pointer;
+            color: var(--sunset-deep);
+            background: rgba(255, 107, 139, 0.12);
+            border: 1px solid rgba(255, 107, 139, 0.45);
+            border-radius: 8px;
+            padding: 0.3rem 0.55rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+            white-space: nowrap;
+            animation: danger-shake 0.18s infinite alternate;
+            transition: background 0.15s, color 0.15s;
+        }
+        .danger-button:hover {
+            animation-play-state: paused;
+            color: #fff;
+            background: rgba(255, 107, 139, 0.35);
+        }
+        @keyframes danger-shake {
+            from { transform: translateX(-1.5px); }
+            to { transform: translateX(1.5px); }
+        }
+        .danger-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.25rem;
+            z-index: 1000;
+            cursor: pointer;
+        }
+        .danger-overlay img {
+            max-width: min(80vw, 420px);
+            border-radius: 12px;
+            border: 2px solid var(--sunset-deep);
+        }
+        .danger-overlay span {
+            color: var(--fg);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
         .card:hover { transform: translateY(-4px); border-color: var(--purple); }
         .card-link {
             display: block;
@@ -658,6 +708,7 @@
             <div class="brand">
                 robin
                 <a href="https://files.obsidianos.xyz/~robin" target="_blank" rel="noopener" class="blog-link">blog →</a>
+                <button type="button" class="danger-button" id="danger-button">DO NOT PRESS</button>
             </div>
             <div class="header-center">
                 <nav>
@@ -951,6 +1002,15 @@
         });
 
         loadComments();
+
+        const DANGER_GIF = 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2FlMTJjeTAwcTZwaXR5bjZ2ODllaWpvYndnbnR6bndqd3B3YnluMCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/GOHONjvYJFkUJF3bg4/giphy.gif';
+        document.getElementById('danger-button').addEventListener('click', () => {
+            const overlay = document.createElement('div');
+            overlay.className = 'danger-overlay';
+            overlay.innerHTML = `<img src="${DANGER_GIF}" alt="you pressed it"> <span>you pressed the button</span>`;
+            overlay.addEventListener('click', () => overlay.remove());
+            document.body.appendChild(overlay);
+        });
     </script>
 
     <script>
