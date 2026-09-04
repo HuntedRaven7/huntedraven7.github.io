@@ -939,7 +939,7 @@
                     }
                 }
                 if (items.length) {
-                    list.innerHTML = items.slice(0, 3).map(item => {
+                    list.innerHTML = items.slice(0, 2).map(item => {
                         const d = isNaN(item.date) ? '' : item.date.toLocaleDateString();
                         return `<li class="blog-item">
                             <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
@@ -966,7 +966,7 @@
         async function loadComments() {
             const list = document.getElementById('comment-list');
             try {
-                const res = await proxyFetch(`https://api.github.com/repos/${COMMENTS_REPO}/issues?state=all&per_page=50&sort=created&direction=desc`);
+                const res = await proxyFetch(`https://api.github.com/repos/${COMMENTS_REPO}/issues?state=all&per_page=50`);
                 if (!res.ok) throw new Error('comments fetch failed');
                 const issues = await res.json();
                 const comments = (issues || []).filter(i => !i.pull_request && i.title.startsWith(COMMENT_PREFIX));
