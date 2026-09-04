@@ -780,13 +780,8 @@
             </div>
         </section>
 
-        <section id="contact">
-            <h2><span class="num">05.</span> Contact</h2>
-            <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;">github →</a>
-        </section>
-
         <section id="comments">
-            <h2><span class="num">06.</span> Leave a Comment</h2>
+            <h2><span class="num">05.</span> Leave a Comment</h2>
             <div class="comments-panel">
                 <h3>Comments</h3>
                 <ul class="comment-list" id="comment-list">
@@ -801,6 +796,11 @@
             </div>
         </section>
 
+        <section id="contact">
+            <h2><span class="num">06.</span> Contact</h2>
+            <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;">github →</a>
+        </section>
+
         <footer>
             <span>&copy; <span id="year"></span> Robin</span>
             <a href="https://github.com/HuntedRaven7" target="_blank" rel="noopener">github / HuntedRaven7</a>
@@ -809,13 +809,17 @@
 
     <script>
         const CORS_PROXIES = [
-            'https://api.allorigins.win/raw?url=',
-            'https://corsproxy.io/?',
-            'https://corsproxy.org/?'
+            'https://r.jina.ai/',
+            'https://api.allorigins.win/raw?url='
         ];
         async function proxyFetch(url) {
-            const direct = await fetch(url);
-            if (direct.ok) return direct;
+            let direct;
+            try {
+                direct = await fetch(url);
+                if (direct.ok) return direct;
+            } catch (e) {
+                direct = null;
+            }
             for (const proxy of CORS_PROXIES) {
                 try {
                     const proxied = await fetch(proxy + encodeURIComponent(url), { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
@@ -855,20 +859,40 @@
 
         async function loadBlog() {
             const list = document.getElementById('blog-list');
+            const items = [];
             try {
                 const res = await proxyFetch('https://files.obsidianos.xyz/~robin/feed.rss');
                 if (!res.ok) throw new Error('feed fetch failed');
                 const text = await res.text();
                 const xml = new DOMParser().parseFromString(text, 'text/xml');
-                const items = xml.querySelectorAll('item');
+                if (!xml.querySelector('parsererror')) {
+                    xml.querySelectorAll('item').forEach(item => {
+                        items.push({
+                            title: item.querySelector('title').textContent,
+                            link: item.querySelector('link').textContent,
+                            date: new Date(item.querySelector('pubDate').textContent)
+                        });
+                    });
+                } else {
+                    const dateRe = /(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{1,2} [A-Z][a-z]{2} \d{4} \d{2}:\d{2}:\d{2} GMT/;
+                    const lines = text.split('\n');
+                    for (let i = 0; i < lines.length; i++) {
+                        const m = lines[i].match(/^### \[(.+)\]\((.+)\)$/);
+                        if (!m) continue;
+                        let date = '';
+                        for (let j = i + 1; j < Math.min(i + 20, lines.length); j++) {
+                            const d = lines[j].match(dateRe);
+                            if (d) { date = d[0]; break; }
+                        }
+                        items.push({ title: m[1], link: m[2], date: new Date(date) });
+                    }
+                }
                 if (items.length) {
-                    list.innerHTML = Array.from(items).slice(0, 3).map(item => {
-                        const title = item.querySelector('title').textContent;
-                        const link = item.querySelector('link').textContent;
-                        const date = new Date(item.querySelector('pubDate').textContent).toLocaleDateString();
+                    list.innerHTML = items.slice(0, 3).map(item => {
+                        const d = isNaN(item.date) ? '' : item.date.toLocaleDateString();
                         return `<li class="blog-item">
-                            <a href="${link}" target="_blank" rel="noopener">${title}</a>
-                            <div class="blog-meta">${date}</div>
+                            <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
+                            <div class="blog-meta">${d}</div>
                         </li>`;
                     }).join('');
                 } else {
