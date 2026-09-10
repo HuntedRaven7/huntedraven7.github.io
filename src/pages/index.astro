@@ -262,6 +262,30 @@ const ticker = [
 				</div>
 			</section>
 
+			<!-- ============ COMMENTS ============ -->
+			<section id="comments" class="wrap section">
+				<header class="section-head">
+					<p class="label">// 06 · comments</p>
+					<h2 class="display section-title">The guestbook.</h2>
+				</header>
+				<script is:inline>
+					(function () {
+						var theme = 'github-dark';
+						try {
+							if (localStorage.getItem('hr7-theme') === 'light') theme = 'github-light';
+						} catch (e) {}
+						var s = document.createElement('script');
+						s.src = 'https://utteranc.es/client.js';
+						s.async = true;
+						s.crossOrigin = 'anonymous';
+						s.setAttribute('repo', 'HuntedRaven7/huntedraven7.github.io');
+						s.setAttribute('issue-term', 'pathname');
+						s.setAttribute('theme', theme);
+						document.getElementById('comments').appendChild(s);
+					})();
+				</script>
+			</section>
+
 			<footer class="footer wrap">
 				<span class="label">robin</span>
 				<span class="label">built with astro · solar powered</span>

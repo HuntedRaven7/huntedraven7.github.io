@@ -39,6 +39,13 @@
 					try {
 						localStorage.setItem('hr7-theme', theme);
 					} catch (e) {}
+					var utterances = document.querySelector('.utterances-frame');
+					if (utterances) {
+						utterances.contentWindow.postMessage(
+							{ type: 'set-theme', theme: theme === 'light' ? 'github-light' : 'github-dark' },
+							'https://utteranc.es'
+						);
+					}
 				}
 				function toggle() {
 					apply(root.dataset.theme === 'dark' ? 'light' : 'dark');

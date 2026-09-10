@@ -26,12 +26,103 @@ const links = [
 		))}
 	</nav>
 
+	<div class="side-presence">
+		<p class="label side-presence-hint">discord</p>
+		<div id="lanyard"></div>
+	</div>
+
 	<div class="side-foot">
 		<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme (press T)">
 			<kbd aria-hidden="true">T</kbd>
 			<span class="theme-name">theme</span>
 		</button>
 		<p class="label side-stamp">est. 2026</p>
+
+		<script is:inline>
+			(function () {
+				var id = '523906270801952789';
+				var box = document.getElementById('lanyard');
+				box.innerHTML = '<p class="label side-presence-loading">connecting…</p>';
+
+				var ws;
+				var retry = 0;
+
+				function render(d) {
+					var act = null;
+					if (d.activities) {
+						for (var i = 0; i < d.activities.length; i++) {
+							if (d.activities[i].type === 0) act = d.activities[i];
+						}
+						if (!act && d.activities.length) act = d.activities[0];
+					}
+					var status = d.discord_status || 'offline';
+					var label;
+					if (act && act.name) label = act.name;
+					else if (status === 'online') label = 'online';
+					else if (status === 'idle') label = 'idle';
+					else if (status === 'dnd') label = 'do not disturb';
+					else label = 'offline';
+
+					var wrap = document.createElement('div');
+					wrap.className = 'presence';
+
+					var dot = document.createElement('span');
+					dot.className = 'presence-dot ' + status;
+
+					var name = document.createElement('span');
+					name.className = 'presence-name mono';
+					name.textContent = label;
+
+					wrap.appendChild(dot);
+					wrap.appendChild(name);
+					box.textContent = '';
+					box.appendChild(wrap);
+
+					if (act && act.details) {
+						var detail = document.createElement('p');
+						detail.className = 'label side-presence-detail';
+						detail.textContent = act.details;
+						box.appendChild(detail);
+					}
+				}
+
+				function connect() {
+					try {
+						ws = new WebSocket('wss://api.lanyard.rest/socket');
+					} catch (e) {
+						return;
+					}
+					ws.onopen = function () {
+						ws.send(JSON.stringify({ op: 2, d: { subscribe_to_id: id } }));
+					};
+					ws.onmessage = function (ev) {
+						var m;
+						try {
+							m = JSON.parse(ev.data);
+						} catch (e) {
+							return;
+						}
+						if (m.op === 1) {
+							if (m.d && m.d.heartbeat_interval) {
+								ws.send(
+									JSON.stringify({ op: 1, d: { heartbeat_interval: m.d.heartbeat_interval } })
+								);
+							}
+							return;
+						}
+						if (m.op === 0 && m.d && m.d[0] && m.d[0].d) {
+							render(m.d[0].d);
+						}
+					};
+					ws.onclose = function () {
+						retry++;
+						setTimeout(connect, Math.min(30000, 2000 * retry));
+					};
+				}
+
+				connect();
+			})();
+		</script>
 	</div>
 </header>
 
@@ -111,6 +202,62 @@ const links = [
 		gap: 1.1rem;
 	}
 
+	.side-presence {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		padding-top: 0.2rem;
+	}
+
+	:global(.side-presence-hint) {
+		font-size: 0.6rem;
+		letter-spacing: 0.28em;
+		color: var(--muted);
+	}
+
+	:global(.side-presence-loading) {
+		font-size: 0.64rem;
+		color: var(--muted);
+	}
+
+	:global(.presence) {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-size: 0.78rem;
+		color: var(--ink-soft);
+	}
+
+	:global(.presence-dot) {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+
+	:global(.presence-dot.online) {
+		background: #23a55a;
+	}
+
+	:global(.presence-dot.idle) {
+		background: #f0b232;
+	}
+
+	:global(.presence-dot.dnd) {
+		background: #f23f43;
+	}
+
+	:global(.presence-dot.offline) {
+		background: var(--muted);
+	}
+
+	:global(.side-presence-detail) {
+		font-size: 0.64rem;
+		color: var(--muted);
+		margin: 0;
+		line-height: 1.4;
+	}
+
 	.side-stamp {
 		font-size: 0.6rem;
 		letter-spacing: 0.28em;
@@ -164,6 +311,10 @@ const links = [
 
 	@media (max-width: 560px) {
 		.side-nav {
+			display: none;
+		}
+
+		.side-presence {
 			display: none;
 		}
 	}
