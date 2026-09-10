@@ -98,20 +98,33 @@ const ticker = [
 					{
 						[
 							['this site', 'personal homepage, rebuilt until it felt right', 'astro · 2026', 'shipped'],
-							['ravenfetch', 'a tiny system-info fetch tool. no deps, all vibes.', 'node · cli', 'ground-station'],
+							['Microraptor', 'an FSDK-based, image-based Linux server OS with Network Manager.', 'buildstream · fsdk', 'ground-station', 'https://github.com/HuntedRaven7/Microraptor'],
 							['nebula generator', 'procedural clouds of color on a WebGL canvas.', 'canvas · webgl', 'in orbit'],
 							['solar drift', 'low-fi orbital game. gravity, slingshots, inertia.', 'game · js', 'drifting'],
-						].map(([title, desc, tags, status], i) => (
-							<article class="row">
-								<div class="row-meta">
-									<span class="label row-idx">{String(i + 1).padStart(2, '0')}</span>
-									<span class="label row-status">{status}</span>
-								</div>
-								<h3 class="display row-title">{title}</h3>
-								<p class="row-desc">{desc}</p>
-								<span class="label row-tags">{tags}</span>
-								<span class="row-arrow" aria-hidden="true">→</span>
-							</article>
+						].map(([title, desc, tags, status, href], i) => (
+							href ? (
+								<a class="row row-link link" href={href} target="_blank" rel="noopener noreferrer">
+									<div class="row-meta">
+										<span class="label row-idx">{String(i + 1).padStart(2, '0')}</span>
+										<span class="label row-status">{status}</span>
+									</div>
+									<h3 class="display row-title">{title}</h3>
+									<p class="row-desc">{desc}</p>
+									<span class="label row-tags">{tags}</span>
+									<span class="row-arrow" aria-hidden="true">→</span>
+								</a>
+							) : (
+								<article class="row">
+									<div class="row-meta">
+										<span class="label row-idx">{String(i + 1).padStart(2, '0')}</span>
+										<span class="label row-status">{status}</span>
+									</div>
+									<h3 class="display row-title">{title}</h3>
+									<p class="row-desc">{desc}</p>
+									<span class="label row-tags">{tags}</span>
+									<span class="row-arrow" aria-hidden="true">→</span>
+								</article>
+							)
 						))
 					}
 				</div>
