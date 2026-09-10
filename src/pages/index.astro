@@ -317,6 +317,8 @@ const ticker = [
 	main {
 		padding: 0 clamp(1.25rem, 4vw, 3.25rem) 4rem clamp(17.5rem, 20vw, 19.5rem);
 		min-width: 0;
+		--popout-left: clamp(17.5rem, 20vw, 19.5rem);
+		--popout-right: clamp(1.25rem, 4vw, 3.25rem);
 	}
 
 	.wrap {
@@ -776,6 +778,8 @@ const ticker = [
 
 		main {
 			padding: 0 1.25rem 3rem;
+			--popout-left: 1.25rem;
+			--popout-right: 1.25rem;
 		}
 
 		.hero {
@@ -815,8 +819,11 @@ const ticker = [
 		background: var(--paper);
 		color: var(--ink);
 		padding: 0;
-		width: min(46rem, calc(100vw - 2.5rem));
+		width: min(46rem, 100%);
 		max-height: calc(100svh - 3rem);
+		margin: auto;
+		inset-inline-start: var(--popout-left, 1.5rem);
+		inset-inline-end: var(--popout-right, 1.5rem);
 		box-shadow: 0 30px 80px -32px rgba(0, 0, 0, 0.6);
 		overflow-y: auto;
 	}
