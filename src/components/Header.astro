@@ -5,45 +5,8 @@ const links = [
 	{ href: '#rss', label: 'RSS Feed' },
 	{ href: '#lab', label: 'Lab' },
 	{ href: '#contact', label: 'Contact' },
+	{ href: '#activity', label: 'Activity' },
 ];
-
-const GH_USER = 'HuntedRaven7';
-const GH_HEADERS = { accept: 'application/vnd.github+json', 'user-agent': 'huntedraven7-site' };
-
-let prs: Array<{ title: string; html_url: string; repo: string; state: string }> = [];
-let activityDays = 0;
-
-try {
-	const [prRes, eventsRes] = await Promise.all([
-		fetch(
-			`https://api.github.com/search/issues?q=author:${GH_USER}+type:pr&sort=created&order=desc&per_page=3`,
-			{ headers: GH_HEADERS }
-		),
-		fetch(`https://api.github.com/users/${GH_USER}/events/public?per_page=100`, {
-			headers: GH_HEADERS,
-		}),
-	]);
-	const prJson = prRes.ok ? await prRes.json() : null;
-	prs = ((prJson && prJson.items) || []).slice(0, 3).map((p: any) => ({
-		title: p.title,
-		html_url: p.html_url,
-		repo: ((p.repository_url || '').split('/').pop() || ''),
-		state: p.state,
-	}));
-
-	const events = eventsRes.ok ? await eventsRes.json() : [];
-	const now = Date.now();
-	const days = new Set<string>();
-	for (const e of events) {
-		const t = new Date(e.created_at).getTime();
-		if (now - t <= 90 * 86400000) {
-			days.add(new Date(e.created_at).toISOString().slice(0, 10));
-		}
-	}
-	activityDays = days.size;
-} catch {
-	// keep defaults so the build never breaks if the GitHub API is unavailable
-}
 ---
 
 <header class="side">
@@ -63,25 +26,6 @@ try {
 			</a>
 		))}
 	</nav>
-
-	<div class="side-activity">
-		<p class="label side-activity-hint">github</p>
-		{prs.length ? (
-			<ul class="side-prs">
-				{prs.map((pr) => (
-					<li>
-						<a class="side-pr" href={pr.html_url} target="_blank" rel="noopener noreferrer">
-							<span class="side-pr-title">{pr.title}</span>
-							<span class="side-pr-repo">{pr.repo}</span>
-						</a>
-					</li>
-				))}
-			</ul>
-		) : (
-			<p class="label side-activity-empty">no recent prs</p>
-		)}
-		<p class="label side-activity-meta">active {activityDays} / 90 days</p>
-	</div>
 
 	<div class="side-presence">
 		<p class="label side-presence-hint">discord</p>
@@ -282,51 +226,6 @@ try {
 		padding-top: 0.2rem;
 	}
 
-	.side-activity {
-		display: flex;
-		flex-direction: column;
-		gap: 0.45rem;
-		padding-top: 0.2rem;
-	}
-
-	.side-activity-hint,
-	.side-activity-meta,
-	.side-activity-empty {
-		font-size: 0.6rem;
-		letter-spacing: 0.28em;
-		color: var(--muted);
-	}
-
-	.side-prs {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 0.55rem;
-	}
-
-	.side-pr {
-		display: flex;
-		flex-direction: column;
-		gap: 0.1rem;
-	}
-
-	.side-pr-title {
-		font-size: 0.78rem;
-		line-height: 1.35;
-		color: var(--ink-soft);
-	}
-
-	.side-pr-repo {
-		font-size: 0.62rem;
-		color: var(--muted);
-	}
-
-	.side-pr:hover .side-pr-title {
-		color: var(--accent);
-	}
-
 	:global(.side-presence-hint) {
 		font-size: 0.6rem;
 		letter-spacing: 0.28em;
@@ -433,10 +332,6 @@ try {
 		}
 
 		.side-presence {
-			display: none;
-		}
-
-		.side-activity {
 			display: none;
 		}
 	}

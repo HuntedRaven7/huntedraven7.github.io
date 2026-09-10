@@ -77,7 +77,7 @@
 					if (e.target === dlg) closePopout(dlg);
 				});
 				function initPopouts() {
-					var m = location.hash.match(/^#(work|about|rss|lab|contact|comments)$/);
+					var m = location.hash.match(/^#(work|about|rss|lab|contact|activity|comments)$/);
 					if (m) openPopout('dlg-' + m[1]);
 				}
 				if (document.readyState === 'loading') {
