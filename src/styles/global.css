@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  /* Light side of the toggle = Vague-derived pastel light */
-  --paper: #f6f6f8;
-  --ink: #2c2c35;
-  --ink-soft: #52525f;
-  --heading: #2c2c35;
-  --heading-soft: #2c2c35;
-  --muted: #84848f;
-  --line: rgba(44, 44, 53, 0.14);
-  --line-strong: rgba(44, 44, 53, 0.28);
-  --accent: #5d8a85; /* vague builtin (mint), darkened */
-  --accent-2: #6f66a8; /* vague constant (lavender), darkened */
+  /* Light side of the toggle = tender-inspired light */
+  --paper: #f5f2ea;
+  --ink: #2a2a2a;
+  --ink-soft: #555555;
+  --heading: #3f7d9c;
+  --heading-soft: #6d7a1c;
+  --muted: #8f8f8f;
+  --line: rgba(42, 42, 42, 0.16);
+  --line-strong: rgba(42, 42, 42, 0.3);
+  --accent: #2f6f8f; /* tender sky, darkened */
+  --accent-2: #7a8520; /* tender olive, darkened */
   --display: "Archivo Black", "Geist", ui-sans-serif, system-ui,
     sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -19,17 +19,17 @@
 }
 
 [data-theme="dark"] {
-  /* Vague — cool, dark, low-contrast pastel (default) */
-  --paper: #2a2a2a;
-  --ink: #cdcdcd;
-  --ink-soft: #b8b8c6;
-  --heading: #bb9dbd; /* vague parameter mauve */
-  --heading-soft: #aeaed1; /* vague constant lavender, lighter */
-  --muted: #878787;
-  --line: rgba(205, 205, 205, 0.12);
-  --line-strong: rgba(205, 205, 205, 0.24);
-  --accent: #b4d4cf; /* vague builtin mint */
-  --accent-2: #7e98e8; /* vague hint blue */
+  /* tender — a dark and fresh color scheme */
+  --paper: #282828;
+  --ink: #eeeeee;
+  --ink-soft: #dadada;
+  --heading: #b3deef;
+  --heading-soft: #c9d05c;
+  --muted: #999999;
+  --line: rgba(238, 238, 238, 0.16);
+  --line-strong: rgba(238, 238, 238, 0.32);
+  --accent: #73cef4;
+  --accent-2: #c9d05c;
 }
 
 html {
