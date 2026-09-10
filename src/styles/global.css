@@ -20,7 +20,7 @@
 
 [data-theme="dark"] {
   /* Vague — cool, dark, low-contrast pastel (default) */
-  --paper: #222222;
+  --paper: #2a2a2a;
   --ink: #cdcdcd;
   --ink-soft: #b8b8c6;
   --heading: #bb9dbd; /* vague parameter mauve */
