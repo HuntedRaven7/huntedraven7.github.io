@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Geist:wght@400..700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+			rel="stylesheet"
+		/>
+		<title>robin — digital tinkerer</title>
+		<meta
+			name="description"
+			content="robin — personal homepage. Work, rss, experiments."
+		/>
+		<script is:inline>
+			(function () {
+				var root = document.documentElement;
+				var saved = null;
+				try {
+					saved = localStorage.getItem('hr7-theme');
+				} catch (e) {}
+				// Default to Catppuccin Mocha; saved or toggled: 'light' = Latte
+				root.dataset.theme = saved && saved === 'light' ? 'light' : 'dark';
+			})();
+		</script>
+	</head>
+	<body>
+		<slot />
+		<script is:inline>
+			(function () {
+				var root = document.documentElement;
+				function apply(theme) {
+					root.dataset.theme = theme;
+					try {
+						localStorage.setItem('hr7-theme', theme);
+					} catch (e) {}
+				}
+				function toggle() {
+					apply(root.dataset.theme === 'dark' ? 'light' : 'dark');
+				}
+				document.addEventListener('click', function (e) {
+					if (e.target && e.target.closest && e.target.closest('#theme-toggle')) {
+						toggle();
+					}
+				});
+				document.addEventListener('keydown', function (e) {
+					if (!e.ctrlKey && !e.metaKey && !e.altKey && e.key.toLowerCase() === 't') {
+						toggle();
+					}
+				});
+			})();
+		</script>
+	</body>
+</html>

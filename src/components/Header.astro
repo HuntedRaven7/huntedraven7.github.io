@@ -1,0 +1,170 @@
+---
+const links = [
+	{ href: '#work', label: 'Work' },
+	{ href: '#about', label: 'About' },
+	{ href: '#rss', label: 'RSS Feed' },
+	{ href: '#lab', label: 'Lab' },
+	{ href: '#contact', label: 'Contact' },
+];
+---
+
+<header class="side">
+	<div class="side-brand">
+		<a class="link brand-inner" href="#home">
+			<span class="brand-mark" aria-hidden="true">*</span>
+			<span class="brand-name display">Robin</span>
+		</a>
+		<p class="label side-tag">Container nerd</p>
+	</div>
+
+	<nav class="side-nav" aria-label="Primary">
+		{links.map((l, i) => (
+			<a class="link nav-link" href={l.href}>
+				<span class="nav-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+				{l.label}
+			</a>
+		))}
+	</nav>
+
+	<div class="side-foot">
+		<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme (press T)">
+			<kbd aria-hidden="true">T</kbd>
+			<span class="theme-name">theme</span>
+		</button>
+		<p class="label side-stamp">est. 2026</p>
+	</div>
+</header>
+
+<style>
+	.side {
+		position: fixed;
+		z-index: 40;
+		top: 50%;
+		left: clamp(1rem, 2.5vw, 2.5rem);
+		transform: translateY(-50%);
+		width: 13.75rem;
+		min-height: 52vh;
+		max-height: calc(100svh - 3rem);
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+		gap: 2.25rem;
+		padding: 2.4rem 1.15rem 2.6rem 1.55rem;
+		border: 1px solid var(--line);
+		border-radius: 16px;
+		background: color-mix(in srgb, var(--paper) 92%, transparent);
+		backdrop-filter: blur(12px);
+		box-shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.5);
+	}
+
+	.brand-inner {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.55rem;
+	}
+
+	.brand-mark {
+		font-family: var(--mono);
+		color: var(--accent);
+		font-size: 1.05rem;
+		line-height: 1;
+	}
+
+	.brand-name {
+		font-size: 1.45rem;
+		font-weight: 700;
+	}
+
+	.side-tag {
+		margin: 0.6rem 0 0 1.6rem;
+		font-size: 0.64rem;
+		letter-spacing: 0.28em;
+	}
+
+	.side-nav {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.nav-link {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.8rem;
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		width: fit-content;
+		padding: 0.4rem 0;
+	}
+
+	.nav-idx {
+		font-size: 0.64rem;
+		color: var(--muted);
+	}
+
+	.side-foot {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1.1rem;
+	}
+
+	.side-stamp {
+		font-size: 0.6rem;
+		letter-spacing: 0.28em;
+	}
+
+	@media (max-width: 900px) {
+		.side {
+			position: sticky;
+			top: 0;
+			transform: none;
+			left: auto;
+			width: auto;
+			max-height: none;
+			height: auto;
+			flex-direction: row;
+			align-items: center;
+			padding: 0.75rem 1.25rem;
+			border: none;
+			border-bottom: 1px solid var(--line);
+			border-radius: 0;
+			box-shadow: none;
+		}
+
+		.side-tag,
+		.side-stamp {
+			display: none;
+		}
+
+		.side-nav {
+			flex-direction: row;
+			margin-inline: auto;
+			gap: 1.1rem;
+		}
+
+		.nav-idx {
+			display: none;
+		}
+
+		.side-foot {
+			flex-direction: row;
+		}
+
+		.theme-toggle {
+			padding: 0.4rem 0.7rem;
+		}
+
+		.theme-name {
+			display: none;
+		}
+	}
+
+	@media (max-width: 560px) {
+		.side-nav {
+			display: none;
+		}
+	}
+</style>
