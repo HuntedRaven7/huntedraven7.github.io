@@ -5,13 +5,13 @@
   --paper: #f5f2ea;
   --ink: #2a2a2a;
   --ink-soft: #555555;
-  --heading: #3f7d9c;
-  --heading-soft: #6d7a1c;
+  --heading: #6a55a3;
+  --heading-soft: #2f6f8f;
   --muted: #8f8f8f;
   --line: rgba(42, 42, 42, 0.16);
   --line-strong: rgba(42, 42, 42, 0.3);
-  --accent: #2f6f8f; /* tender sky, darkened */
-  --accent-2: #7a8520; /* tender olive, darkened */
+  --accent: #7257a0; /* tender-inspired purple, darkened */
+  --accent-2: #2f6f8f; /* tender sky, darkened */
   --display: "Archivo Black", "Geist", ui-sans-serif, system-ui,
     sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -20,16 +20,16 @@
 
 [data-theme="dark"] {
   /* tender — a dark and fresh color scheme */
-  --paper: #282828;
+  --paper: #242424;
   --ink: #eeeeee;
   --ink-soft: #dadada;
-  --heading: #b3deef;
-  --heading-soft: #c9d05c;
+  --heading: #c39ff3;
+  --heading-soft: #b3deef;
   --muted: #999999;
   --line: rgba(238, 238, 238, 0.16);
   --line-strong: rgba(238, 238, 238, 0.32);
-  --accent: #73cef4;
-  --accent-2: #c9d05c;
+  --accent: #b392f0; /* tender-inspired purple */
+  --accent-2: #73cef4;
 }
 
 html {
