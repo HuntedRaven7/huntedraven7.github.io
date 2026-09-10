@@ -48,16 +48,31 @@ const links = [
 				var retry = 0;
 
 				function render(d) {
+					if (!d || !d.discord_status) return;
+
 					var act = null;
+					var custom = null;
 					if (d.activities) {
 						for (var i = 0; i < d.activities.length; i++) {
-							if (d.activities[i].type === 0) act = d.activities[i];
+							var a = d.activities[i];
+							if (!a) continue;
+							if (a.type === 4) {
+								if (!custom) custom = a;
+								continue;
+							}
+							if (a.type === 0) {
+								act = a;
+								break;
+							}
+							if (!act) act = a;
 						}
-						if (!act && d.activities.length) act = d.activities[0];
 					}
+
 					var status = d.discord_status || 'offline';
 					var label;
 					if (act && act.name) label = act.name;
+					else if (custom && custom.state) label = custom.state;
+					else if (custom) label = 'custom status';
 					else if (status === 'online') label = 'online';
 					else if (status === 'idle') label = 'idle';
 					else if (status === 'dnd') label = 'do not disturb';
@@ -78,10 +93,11 @@ const links = [
 					box.textContent = '';
 					box.appendChild(wrap);
 
-					if (act && act.details) {
+					var detailText = act && act.details ? act.details : '';
+					if (detailText) {
 						var detail = document.createElement('p');
 						detail.className = 'label side-presence-detail';
-						detail.textContent = act.details;
+						detail.textContent = detailText;
 						box.appendChild(detail);
 					}
 				}
@@ -110,8 +126,8 @@ const links = [
 							}
 							return;
 						}
-						if (m.op === 0 && m.d && m.d[0] && m.d[0].d) {
-							render(m.d[0].d);
+						if (m.op === 0 && m.d) {
+							render(m.d);
 						}
 					};
 					ws.onclose = function () {
