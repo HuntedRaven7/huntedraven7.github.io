@@ -60,7 +60,7 @@ const ticker = [
 						<p><span class="t-prompt">$</span> whoami</p>
 						<p class="t-out">Robin</p>
 						<p><span class="t-prompt">$</span> ls ~/projects</p>
-						<p class="t-out">Bluefin maintainer</p>
+						<p class="t-out">Bluefin LTS maintainer</p>
 						<p class="t-out">Microraptor (FSDK Sever Image)</p>
 						<p class="t-out">and more!</p>
 						<p><span class="t-prompt">$</span> cat ~/status.txt</p>
@@ -87,14 +87,16 @@ const ticker = [
 				</div>
 			</div>
 
-			<!-- ============ WORK ============ -->
-			<section id="work" class="wrap section">
-				<header class="section-head">
-					<p class="label">// 01 · work</p>
-					<h2 class="display section-title">Selected work, partially in orbit.</h2>
-				</header>
+			<!-- ============ WORK POPOUT ============ -->
+			<dialog class="popout" id="dlg-work">
+				<button class="popout-close" type="button" data-close aria-label="Close popup">×</button>
+				<section class="wrap section">
+					<header class="section-head">
+						<p class="label">// 01 · work</p>
+						<h2 class="display section-title">Selected work, partially in orbit.</h2>
+					</header>
 
-				<div class="rows">
+					<div class="rows">
 					{
 						[
 							['this site', 'personal homepage, rebuilt until it felt right', 'astro · 2026', 'shipped'],
@@ -128,14 +130,17 @@ const ticker = [
 						))
 					}
 				</div>
-			</section>
+				</section>
+			</dialog>
 
-			<!-- ============ ABOUT ============ -->
-			<section id="about" class="wrap section">
-				<header class="section-head">
-					<p class="label">// 02 · about</p>
-					<h2 class="display section-title">About Robin</h2>
-				</header>
+			<!-- ============ ABOUT POPOUT ============ -->
+			<dialog class="popout" id="dlg-about">
+				<button class="popout-close" type="button" data-close aria-label="Close popup">×</button>
+				<section class="wrap section">
+					<header class="section-head">
+						<p class="label">// 02 · about</p>
+						<h2 class="display section-title">About Robin</h2>
+					</header>
 
 				<div class="about-grid">
 					<div class="about-bio">
@@ -165,14 +170,17 @@ const ticker = [
 						</ul>
 					</div>
 				</div>
-			</section>
+				</section>
+			</dialog>
 
-			<!-- ============ JOURNAL ============ -->
-			<section id="rss" class="wrap section">
-				<header class="section-head">
-					<p class="label">// 03 · rss feed</p>
-					<h2 class="display section-title">RSS straight from my blog!</h2>
-				</header>
+			<!-- ============ JOURNAL POPOUT ============ -->
+			<dialog class="popout" id="dlg-rss">
+				<button class="popout-close" type="button" data-close aria-label="Close popup">×</button>
+				<section class="wrap section">
+					<header class="section-head">
+						<p class="label">// 03 · rss feed</p>
+						<h2 class="display section-title">RSS straight from my blog!</h2>
+					</header>
 
 				<div class="rows">
 					{
@@ -190,14 +198,17 @@ const ticker = [
 						))
 					}
 				</div>
-			</section>
+				</section>
+			</dialog>
 
-			<!-- ============ LAB ============ -->
-			<section id="lab" class="wrap section">
-				<header class="section-head">
-					<p class="label">// 04 · lab</p>
-					<h2 class="display section-title">The lab, welcome to my Homelab.</h2>
-				</header>
+			<!-- ============ LAB POPOUT ============ -->
+			<dialog class="popout" id="dlg-lab">
+				<button class="popout-close" type="button" data-close aria-label="Close popup">×</button>
+				<section class="wrap section">
+					<header class="section-head">
+						<p class="label">// 04 · lab</p>
+						<h2 class="display section-title">The lab, welcome to my Homelab.</h2>
+					</header>
 
 				<div class="lab-grid">
 					{
@@ -231,14 +242,17 @@ const ticker = [
 						))
 					}
 				</div>
-			</section>
+				</section>
+			</dialog>
 
-			<!-- ============ CONTACT ============ -->
-			<section id="contact" class="wrap section">
-				<header class="section-head">
-					<p class="label">// 05 · contact</p>
-					<h2 class="display section-title">Open channels.</h2>
-				</header>
+			<!-- ============ CONTACT POPOUT ============ -->
+			<dialog class="popout" id="dlg-contact">
+				<button class="popout-close" type="button" data-close aria-label="Close popup">×</button>
+				<section class="wrap section">
+					<header class="section-head">
+						<p class="label">// 05 · contact</p>
+						<h2 class="display section-title">Open channels.</h2>
+					</header>
 
 				<div class="rows">
 					{
@@ -258,7 +272,8 @@ const ticker = [
 						))
 					}
 				</div>
-			</section>
+				</section>
+			</dialog>
 
 			<!-- ============ COMMENTS ============ -->
 			<section id="comments" class="wrap section">
@@ -791,5 +806,51 @@ const ticker = [
 		.row-arrow {
 			grid-row: 1;
 		}
+	}
+
+	/* ============ POPOUTS ============ */
+	.popout {
+		border: 1px solid var(--line-strong);
+		border-radius: 18px;
+		background: var(--paper);
+		color: var(--ink);
+		padding: 0;
+		width: min(46rem, calc(100vw - 2.5rem));
+		max-height: calc(100svh - 3rem);
+		box-shadow: 0 30px 80px -32px rgba(0, 0, 0, 0.6);
+		overflow-y: auto;
+	}
+
+	.popout::backdrop {
+		background: rgba(0, 0, 0, 0.55);
+		backdrop-filter: blur(3px);
+	}
+
+	.popout .section {
+		padding-top: clamp(2rem, 4vh, 3rem);
+	}
+
+	.popout-close {
+		position: absolute;
+		top: 0.9rem;
+		right: 1.1rem;
+		z-index: 5;
+		width: 2rem;
+		height: 2rem;
+		display: grid;
+		place-items: center;
+		border: 1px solid var(--line-strong);
+		border-radius: 50%;
+		background: transparent;
+		color: var(--ink-soft);
+		font-size: 1.1rem;
+		line-height: 1;
+		cursor: pointer;
+		font-family: var(--mono);
+	}
+
+	.popout-close:hover {
+		color: var(--ink);
+		border-color: var(--ink-soft);
 	}
 </style>

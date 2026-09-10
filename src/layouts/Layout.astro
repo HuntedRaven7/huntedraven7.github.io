@@ -47,6 +47,44 @@
 						);
 					}
 				}
+				function openPopout(id) {
+					var dlg = document.getElementById(id);
+					if (dlg && dlg.tagName === 'DIALOG' && typeof dlg.showModal === 'function' && !dlg.open) {
+						dlg.showModal();
+					}
+				}
+				function closePopout(dlg) {
+					if (dlg && typeof dlg.close === 'function' && dlg.open) dlg.close();
+					if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+				}
+				document.addEventListener('click', function (e) {
+					if (e.target && e.target.closest && e.target.closest('[data-close]')) {
+						closePopout(e.target.closest('dialog'));
+						return;
+					}
+					var a = e.target && e.target.closest && e.target.closest('a[href^="#"]');
+					if (a) {
+						var hash = a.getAttribute('href').slice(1);
+						var dlg = document.getElementById('dlg-' + hash);
+						if (dlg && dlg.tagName === 'DIALOG') {
+							e.preventDefault();
+							openPopout('dlg-' + hash);
+						}
+					}
+				});
+				document.addEventListener('click', function (e) {
+					var dlg = e.target && e.target.closest && e.target.closest('dialog');
+					if (e.target === dlg) closePopout(dlg);
+				});
+				function initPopouts() {
+					var m = location.hash.match(/^#(work|about|rss|lab|contact|comments)$/);
+					if (m) openPopout('dlg-' + m[1]);
+				}
+				if (document.readyState === 'loading') {
+					document.addEventListener('DOMContentLoaded', initPopouts);
+				} else {
+					initPopouts();
+				}
 				function toggle() {
 					apply(root.dataset.theme === 'dark' ? 'light' : 'dark');
 				}
