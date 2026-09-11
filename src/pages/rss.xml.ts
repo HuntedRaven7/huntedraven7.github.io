@@ -1,5 +1,3 @@
----
-import getRssResponse from '@astrojs/rss';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 const CONTENT_BASE = 'https://files.obsidianos.xyz/~robin/blog/content';
@@ -22,6 +20,15 @@ function extractMarkdownFiles(html: string): string[] {
 		}
 	}
 	return files;
+}
+
+function escapeXml(str: string): string {
+	return str
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&apos;');
 }
 
 export async function GET() {
@@ -47,11 +54,35 @@ export async function GET() {
 			})
 		);
 
-		return getRssResponse({
-			title: SITE_TITLE,
-			description: SITE_DESCRIPTION,
-			site: 'https://robin.tarxz.zip',
-			items,
+		const now = new Date().toUTCString();
+		let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>${escapeXml(SITE_TITLE)}</title>
+    <link>https://robin.tarxz.zip</link>
+    <description>${escapeXml(SITE_DESCRIPTION)}</description>
+    <lastBuildDate>${now}</lastBuildDate>
+    <atom:link href="https://robin.tarxz.zip/rss.xml" rel="self" type="application/rss+xml" />
+`;
+
+		for (const item of items) {
+			xml += `    <item>
+      <title>${escapeXml(item.title)}</title>
+      <link>${escapeXml(item.link)}</link>
+      <guid isPermaLink="true">${escapeXml(item.link)}</guid>
+      <pubDate>${new Date(item.pubDate).toUTCString()}</pubDate>
+      <description>${escapeXml(item.description)}</description>
+    </item>
+`;
+		}
+
+		xml += `  </channel>
+</rss>`;
+
+		return new Response(xml, {
+			headers: {
+				'Content-Type': 'application/rss+xml',
+			},
 		});
 	} catch (e) {
 		console.error('Failed to generate RSS:', e);
