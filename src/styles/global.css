@@ -214,6 +214,40 @@ button:focus-visible {
   border-radius: 5px;
 }
 
+#rss-rows .row {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr auto;
+  gap: 0.15rem 1.5rem;
+  padding: 1.4rem 0.25rem;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+}
+
+#rss-rows .row-date {
+  font-size: 0.68rem;
+}
+
+#rss-rows .row-title {
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  margin: 0;
+}
+
+#rss-rows .row-arrow {
+  font-family: var(--mono);
+  font-size: 1.2rem;
+  color: var(--accent);
+  align-self: center;
+}
+
+#rss-rows .row:hover .row-title {
+  color: var(--accent);
+}
+
+#rss-rows .row:hover .row-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
