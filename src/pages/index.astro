@@ -220,21 +220,8 @@ try {
 						<h2 class="display section-title">RSS straight from my blog!</h2>
 					</header>
 
-				<div class="rows">
-					{
-						[
-							['2026.08.02', 'notes from the dark of the terminal'],
-							['2026.06.14', 'the case for ugly web designs'],
-							['2026.04.03', 'the site redesign, part iv: restraint'],
-							['2026.01.27', 'minimal is a spectrum'],
-						].map(([date, title]) => (
-							<a class="row row-link link" href="#rss">
-								<span class="label row-date">{date}</span>
-								<span class="display row-title">{title}</span>
-								<span class="row-arrow" aria-hidden="true">→</span>
-							</a>
-						))
-					}
+				<div class="rows" id="rss-rows">
+					<p class="mono">loading...</p>
 				</div>
 				</section>
 			</dialog>
@@ -378,10 +365,44 @@ try {
 				<span class="label">robin</span>
 				<span class="label">built with astro · solar powered</span>
 				<span class="label">press <kbd>T</kbd> for theme</span>
-			</footer>
+  </footer>
 		</main>
 	</div>
 </Layout>
+
+<script>
+	(function () {
+		var rssRows = document.getElementById('rss-rows');
+		if (!rssRows) return;
+		fetch('https://robin.tarxz.zip/blog/rss.xml')
+			.then(function (res) { return res.text(); })
+			.then(function (xml) {
+				var parser = new DOMParser();
+				var doc = parser.parseFromString(xml, 'text/xml');
+				var items = doc.querySelectorAll('item');
+				if (!items.length) {
+					rssRows.innerHTML = '<p class="mono">no posts found</p>';
+					return;
+				}
+				var html = '';
+				items.forEach(function (item) {
+					var title = item.querySelector('title')?.textContent || '';
+					var link = item.querySelector('link')?.textContent || '#';
+					var pubDate = item.querySelector('pubDate')?.textContent || '';
+					var date = pubDate ? new Date(pubDate).toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '.') : '';
+					html += '<a class="row row-link link" href="' + link + '" target="_blank" rel="noopener noreferrer">'
+						+ '<span class="label row-date">' + date + '</span>'
+						+ '<span class="display row-title">' + title + '</span>'
+						+ '<span class="row-arrow" aria-hidden="true">→</span>'
+						+ '</a>';
+				});
+				rssRows.innerHTML = html;
+			})
+			.catch(function () {
+				rssRows.innerHTML = '<p class="mono">failed to load feed</p>';
+			});
+	})();
+</script>
 
 <style>
 	.site {
