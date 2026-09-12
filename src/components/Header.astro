@@ -12,13 +12,13 @@ const links = [
 <header class="side">
 	<div class="side-brand">
 		<a class="link brand-inner" href="#home">
-			<span class="brand-mark" aria-hidden="true">*</span>
+			<span class="brand-mark plate" aria-hidden="true">★</span>
 			<span class="brand-name display">Robin</span>
 		</a>
 		<p class="label side-tag">Container nerd</p>
 	</div>
 
-	<nav class="side-nav" aria-label="Primary">
+	<nav class="side-nav cut-sm" aria-label="Primary">
 		{links.map((l, i) => (
 			<a class="link nav-link" href={l.href}>
 				<span class="nav-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
@@ -33,7 +33,7 @@ const links = [
 	</div>
 
 	<div class="side-foot">
-		<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme (press T)">
+		<button class="theme-toggle cut-sm plate-label" id="theme-toggle" type="button" aria-label="Toggle color theme (press T)">
 			<kbd aria-hidden="true">T</kbd>
 			<span class="theme-name">theme</span>
 		</button>
