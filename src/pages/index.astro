@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro'
 import Card from '../components/Card.astro'
 import UtterancesModal from '../components/UtterancesModal.astro'
+import DiscordStatus from '../components/DiscordStatus.astro'
 ---
 
 <Layout>
@@ -26,12 +27,12 @@ import UtterancesModal from '../components/UtterancesModal.astro'
 			</div>
 
 			<div class="md:col-start-2 md:-ml-8 md:-rotate-2 md:max-w-sm relative">
-				<Card title="Blog RSS" color="blue" rotation="-2">
+				<Card title="Blog RSS" color="blue" rotation="-2" pfp="/pfp.png">
 					<a href="https://robin.tarxz.zip/blog/" class="underline underline-offset-4 decoration-black/30 hover:decoration-black transition-colors">
 						Subscribe to the RSS feed
 					</a>
 				</Card>
-				<img src="/pfp.png" alt="Profile" class="absolute -right-4 md:-right-8 -bottom-4 md:-bottom-8 w-16 h-16 md:w-24 md:h-24 rounded-full border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.9)] object-cover" />
+				<DiscordStatus />
 			</div>
 
 		</div>

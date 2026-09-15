@@ -4,9 +4,10 @@ interface Props {
 	children: import('astro').AstroSlot
 	color?: 'yellow' | 'pink' | 'blue' | 'green'
 	rotation?: number
+	pfp?: string
 }
 
-const { title, children, color = 'yellow', rotation = 0 } = Astro.props
+const { title, children, color = 'yellow', rotation = 0, pfp } = Astro.props
 
 const colors = {
 	yellow: 'bg-[#fff740] text-black',
@@ -25,4 +26,5 @@ const colors = {
 	<div class="space-y-4 text-base md:text-lg leading-relaxed font-medium">
 		<slot />
 	</div>
+	{pfp && <img src={pfp} alt="Profile" class="absolute -right-4 md:-right-8 -bottom-4 md:-bottom-8 w-16 h-16 md:w-24 md:h-24 rounded-full border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.9)] object-cover" />}
 </div>

@@ -1,0 +1,59 @@
+---
+const USER_ID = '523906270801952789'
+const API_URL = `https://api.lanyard.rest/v1/users/${USER_ID}`
+---
+
+<div id="discord-status" class="mt-4">
+	<div class="flex items-center gap-3 bg-white/[0.03] border border-white/10 rounded-sm p-3">
+		<span id="discord-status-dot" class="w-3 h-3 rounded-full bg-white/20"></span>
+		<span id="discord-status-text" class="text-xs text-white/60 tracking-widest uppercase">Connecting...</span>
+	</div>
+</div>
+
+<script>
+	const dot = document.getElementById('discord-status-dot')
+	const text = document.getElementById('discord-status-text')
+
+	fetch('https://api.lanyard.rest/v1/users/523906270801952789')
+		.then(r => r.json())
+		.then(data => {
+			const activities = data.data?.activities || []
+			const status = data.data?.discord_user?.status || 'offline'
+			const username = data.data?.discord_user?.username || 'User'
+
+			const colors = {
+				online: '#22c55e',
+				idle: '#facc15',
+				dnd: '#ef4444',
+				offline: '#6b7280',
+			}
+
+			const labels = {
+				online: 'Online',
+				idle: 'Idle',
+				dnd: 'Do Not Disturb',
+				offline: 'Offline',
+			}
+
+			if (dot) {
+				dot.style.backgroundColor = colors[status] || colors.offline
+			}
+			if (text) {
+				text.textContent = `${username} — ${labels[status] || 'Offline'}`
+				text.classList.remove('text-white/60')
+				text.classList.add('text-white/80')
+			}
+
+			const playing = activities.find(a => a.type === 0)
+			if (playing && status !== 'offline') {
+				const activityEl = document.createElement('span')
+				activityEl.className = 'text-[10px] text-white/40 mt-1 block truncate'
+				activityEl.textContent = `Playing ${playing.name}`
+				text?.parentElement?.appendChild(activityEl)
+			}
+		})
+		.catch(() => {
+			if (dot) dot.style.backgroundColor = '#ef4444'
+			if (text) text.textContent = 'Status unavailable'
+		})
+</script>
