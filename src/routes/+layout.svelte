@@ -76,11 +76,11 @@
     </div>
   {/if}
 
-  <main class="flex-1 dot-grid pb-20">
+  <main class="flex-1 pb-20">
     {@render children()}
   </main>
 
-  <nav class="fixed bottom-0 left-0 right-0 bg-[#1a1a1d] border-t border-surface-border z-50">
+  <nav class="fixed bottom-0 left-0 right-0 bg-transparent z-50">
     <div class="mx-auto max-w-7xl px-4">
       <div class="hidden md:flex items-center justify-between h-14">
         <div class="flex items-center gap-1">

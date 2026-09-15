@@ -8,7 +8,7 @@
     <img
       src="https://w.wallhaven.cc/full/yq/wallhaven-yqgg6k.jpg"
       alt="Hero background"
-      class="w-full h-full object-cover opacity-60"
+      class="w-full h-full object-cover opacity-80"
       style="mask-image: linear-gradient(to bottom, black 30%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 100%);"
     />
     <div class="absolute inset-0 bg-gradient-to-r from-bg via-bg/60 to-transparent"></div>
