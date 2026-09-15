@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Card from '../components/Card.astro'
+import UtterancesModal from '../components/UtterancesModal.astro'
+---
+
+<Layout>
+	<main class="min-h-screen px-6 py-16 md:py-24 md:px-12 max-w-7xl mx-auto relative">
+		<p class="absolute top-0 left-0 text-xs md:text-sm tracking-widest uppercase font-['Space_Grotesk']">
+			<span class="text-white">Robin</span><span class="text-white/40">, Container nerd!</span>
+		</p>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 md:mt-16">
+
+			<div class="md:-rotate-1">
+			<Card title="What I'm passionate about" color="yellow" rotation="-1">
+				<p>Cloud-native design for the Linux desktop, optimized for performance and containerized workflows.</p>
+				<p>I focus primarily on open source development — whatever you need built, I've got you covered.</p>
+			</Card>
+			</div>
+
+			<div class="md:col-span-2 md:rotate-1 md:mt-10 md:max-w-[85%]">
+			<Card title="Who I am" color="pink" rotation="1">
+				<p>Eager to learn everything I can about Linux containers — Podman and beyond.</p>
+				<p>Currently exploring BuildStream by Apache, the Free Desktop SDK, and always chasing the next side project.</p>
+			</Card>
+			</div>
+
+			<div class="md:col-start-2 md:-ml-8 md:-rotate-2 md:max-w-sm relative">
+				<Card title="Blog RSS" color="blue" rotation="-2">
+					<a href="https://robin.tarxz.zip/blog/" class="underline underline-offset-4 decoration-black/30 hover:decoration-black transition-colors">
+						Subscribe to the RSS feed
+					</a>
+				</Card>
+				<img src="/pfp.png" alt="Profile" class="absolute -right-4 md:-right-8 -bottom-4 md:-bottom-8 w-16 h-16 md:w-24 md:h-24 rounded-full border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.9)] object-cover" />
+			</div>
+
+		</div>
+
+		<div class="flex gap-3 mt-12">
+			<a href="https://github.com/huntedraven7" target="_blank" rel="noopener noreferrer"
+			   class="inline-flex items-center gap-2 px-5 py-3 text-xs uppercase tracking-widest border border-white/10 text-white/70 hover:text-white hover:border-white/30 transition-colors rounded-sm bg-white/[0.03]">
+				GitHub
+			</a>
+			<button id="utterances-btn"
+			        class="inline-flex items-center gap-2 px-5 py-3 text-xs uppercase tracking-widest border border-white/10 text-white/70 hover:text-white hover:border-white/30 transition-colors rounded-sm bg-white/[0.03]">
+				Comments
+			</button>
+		</div>
+	</main>
+
+	<UtterancesModal />
+</Layout>

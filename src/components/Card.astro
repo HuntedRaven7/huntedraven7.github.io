@@ -1,0 +1,28 @@
+---
+interface Props {
+	title: string
+	children: import('astro').AstroSlot
+	color?: 'yellow' | 'pink' | 'blue' | 'green'
+	rotation?: number
+}
+
+const { title, children, color = 'yellow', rotation = 0 } = Astro.props
+
+const colors = {
+	yellow: 'bg-[#fff740] text-black',
+	pink: 'bg-[#ff9edc] text-black',
+	blue: 'bg-[#a2d8ff] text-black',
+	green: 'bg-[#c8f7c5] text-black',
+}
+---
+
+<div
+	class={`relative ${colors[color]} rounded-sm p-8 md:p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,0.9)] transition-transform hover:-translate-y-1`}
+	style={`transform: rotate(${rotation}deg);`}
+>
+	<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-20 h-5 bg-black/20 rounded-full blur-[2px]" />
+	<h2 class="text-xl md:text-2xl font-bold tracking-tight mb-6 uppercase" style="font-family: 'Caveat', cursive; font-size: 2rem;">{title}</h2>
+	<div class="space-y-4 text-base md:text-lg leading-relaxed font-medium">
+		<slot />
+	</div>
+</div>

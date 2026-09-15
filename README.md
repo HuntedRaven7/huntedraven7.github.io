@@ -1,35 +1,46 @@
-# huntedraven7.github.io — GNOME dashboard portfolio
-
-SvelteKit + StyleX dashboard-style portfolio. Laravel-flavored hero up top, GNOME
-shell (top bar, dock, windows) throughout, static deploy to GitHub Pages on the
-custom domain `robin.tarxz.zip`.
-
-## Develop
+# Astro Starter Kit: Basics
 
 ```sh
-npm install
-npm run dev -- --open
+npm create astro@latest -- --template basics
 ```
 
-## Checks
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-```sh
-npm run check      # svelte-check
-npm run lint       # prettier + eslint (StyleX rules on)
-npm run test:unit -- --run   # vitest
-npx playwright test          # e2e (needs `npx playwright install`)
-npm run build      # adapter-static -> ./build
+## 🚀 Project Structure
+
+Inside of your Astro project, you'll see the following folders and files:
+
+```text
+/
+├── public/
+│   └── favicon.svg
+├── src
+│   ├── assets
+│   │   └── astro.svg
+│   ├── components
+│   │   └── Welcome.astro
+│   ├── layouts
+│   │   └── Layout.astro
+│   └── pages
+│       └── index.astro
+└── package.json
 ```
 
-## Deploy
+To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
 
-Push to `main` — `.github/workflows/deploy.yml` builds and ships `./build`
-via GitHub Pages. `static/CNAME` keeps `robin.tarxz.zip`.
+## 🧞 Commands
 
-## Styling
+All commands are run from the root of the project, from a terminal:
 
-All CSS via StyleX (`stylex.attrs()` spreads in Svelte, never `class`/`style`
-alongside). Tokens in `src/lib/tokens.stylex.ts`, breakpoints in
-`src/lib/constants.stylex.ts`, light/dark via `stylex.createTheme` in
-`src/lib/themes.ts`. Vite aliases `$lib` for the StyleX compiler in
-`vite.config.ts`.
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
+
+## 👀 Want to learn more?
+
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
