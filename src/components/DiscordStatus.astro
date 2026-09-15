@@ -17,8 +17,7 @@ const API_URL = `https://api.lanyard.rest/v1/users/${USER_ID}`
 	fetch('https://api.lanyard.rest/v1/users/523906270801952789')
 		.then(r => r.json())
 		.then(data => {
-			const activities = data.data?.activities || []
-			const status = data.data?.discord_user?.status || 'offline'
+			const status = data.data?.discord_status || 'offline'
 			const username = data.data?.discord_user?.username || 'User'
 
 			const colors = {
@@ -42,14 +41,6 @@ const API_URL = `https://api.lanyard.rest/v1/users/${USER_ID}`
 				text.textContent = `${username} — ${labels[status] || 'Offline'}`
 				text.classList.remove('text-white/60')
 				text.classList.add('text-white/80')
-			}
-
-			const playing = activities.find(a => a.type === 0)
-			if (playing && status !== 'offline') {
-				const activityEl = document.createElement('span')
-				activityEl.className = 'text-[10px] text-white/40 mt-1 block truncate'
-				activityEl.textContent = `Playing ${playing.name}`
-				text?.parentElement?.appendChild(activityEl)
 			}
 		})
 		.catch(() => {

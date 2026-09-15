@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import Card from '../components/Card.astro'
-import UtterancesModal from '../components/UtterancesModal.astro'
 import DiscordStatus from '../components/DiscordStatus.astro'
 ---
 
@@ -49,5 +48,45 @@ import DiscordStatus from '../components/DiscordStatus.astro'
 		</div>
 	</main>
 
-	<UtterancesModal />
+	<div id="utterances-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+		<div class="relative w-full max-w-3xl mx-4 max-h-[80vh] flex flex-col">
+			<button id="utterances-close" class="absolute -top-10 right-0 text-white/60 hover:text-white text-sm uppercase tracking-wider z-10">Close</button>
+			<div class="utterances-iframe-container border border-white/10 bg-white/[0.03] rounded-sm p-4 overflow-y-auto flex-1 min-h-[400px]"></div>
+		</div>
+	</div>
+
+	<script>
+		const modal = document.getElementById('utterances-modal')
+		const btn = document.getElementById('utterances-btn')
+		const close = document.getElementById('utterances-close')
+
+		if (btn && modal && close) {
+			btn.addEventListener('click', () => {
+				modal.classList.remove('hidden')
+				document.body.style.overflow = 'hidden'
+				if (!document.getElementById('utterances-script')) {
+					const s = document.createElement('script')
+					s.src = 'https://utteranc.es/client.js'
+					s.id = 'utterances-script'
+					s.setAttribute('data-repo', 'huntedraven7/huntedraven7.github.io')
+					s.setAttribute('data-issue-term', 'title')
+					s.setAttribute('data-theme', 'dark')
+					s.setAttribute('data-canonical', 'https://robin.tarxz.zip/')
+					s.setAttribute('crossorigin', 'anonymous')
+					s.async = true
+					modal.querySelector('.utterances-iframe-container')?.appendChild(s)
+				}
+			})
+			close.addEventListener('click', () => {
+				modal.classList.add('hidden')
+				document.body.style.overflow = ''
+			})
+			modal.addEventListener('click', (e) => {
+				if (e.target === modal) {
+					modal.classList.add('hidden')
+					document.body.style.overflow = ''
+				}
+			})
+		}
+	</script>
 </Layout>
