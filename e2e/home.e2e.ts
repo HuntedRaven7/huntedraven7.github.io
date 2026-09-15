@@ -4,7 +4,7 @@ test('homepage renders shell and dashboard', async ({ page }) => {
 	await page.goto('/');
 	await expect(page.getByText('Activities')).toBeVisible();
 	await expect(page.getByTestId('theme-toggle')).toBeVisible();
-	await expect(page.getByText("Hey, I'm Robin.")).toBeVisible();
+	await expect(page.getByText("I'm Robin.")).toBeVisible();
 	await expect(page.getByTestId('terminal')).toBeVisible();
 	await expect(page.getByText('nautilus — ~/projects')).toBeVisible();
 });

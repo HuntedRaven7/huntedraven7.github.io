@@ -171,8 +171,8 @@
 			~/portfolio — dashboard edition
 		</span>
 		<h1 {...stylex.attrs(styles.title)}>
-			Hey, I'm {profile.name}.
-			<span {...stylex.attrs(styles.gradientText)}>I ship fast web apps.</span>
+			I'm {profile.name}.
+			<span {...stylex.attrs(styles.gradientText)}>I love Containers!</span>
 		</h1>
 		<p {...stylex.attrs(styles.sub)}>
 			{profile.tagline} This site runs like a tiny desktop: a GNOME top bar, a dock, windows for everything
