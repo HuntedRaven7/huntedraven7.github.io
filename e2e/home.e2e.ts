@@ -12,6 +12,7 @@ test('homepage renders shell and dashboard', async ({ page }) => {
 test('laravel-style connectors and stack strip render', async ({ page }) => {
 	await page.goto('/');
 	await expect(page.getByTestId('connector-art')).toBeAttached();
+	await expect(page.getByTestId('site-bg')).toBeAttached();
 	const strip = page.getByTestId('stack-strip');
 	await expect(strip).toBeVisible();
 	await expect(strip).toContainText('SvelteKit');

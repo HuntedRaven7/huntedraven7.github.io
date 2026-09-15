@@ -4,12 +4,42 @@
 
 	const styles = stylex.create({
 		shell: {
+			position: 'relative',
 			minHeight: '100vh',
 			backgroundColor: colors.appBg,
 			color: colors.textPrimary,
 			fontFamily: fonts.sans
 		},
+		bgPhoto: {
+			position: 'fixed',
+			top: 0,
+			bottom: 0,
+			left: 0,
+			right: 0,
+			zIndex: 0,
+			backgroundImage: "url('/images/hero-nebula.jpg')",
+			backgroundSize: 'cover',
+			backgroundPosition: 'center top',
+			opacity: 0.45,
+			filter: 'blur(6px) saturate(1.25)',
+			transform: 'scale(1.06)',
+			maskImage: 'radial-gradient(ellipse 120% 90% at 50% 0%, black 30%, transparent 80%)',
+			pointerEvents: 'none'
+		},
+		bgVeil: {
+			position: 'fixed',
+			top: 0,
+			bottom: 0,
+			left: 0,
+			right: 0,
+			zIndex: 0,
+			backgroundColor: colors.appBg,
+			opacity: 0.78,
+			pointerEvents: 'none'
+		},
 		body: {
+			position: 'relative',
+			zIndex: 1,
 			maxWidth: 1080,
 			marginLeft: 'auto',
 			marginRight: 'auto',
@@ -49,6 +79,8 @@
 </svelte:head>
 
 <div {...stylex.attrs(themeStore.value === 'light' && lightTheme, styles.shell)}>
+	<div {...stylex.attrs(styles.bgPhoto)} aria-hidden="true" data-testid="site-bg"></div>
+	<div {...stylex.attrs(styles.bgVeil)} aria-hidden="true"></div>
 	<TopBar theme={themeStore.value} onToggleTheme={() => themeStore.toggle()} />
 	<Dock />
 	<main {...stylex.attrs(styles.body)}>
