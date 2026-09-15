@@ -131,7 +131,9 @@
 	<span {...stylex.attrs(styles.node, styles.nodeBL)} aria-hidden="true"></span>
 	<span {...stylex.attrs(styles.node, styles.nodeBR)} aria-hidden="true"></span>
 	<div {...stylex.attrs(styles.row)}>
-		<div {...stylex.attrs(styles.labelCell)}>What powers my curious mind</div>
+		<div {...stylex.attrs(styles.labelCell)}>
+			<span>What powers<br />my curious mind</span>
+		</div>
 		<div {...stylex.attrs(styles.viewport)}>
 			<div {...stylex.attrs(styles.track)}>
 				{#each stack as tech (tech)}
