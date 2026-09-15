@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Hero from '$lib/components/landing/Hero.svelte';
+	import StackStrip from '$lib/components/landing/StackStrip.svelte';
 	import Dashboard from '$lib/components/widgets/Dashboard.svelte';
 </script>
 
@@ -12,4 +13,5 @@
 </svelte:head>
 
 <Hero />
+<StackStrip />
 <Dashboard />

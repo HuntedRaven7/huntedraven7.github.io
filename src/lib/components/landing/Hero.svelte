@@ -147,10 +147,12 @@
 
 <script lang="ts">
 	import { profile } from '$lib/data';
+	import ConnectorArt from '$lib/components/landing/ConnectorArt.svelte';
 </script>
 
 <div {...stylex.attrs(styles.hero)} id="top">
 	<div {...stylex.attrs(styles.grid)} aria-hidden="true"></div>
+	<ConnectorArt />
 	<div {...stylex.attrs(styles.glow)} aria-hidden="true"></div>
 	<span {...stylex.attrs(styles.kicker)}>
 		<span {...stylex.attrs(styles.pill)}>v2.0</span>

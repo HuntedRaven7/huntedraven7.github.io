@@ -9,6 +9,14 @@ test('homepage renders shell and dashboard', async ({ page }) => {
 	await expect(page.getByText('nautilus — ~/projects')).toBeVisible();
 });
 
+test('laravel-style connectors and stack strip render', async ({ page }) => {
+	await page.goto('/');
+	await expect(page.getByTestId('connector-art')).toBeAttached();
+	const strip = page.getByTestId('stack-strip');
+	await expect(strip).toBeVisible();
+	await expect(strip).toContainText('SvelteKit');
+});
+
 test('theme toggle flips', async ({ page }) => {
 	await page.goto('/');
 	const btn = page.getByTestId('theme-toggle');
