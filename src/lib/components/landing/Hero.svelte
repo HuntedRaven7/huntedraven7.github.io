@@ -1,19 +1,30 @@
 <script lang="ts" module>
 	import * as stylex from '@stylexjs/stylex';
-	import { colors, fonts, radii } from '$lib/tokens.stylex';
+	import { colors, fonts } from '$lib/tokens.stylex';
 
 	const styles = stylex.create({
 		hero: {
 			position: 'relative',
 			overflow: 'hidden',
-			borderRadius: radii.xl,
-			padding: 32,
-			paddingTop: 48,
-			paddingBottom: 48,
+			width: '100vw',
+			marginTop: -24,
+			marginLeft: 'calc(50% - 50vw)',
+			marginRight: 'calc(50% - 50vw)',
+			borderRadius: 0,
+			paddingTop: 72,
+			paddingBottom: 72,
 			backgroundColor: colors.appBgElevated,
-			borderWidth: 1,
-			borderStyle: 'solid',
-			borderColor: colors.windowBorder
+			borderBottomWidth: 1,
+			borderBottomStyle: 'solid',
+			borderBottomColor: colors.windowBorder
+		},
+		inner: {
+			position: 'relative',
+			maxWidth: 1080,
+			marginLeft: 'auto',
+			marginRight: 'auto',
+			paddingLeft: 24,
+			paddingRight: 24
 		},
 		glow: {
 			position: 'absolute',
@@ -154,25 +165,27 @@
 	<div {...stylex.attrs(styles.grid)} aria-hidden="true"></div>
 	<ConnectorArt />
 	<div {...stylex.attrs(styles.glow)} aria-hidden="true"></div>
-	<span {...stylex.attrs(styles.kicker)}>
-		<span {...stylex.attrs(styles.pill)}>v2.0</span>
-		~/portfolio — dashboard edition
-	</span>
-	<h1 {...stylex.attrs(styles.title)}>
-		Hey, I'm {profile.name}.
-		<span {...stylex.attrs(styles.gradientText)}>I ship fast web apps.</span>
-	</h1>
-	<p {...stylex.attrs(styles.sub)}>
-		{profile.tagline} This site runs like a tiny desktop: a GNOME top bar, a dock, windows for everything
-		— with a Laravel-flavored hero up top.
-	</p>
-	<div {...stylex.attrs(styles.ctaRow)}>
-		<a {...stylex.attrs(styles.ctaPrimary)} href="#projects">View projects →</a>
-		<a {...stylex.attrs(styles.ctaGhost)} href="#terminal">Open terminal ❯_</a>
-		<a {...stylex.attrs(styles.ctaGhost)} href="#contact">Contact</a>
-	</div>
-	<div {...stylex.attrs(styles.meta)}>
-		<span>{profile.location}</span>
-		<span>● {profile.availability}</span>
+	<div {...stylex.attrs(styles.inner)}>
+		<span {...stylex.attrs(styles.kicker)}>
+			<span {...stylex.attrs(styles.pill)}>v2.0</span>
+			~/portfolio — dashboard edition
+		</span>
+		<h1 {...stylex.attrs(styles.title)}>
+			Hey, I'm {profile.name}.
+			<span {...stylex.attrs(styles.gradientText)}>I ship fast web apps.</span>
+		</h1>
+		<p {...stylex.attrs(styles.sub)}>
+			{profile.tagline} This site runs like a tiny desktop: a GNOME top bar, a dock, windows for everything
+			— with a Laravel-flavored hero up top.
+		</p>
+		<div {...stylex.attrs(styles.ctaRow)}>
+			<a {...stylex.attrs(styles.ctaPrimary)} href="#projects">View projects →</a>
+			<a {...stylex.attrs(styles.ctaGhost)} href="#terminal">Open terminal ❯_</a>
+			<a {...stylex.attrs(styles.ctaGhost)} href="#contact">Contact</a>
+		</div>
+		<div {...stylex.attrs(styles.meta)}>
+			<span>{profile.location}</span>
+			<span>● {profile.availability}</span>
+		</div>
 	</div>
 </div>

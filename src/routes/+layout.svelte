@@ -8,7 +8,8 @@
 			minHeight: '100vh',
 			backgroundColor: colors.appBg,
 			color: colors.textPrimary,
-			fontFamily: fonts.sans
+			fontFamily: fonts.sans,
+			overflowX: 'hidden'
 		},
 		bgPhoto: {
 			position: 'fixed',
