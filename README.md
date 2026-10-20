@@ -1,46 +1,38 @@
-# Astro Starter Kit: Basics
+# quinn.tarxz.zip
+
+Personal site of Quinn — container nerd, Linux desktop tinkerer, open source enjoyer.
+
+Built with **SvelteKit 5** + **Svelte 5** (runes), **Tailwind CSS v4**, and deployed as a fully
+static build to **GitHub Pages** via Actions.
+
+## Stack
+
+- **SvelteKit** with `adapter-static` (fully prerendered output in `build/`)
+- **Tailwind CSS v4** via the Vite plugin, with theme tokens in `src/app.css`
+- **Fonts** self-hosted through Fontsource: Space Grotesk (display), Inter (body), Caveat (handwritten accents)
+- Light/dark themes driven by a `.dark` class on `<html>` (no-FOUC inline script in `src/app.html`)
+- **Discord status** powered by the [Lanyard](https://lanyard.rest) API (`src/lib/components/DiscordCard.svelte`)
+- **Comments** via utterances + GitHub issues (modal, `src/lib/components/CommentsModal.svelte`)
+
+## Commands
 
 ```sh
-npm create astro@latest -- --template basics
+npm run dev      # dev server
+npm run build    # static build → ./build
+npm run preview  # preview the production build
+npm run check    # svelte-check
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Editing content
 
-## 🚀 Project Structure
+All copy, links, projects, FAQs, and stats live in **`src/lib/content.ts`** — tune it there.
+Items marked `TODO` (project links, blog URL) need real values.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Deployment
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+`.github/workflows/deploy.yml` builds the site and deploys `./build` to GitHub Pages on every
+push to `main`. The custom domain lives in `static/CNAME` (`quinn.tarxz.zip`).
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Design direction: [ArtCraft](https://getartcraft.com/) × [Outcrowd](https://www.outcrowd.io/) —
+card-driven layout, numbered sections, chips/pills, marquee, floating hero shapes, and a lot of
+coral pink.
