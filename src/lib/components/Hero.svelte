@@ -125,7 +125,7 @@
 					{#each visible as line}
 						<p class="break-words whitespace-pre-wrap">
 							{#if line.prompt}
-								<span class="font-bold text-accent">$ </span><span>{line.text}</span>
+								<span class="font-bold text-accent">$&nbsp;</span><span>{line.text}</span>
 							{:else}
 								<span class="text-muted">→ </span><span class="text-muted">{line.text}</span>
 							{/if}
@@ -133,7 +133,7 @@
 					{/each}
 					<p class="break-words whitespace-pre-wrap">
 						{#if partialPrompt}
-							<span class="font-bold text-accent">$ </span>
+							<span class="font-bold text-accent">$&nbsp;</span>
 						{:else}
 							<span class="text-muted">→ </span>
 						{/if}
