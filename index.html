@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quinn | Container Nerd</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --fg: #c9d1d9;
+      --accent: #58a6ff;
+      --container: #f89c1c;
+      --panel: #161b22;
+      --muted: #8b949e;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      background-image: url('https://w.wallhaven.cc/full/85/wallhaven-85ogp1.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    .wrap { max-width: 1000px; margin: 0 auto; }
+    .split {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .split { grid-template-columns: 1fr; }
+    }
+    /* hero */
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      background: rgba(22, 27, 34, 0.85);
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+    }
+    .hero h1 { font-size: 2.75rem; color: #fff; margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+    .hero p.sub { font-size: 1.35rem; color: var(--container); font-weight: 700; }
+    .hero .tag { color: var(--muted); font-size: 0.95rem; margin-top: 0.4rem; }
+    /* panels */
+    .panel {
+      background: var(--panel);
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+    .panel h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .panel h2 .emoji { font-size: 1.4rem; }
+    p { line-height: 1.6; margin-bottom: 1rem; color: #c9d1d9; }
+    code { color: var(--accent); background: #21262d; padding: 0.15rem 0.35rem; border-radius: 4px; font-size: 0.9rem; }
+    ul { list-style: disc inside; margin-bottom: 1rem; color: #c9d1d9; }
+    li { margin-bottom: 0.4rem; }
+    .chip {
+      display: inline-block;
+      background: #21262d;
+      border: 1px solid #30363d;
+      color: var(--accent);
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      margin: 0.2rem 0.2rem 0 0;
+    }
+    .gh-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #fff;
+      color: #0a0a0a;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      text-decoration: none;
+      border: 1px solid #ccc;
+      margin-top: 0.5rem;
+    }
+    .gh-btn:hover { border-color: #888; }
+    .gh-btn svg { color: #0d0d0d; }
+    /* discord panel */
+    #discordPanel {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--panel);
+      border: 1px solid #30363d;
+      border-radius: 10px;
+    }
+    #discordAvatar { width: 36px; height: 36px; border-radius: 8px; }
+    #discordStatus { margin: 0; font-size: 0.9rem; color: var(--muted); }
+    #discordActivity { margin: 0.2rem 0 0; font-size: 0.8rem; color: var(--muted); display: none; }
+    #discordSpotify { margin: 0.2rem 0 0; font-size: 0.8rem; color: var(--muted); display: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1>Hello! I am Quinn!</h1>
+      <p class="sub">I am a pretty big Container Nerd.</p>
+      <p class="tag">Shipping containers, Docker containers, and everything in between.</p>
+    </header>
+
+    <div class="split">
+      <aside class="sidebar">
+        <div id="discordPanel">
+          <img id="discordAvatar" src="" alt="Discord avatar" style="width:36px;height:36px;border-radius:8px;">
+          <div style="flex:1;">
+            <p id="discordStatus" style="margin:0;font-size:0.9rem;color:var(--muted);"></p>
+            <p id="discordActivity" style="margin:0.2rem 0 0;font-size:0.8rem;color:var(--muted);display:none;"></p>
+            <p id="discordSpotify" style="margin:0.2rem 0 0;font-size:0.8rem;color:var(--muted);display:none;"></p>
+          </div>
+        </div>
+      </aside>
+
+      <div class="content">
+        <section class="panel">
+          <h2><span class="emoji">📦</span>About Containers</h2>
+          <p>Containers let you package an application with everything it needs to run — code, runtime, libraries, and config — into one portable image. It works the same on your laptop, in CI, and in production.</p>
+          <p>No more "it works on my machine." Just <code>docker run</code> and go.</p>
+        </section>
+
+        <section class="panel">
+          <h2><span class="emoji">🛠️</span>Container Toolbox</h2>
+          <div>
+            <span class="chip">Docker</span>
+            <span class="chip">Podman</span>
+            <span class="chip">Docker Compose</span>
+            <span class="chip">Kubernetes</span>
+            <span class="chip">containerd</span>
+            <span class="chip">Buildah</span>
+            <span class="chip">Skopeo</span>
+            <span class="chip">Dockerfile</span>
+            <span class="chip">Docker Hub</span>
+            <span class="chip">GHCR</span>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2><span class="emoji">🚀</span>Projects</h2>
+          <ul>
+            <li><strong>Home Lab</strong> — A small Kubernetes cluster running on Raspberry Pis and repurposed minipcs.</li>
+            <li><strong>Self-hosted Services</strong> — Everything runs in containers: monitoring, backups, media, and notes.</li>
+            <li><strong>CI/CD Pipelines</strong> — Building and pushing container images on every push.</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <h2><span class="emoji">🔗</span>Connect</h2>
+          <a href="https://github.com/huntedraven7" target="_blank" rel="noopener" class="gh-btn">
+            <svg height="20" viewBox="0 0 16 16" width="20" style="display:inline-block;vertical-align:middle;">
+              <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+            </svg>
+            GitHub
+          </a>
+        </section>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
